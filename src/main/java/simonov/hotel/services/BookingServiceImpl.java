@@ -76,4 +76,7 @@ public class BookingServiceImpl implements BookingService {
         }
         return result;
     }
+
+    //TODO delete all booking where endDate < today
+    //TODO Scheduler for this method
 }
