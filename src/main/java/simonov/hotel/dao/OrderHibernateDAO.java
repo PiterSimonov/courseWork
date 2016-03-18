@@ -18,6 +18,8 @@ public class OrderHibernateDAO extends AbstractDAO<Order, Integer> implements Or
     public List<Order> getOrdersByUser(int userId) {
         Query query = getCurrentSession().createQuery("from Order where user.id=:userId");
         query.setParameter("userId", userId);
-        return query.list();
+        List<Order> orders = query.list();
+        orders.stream().forEach(order -> order.getBookings().size());
+        return orders;
     }
 }

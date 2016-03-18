@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
@@ -8,40 +10,14 @@
 </head>
 <body>
 <div id="hotel-list">
-    <table class="table-booking">
-        <c:forEach items="${bookings}" var="booking">
-            <tr>
-                <td>
-                    <div>
-                        From ${booking.startDate}
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        To ${booking.endDate}<br/>
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        Status ${booking.status}
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        Price: ${booking.room.price}$
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        Hotel ${booking.room.hotel.name}
-                    </div>
-                </td>
-                <td>
-                    <div class="comment" ><a href="/comment/${booking.room.hotel.id}">Comment</a></div>
-                </td>
-            </tr>
+    <c:forEach items="${orders}" var="order">
+        <h3>Order price: ${order.price}, date creation: <fmt:formatDate value="${order.creationTime}"
+                                                                        pattern="yyyy-MM-dd"/></h3>
+        <p>
+        </p>
         </c:forEach>
-    </table>
 </div>
+
+
 </body>
 </html>

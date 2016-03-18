@@ -1,11 +1,11 @@
 <div class="user-bar">
     <c:choose>
-        <c:when test="${user.role == 'NotAuthorized' || user.role == null}">
+        <c:when test="${user.role == 'NotAuthorized' || user.role == null }">
             <a class="menuLink" href="/registration">Sign In</a>
             <a class="menuLink" id="showpopup" href="#">Log In</a>
         </c:when>
         <c:otherwise>
-            <a class="menuLink" href="/profile">${user.login} Profile</a>
+            <a class="menuLink" href="/profile">Profile</a>
             <a class="menuLink" href="/logout">Logout</a>
         </c:otherwise>
     </c:choose>
@@ -21,7 +21,7 @@
             <form:password path="password"/>
             <form:errors path="password" cssClass="error"/><br/>
             <input type="submit" id="btnLogin" value="Login">
-            <span id="ajax-error"></span>
+            <span id="error-box"></span>
         </form:form>
     </div>
     <div class="close">[X]</div>

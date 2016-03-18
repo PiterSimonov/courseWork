@@ -31,7 +31,7 @@ public class OrderControl {
             synchronized (ORDER_MAP) {
                 for (Map.Entry<Integer, Order> entry : ORDER_MAP.entrySet()) {
                     try {
-                        long creationTime = (entry.getValue()).getCreationTime();
+                        long creationTime = (entry.getValue()).getCreationTime().getTime();
                         if ((System.currentTimeMillis() - creationTime) >= 120000 /*86400000*/) {
                             orderService.delete(entry.getValue());
                             emailSender.sendEmail(entry.getValue().getUser().getEmail(), "Your bookings is removed");

@@ -25,6 +25,17 @@ public class Room {
     @Column
     private int seats;
 
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
+    @Column
+    private String imageLink;
+
     public boolean isLocked() {
         return locked;
     }
