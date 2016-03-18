@@ -2,7 +2,6 @@ package simonov.hotel.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -58,7 +57,6 @@ public class Order {
     }
 
     public void setBookings(List<Booking> bookings) {
-
         this.bookings = bookings;
     }
 

@@ -2,29 +2,6 @@ $(document).ready(function () {
     $('.date').prop("min", function () {
         return new Date().toJSON().split('T')[0];
     });
-    //$("#form-booking").submit(function (e) {
-    //    e.preventDefault();
-    //    var userRole = $('input#userRole').val();
-    //    if (userRole == "HotelOwner" || userRole == 'CLIENT') {
-    //        $(":submit").attr("disabled", true);
-    //        $.ajax({
-    //            url: "/check-date",
-    //            type: "GET",
-    //            data: $("#form-booking").serialize(),
-    //            async: false,
-    //            success: function (data) {
-    //                if (data) {
-    //                    $("#is-free").html("<img class='image-ok' src='/resources/images/ok.gif'/>")
-    //                } else {
-    //                    $("#is-free").html("<img class='image-ok' src='/resources/images/error.jpg'/>")
-    //                }
-    //            }
-    //        });
-    //        $(":submit").removeAttr("disabled");
-    //    } else {
-    //        loadPopup();
-    //    }
-    //});
 
     $('form#choice-room').submit(function (e) {
         var userRole;
