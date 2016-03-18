@@ -11,6 +11,8 @@ import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 import simonov.hotel.utilites.FileUpLoader;
 
+import javax.servlet.ServletContext;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
