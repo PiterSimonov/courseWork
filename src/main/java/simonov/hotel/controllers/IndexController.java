@@ -11,13 +11,12 @@ import simonov.hotel.services.interfaces.*;
 import simonov.hotel.utilites.FileUpLoader;
 
 import javax.servlet.ServletContext;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @EnableWebMvc
-@SessionAttributes({"user", "hotels"})
+@SessionAttributes(types = User.class)
 public class IndexController {
 
     @Autowired
@@ -61,21 +60,12 @@ public class IndexController {
 
 
     @RequestMapping(value = "/hotel/{id}")
-    public String searchHotel(@PathVariable int id, Model model, @ModelAttribute User user,
+    public String searchHotel(@PathVariable int id, Model model, @ModelAttribute("user") User user,
                               @ModelAttribute("hotels") ArrayList<Hotel> hotels) {
         Hotel hotel = hotelService.getHotelById(id);
         model.addAttribute("hotel", hotel);
         List<Room> rooms = roomService.getRoomsByHotel(id);
         model.addAttribute("rooms", rooms);
-        List<Booking> bookings = new ArrayList<>();
-        for (int i = id * 3 + 1; i < id * 3 + 7; i++) {
-            Booking booking = new Booking();
-            booking.setRoom(roomService.getRoomById(i));
-            booking.setStartDate(LocalDate.parse("2016-03-16"));
-            booking.setEndDate(LocalDate.parse("2016-03-19"));
-            bookings.add(booking);
-        }
-        orderService.createOrder(bookings, user);
         return "hotelInfo";
     }
 
@@ -117,9 +107,13 @@ public class IndexController {
         room.setNumber(number);
         Hotel currentHotel = hotelService.getHotelById(hotelId);
         room.setHotel(currentHotel);
+        if (image.getContentType().equals("image/jpeg")) {
+//            String subPath = servletContext.getRealPath("/resources/images/rooms/") + currentHotel.getName() + room.getId() + ".jpg";
+//            FileUpLoader.uploadImageToServer(image, subPath);
+            room.setImageLink(FileUpLoader.uploadImageToImgur(image));
+        }
         roomService.saveRoom(room);
-        String subPath = servletContext.getRealPath("/resources/images/rooms/") + currentHotel.getName() + room.getId() + ".jpg";
-        FileUpLoader.uploadImage(image, subPath);
+
         return "redirect:/hotel/" + currentHotel.getId();
     }
 
@@ -134,11 +128,13 @@ public class IndexController {
         newHotel.setCity(cityService.getCityByName(city));
         newHotel.setStars(stars);
         newHotel.setUser(userService.get(owner));
-        hotelService.saveHotel(newHotel);
         if (image.getContentType().equals("image/jpeg")) {
-            String path = servletContext.getRealPath("/resources/images/hotels/") + newHotel.getId() + ".jpg";
-            FileUpLoader.uploadImage(image, path);
+            String link = FileUpLoader.uploadImageToImgur(image);
+//            String path = servletContext.getRealPath("/resources/images/hotels/") + newHotel.getId() + ".jpg";
+//            FileUpLoader.uploadImageToServer(image, path);
+            newHotel.setImageLink(link);
         }
+        hotelService.saveHotel(newHotel);
         return "redirect:/profile";
     }
 
@@ -149,7 +145,8 @@ public class IndexController {
             model.addAttribute("hotels", hotels);
             return "hotelsOwner";
         } else if (user.getRole() == Role.CLIENT) {
-//            model.addAttribute("bookings", bookingService.getActualBookingsByUser(user.getId()));
+            List<Order> orders = orderService.getOrdersByUser(user.getId());
+            model.addAttribute("orders", orders);
             return "userReservation";
         } else return "redirect:/";
     }
@@ -159,11 +156,6 @@ public class IndexController {
         User user = new User();
         user.setRole(Role.NotAuthorized);
         return user;
-    }
-
-    @ModelAttribute("hotels")
-    public ArrayList<Hotel> getHotels() {
-        return new ArrayList<>();
     }
 
     @ModelAttribute

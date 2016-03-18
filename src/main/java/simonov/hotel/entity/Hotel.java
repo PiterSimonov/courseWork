@@ -38,6 +38,17 @@ public class Hotel {
     @ManyToMany(mappedBy = "hotels")
     private List<Convenience> conveniences;
 
+    @Column
+    private String imageLink;
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
     public int getId() {
         return id;
     }
