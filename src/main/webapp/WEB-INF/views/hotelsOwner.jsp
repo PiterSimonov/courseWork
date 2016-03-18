@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="menuLink"><a href="/">Home</a></div>
+${user.id}
 <div id="hotel-list">
     <table class="table-hotels">
         <c:forEach items="${hotels}" var="hotel">
@@ -17,7 +18,7 @@
                     <div>
                         <img class="hotel-img"
                              onerror="this.onerror=null;this.src='../resources/images/rooms/noImage.jpg'"
-                             src="/resources/images/hotels/${hotel.id}.jpg">
+                             src=${hotel.imageLink}>
                     </div>
                 </td>
                 <td>

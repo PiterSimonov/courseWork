@@ -5,37 +5,39 @@
 <html>
 <head>
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <%--<script src="<c:url value='/resources/js/main.js'/>"></script>--%>
+    <script src="<c:url value='/resources/js/validator.js'/>"></script>
     <link href="<c:url value='/resources/css/styles.css'/>" rel="stylesheet">
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Hotel Booking</title>
 </head>
 <body>
-<h3>Hotel Booking Services</h3>
-<form:form method="POST" commandName="user" action="save-user" id="registerForm">
+<h3>Hotel Booking Services REGISTRATION</h3>
+<form:form method="POST" commandName="user" action="registration" id="registerForm">
     <fieldset class="boxBody">
         <form:label path="login">Login:</form:label><br/>
-        <form:input path="login"/><br/>
-        <form:errors path="login" cssClass="error"/>
+        <form:input path="login" cssClass="required"/>
+        <div id="login-free" style="display: inline"></div>
+        <form:errors path="login" cssClass="error"/><br/>
 
         <form:label path="firstName">First Name:</form:label><br/>
-        <form:input path="firstName"/><br/>
-        <form:errors path="firstName" cssClass="error"/>
+        <form:input path="firstName"/>
+        <form:errors path="firstName" cssClass="error"/><br/>
 
         <form:label path="lastName">Last Name:</form:label><br/>
-        <form:input path="lastName"/><br/>
-        <form:errors path="lastName" cssClass="error"/>
+        <form:input path="lastName"/>
+        <form:errors path="lastName" cssClass="error"/><br/>
 
         <form:label path="phone">Phone:</form:label><br/>
-        <form:input path="phone"/><br/>
-        <form:errors path="phone" cssClass="error"/>
+        <form:input path="phone" cssClass="required"/>
+        <form:errors path="phone" cssClass="error"/><br/>
 
         <form:label path="email">E-Mail:</form:label><br/>
-        <form:input path="email"/><br/>
-        <form:errors path="email" cssClass="error"/>
+        <form:input path="email"/>
+        <form:errors path="email" cssClass="error"/><br/>
         <form:label path="password">Password:</form:label><br/>
-        <form:password path="password"/><br/>
-        <form:errors path="password" cssClass="error"/>
+        <form:password path="password" cssClass="required"/>
+        <form:errors path="password" cssClass="error"/><br/><br/>
         <form:select path="role">
             <form:option value="CLIENT">Client</form:option>
             <form:option value="HotelOwner">Hotel Owner</form:option>

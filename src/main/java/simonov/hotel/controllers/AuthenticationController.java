@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import simonov.hotel.entity.Hotel;
 import simonov.hotel.entity.Role;
 import simonov.hotel.entity.User;
 import simonov.hotel.services.interfaces.UserService;
@@ -15,7 +16,7 @@ import javax.validation.Valid;
 
 @Controller
 @EnableWebMvc
-@SessionAttributes(types = User.class)
+@SessionAttributes(types = {User.class, Hotel.class})
 public class AuthenticationController {
     @Autowired
     UserService userService;
@@ -25,9 +26,10 @@ public class AuthenticationController {
         return "registration";
     }
 
-    @RequestMapping(value = "/save-user", method = RequestMethod.POST)
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String saveUser(@Valid @ModelAttribute User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            user.setRole(Role.NotAuthorized);
             return "registration";
         }
         if (userService.save(user)) {

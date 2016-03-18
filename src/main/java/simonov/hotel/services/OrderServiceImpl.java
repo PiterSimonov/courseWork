@@ -9,6 +9,8 @@ import simonov.hotel.services.interfaces.BookingService;
 import simonov.hotel.services.interfaces.OrderService;
 import simonov.hotel.utilites.OrderControl;
 
+import java.time.Period;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,13 +27,19 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Room> createOrder(List<Booking> bookings, User user) {
         Order order = new Order();
-        order.setCreationTime(System.currentTimeMillis());
+        order.setCreationTime(new Date());
         order.setStatus(Status.NotConfirmed);
         order.setUser(user);
         bookings.stream().forEach(booking -> booking.setOrder(order));
         List<Room> rooms = bookingService.saveAll(bookings);
         if (rooms.isEmpty()) {
             order.setBookings(bookings);
+            double price = 0;
+            for (Booking b : bookings) {
+                int dayCount = Period.between(b.getStartDate(), b.getEndDate()).getDays();
+                price += dayCount * b.getRoom().getPrice();
+            }
+            order.setPrice(price);
             orderDAO.save(order);
             orderControl.addOrder(order);
         }
