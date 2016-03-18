@@ -38,7 +38,7 @@ public class OrderControl {
                             orderService.delete(entry.getValue());
                             emailSender.sendEmail(entry.getValue().getUser().getEmail(), "Your bookings is removed");
                             ORDER_MAP.remove(entry.getKey());
-                        } else if ((System.currentTimeMillis() - creationTime) >= 120000 /*TWENTY_THREE_HOURS_MILLIS*/) {
+                        } else if ((System.currentTimeMillis() - creationTime) >= 60000 /*82800000*/) {
                             mailList.add(entry.getValue());
                         }
                     } catch (Exception e) {
@@ -57,7 +57,7 @@ public class OrderControl {
     }
 
     public synchronized boolean removeOrder(Order order) {
-        if (ORDER_MAP.containsKey(order.getId())) {
+        if (ORDER_MAP.values().contains(order)) {
             ORDER_MAP.remove(order.getId());
             return true;
         } else {
