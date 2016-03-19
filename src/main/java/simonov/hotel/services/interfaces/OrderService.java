@@ -19,7 +19,7 @@ public interface OrderService {
 
     boolean updateStatus(Order order);
 
-    void setCommented(Order order);
+    void setCommented(int orderId);
 
     void delete(Order order);
 }

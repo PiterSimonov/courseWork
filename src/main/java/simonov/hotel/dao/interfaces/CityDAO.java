@@ -10,5 +10,7 @@ public interface CityDAO extends GenericDAO<City, Integer> {
 
     List<City> getCitiesByCriteria(String cityName);
 
+    List<City> getCitiesByCountryId(Integer countryId);
+
     List<City> getCitiesByCountryAndName(String cityName, Integer countryId);
 }

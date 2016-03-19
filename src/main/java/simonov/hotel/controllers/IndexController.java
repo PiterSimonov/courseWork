@@ -10,7 +10,6 @@ import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 import simonov.hotel.utilites.FileUpLoader;
 
-import javax.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +25,7 @@ public class IndexController {
     @Autowired
     RoomService roomService;
     @Autowired
-    BookingService bookingService;
-    @Autowired
-    CommentService commentService;
-    @Autowired
-    ServletContext servletContext;
-    @Autowired
     CityService cityService;
-    @Autowired
-    OrderService orderService;
     @Autowired
     ConvenienceService convenienceService;
 
@@ -80,16 +71,6 @@ public class IndexController {
         return "roomInfo";
     }
 
-    @RequestMapping(value = "/comment/{hotelId}")
-    public String saveComment(@PathVariable int hotelId, @ModelAttribute User user) {
-        Comment comment = new Comment();
-        comment.setHotel(hotelService.getHotelById(hotelId));
-        comment.setRating(4d);
-        comment.setComment("Bad");
-        comment.setUser(user);
-        commentService.save(comment);
-        return "userProfile";
-    }
 
     @RequestMapping(value = "/addRoom", method = RequestMethod.POST)
     public String addRoom(@RequestParam String type,
@@ -119,15 +100,18 @@ public class IndexController {
 
     @RequestMapping(value = "/addHotel", method = RequestMethod.POST)
     public String addHotel(@RequestParam String name,
-                           @RequestParam String city,
+                           @RequestParam("city_id") int cityId,
                            @RequestParam int stars,
-                           @RequestParam int owner,
-                           @RequestParam MultipartFile image) {
+                           @RequestParam("convenience") List<Integer> conveniences,
+                           @RequestParam MultipartFile image, @ModelAttribute User user) {
         Hotel newHotel = new Hotel();
         newHotel.setName(name);
-        newHotel.setCity(cityService.getCityByName(city));
+        newHotel.setCity(cityService.getCityById(cityId));
         newHotel.setStars(stars);
-        newHotel.setUser(userService.get(owner));
+        List<Convenience> convenienceList = new ArrayList<>();
+        conveniences.stream().forEach(integer -> convenienceList.add(convenienceService.getConvenienceById(integer)));
+        newHotel.setConveniences(convenienceList);
+        newHotel.setUser(user);
         if (image.getContentType().equals("image/jpeg")) {
             String link = FileUpLoader.uploadImageToImgur(image);
 //            String path = servletContext.getRealPath("/resources/images/hotels/") + newHotel.getId() + ".jpg";
@@ -136,19 +120,6 @@ public class IndexController {
         }
         hotelService.saveHotel(newHotel);
         return "redirect:/profile";
-    }
-
-    @RequestMapping("/profile")
-    public String userProfile(@ModelAttribute User user, Model model) {
-        if (user.getRole() == Role.HotelOwner) {
-            List<Hotel> hotels = hotelService.getHotelsByUser(user.getId());
-            model.addAttribute("hotels", hotels);
-            return "hotelsOwner";
-        } else if (user.getRole() == Role.CLIENT) {
-            List<Order> orders = orderService.getOrdersByUser(user.getId());
-            model.addAttribute("orders", orders);
-            return "userReservation";
-        } else return "redirect:/";
     }
 
     @ModelAttribute("user")

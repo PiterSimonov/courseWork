@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import simonov.hotel.entity.*;
-import simonov.hotel.services.interfaces.*;
+import simonov.hotel.services.interfaces.CityService;
+import simonov.hotel.services.interfaces.CountryService;
+import simonov.hotel.services.interfaces.HotelService;
 
-import javax.servlet.ServletContext;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -20,19 +21,17 @@ import java.util.Map;
 
 @Controller
 @EnableWebMvc
-@RequestMapping("/search")
+@RequestMapping("search")
 public class SearchController {
 
     @Autowired
     HotelService hotelService;
-    @Autowired
-    UserService userService;
-    @Autowired
-    RoomService roomService;
-    @Autowired
-    BookingService bookingService;
-    @Autowired
-    ServletContext servletContext;
+    //    @Autowired
+//    RoomService roomService;
+//    @Autowired
+//    BookingService bookingService;
+//    @Autowired
+//    ServletContext servletContext;
     @Autowired
     CityService cityService;
     @Autowired
@@ -64,6 +63,24 @@ public class SearchController {
     @ResponseBody
     List<Country> getCountries(@RequestParam String country) {
         return countryService.getCountriesByNameCriteria(country);
+    }
+
+    @RequestMapping(value = "/country")
+    public
+    @ResponseBody
+    Map<Integer, String> getCountries() {
+        Map<Integer, String> map = new HashMap<>();
+        countryService.getAllCountries().stream().forEach(country -> map.put(country.getId(), country.getName()));
+        return map;
+    }
+
+    @RequestMapping(value = "/city")
+    public
+    @ResponseBody
+    Map<Integer, String> getCities(@RequestParam("country_id") int countryId) {
+        Map<Integer, String> map = new HashMap<>();
+        cityService.getCitiesByCountryId(countryId).stream().forEach(city -> map.put(city.getId(), city.getName()));
+        return map;
     }
 
     @RequestMapping(value = "/", params = {"city", "countryId"})

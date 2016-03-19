@@ -16,7 +16,7 @@
 <div id="hotel-info">
     <p>Hotel : ${hotel.name}
         <c:forEach begin="1" end="${hotel.stars}"><img class="stars"
-                                                       src="/resources/images/hotels/stars.png"/></c:forEach>
+                                                       src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/></c:forEach>
 
 </div>
 <div class="right-panel">
