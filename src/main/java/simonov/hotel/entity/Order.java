@@ -31,6 +31,9 @@ public class Order {
     @Column
     private double price;
 
+    @ManyToOne
+    private Hotel hotel;
+
     @Column
     private boolean commented;
 
@@ -89,5 +92,13 @@ public class Order {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 }

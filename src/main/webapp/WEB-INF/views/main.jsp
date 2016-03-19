@@ -48,7 +48,7 @@
                     <div>
                         <img class="hotel-img"
                              onerror="this.onerror=null;this.src='../resources/images/rooms/noImage.jpg'"
-                             src="/resources/images/hotels/${hotel.id}.jpg">
+                             src="${hotel.imageLink}">
                     </div>
                 </td>
                 <td>

@@ -48,8 +48,12 @@ $(document).ready(function () {
             }
         }
     });
-
-    $('#registerForm').submit(function (e) {
-        if (!$(this).valid()) return;
-    })
+    $('form#edit-user-form').validate({
+        rules: {
+            phone: {
+                required: true,
+                phone: true
+            }
+        }
+    });
 });

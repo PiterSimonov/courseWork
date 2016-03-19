@@ -21,6 +21,12 @@ public class ConvenienceServiceImpl implements ConvenienceService {
         return convenienceDAO.getConveniencesByHotel(hotelId);
     }
 
+    @Override
+    public Convenience getConvenienceById(Integer id) {
+        return convenienceDAO.get(id);
+    }
+
+    @Override
     public List<Convenience> getAll() {
         return convenienceDAO.getAll();
     }

@@ -35,7 +35,11 @@ public class Hotel {
     @Column
     private Double rating;
 
-    @ManyToMany(mappedBy = "hotels")
+    @ManyToMany
+    @JoinTable(name = "hotels_conveniences",
+            joinColumns = @JoinColumn(name = "hotel_id"),
+            inverseJoinColumns = @JoinColumn(name = "convenience_id")
+    )
     private List<Convenience> conveniences;
 
     @Column
