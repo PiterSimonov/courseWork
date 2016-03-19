@@ -19,7 +19,7 @@ public class Comment {
     private User user;
 
     @Column
-    private Double rating;
+    private int rating;
 
     public int getId() {
         return id;
@@ -45,11 +45,11 @@ public class Comment {
         this.hotel = hotel;
     }
 
-    public Double getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

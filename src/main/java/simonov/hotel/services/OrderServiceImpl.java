@@ -30,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCreationTime(new Date());
         order.setStatus(Status.NotConfirmed);
         order.setUser(user);
+        order.setHotel(bookings.get(0).getRoom().getHotel());
         bookings.stream().forEach(booking -> booking.setOrder(order));
         List<Room> rooms = bookingService.saveAll(bookings);
         if (rooms.isEmpty()) {
@@ -62,19 +63,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void setCommented(Order order) {
+    public void setCommented(int orderId) {
+        Order order = orderDAO.get(orderId);
         order.setCommented(true);
-        orderDAO.update(order);
     }
 
     @Override
     public boolean updateStatus(Order order) {
-        if (orderControl.removeOrder(order)) {
+//        if (orderControl.removeOrder(order)) {
             order.setStatus(Status.Confirmed);
             orderDAO.update(order);
             return true;
-        }
-        return false;
+//        }
+//        return false;
     }
 
     @Override

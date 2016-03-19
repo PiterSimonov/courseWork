@@ -2,7 +2,6 @@ $(document).ready(function () {
     $('.date').prop("min", function () {
         return new Date().toJSON().split('T')[0];
     });
-
     //$("#form-booking").submit(function (e) {
     //    e.preventDefault();
     //    var userRole = $('input#userRole').val();
@@ -79,4 +78,24 @@ $(document).ready(function () {
             });
         }
     });
+
+    $('#country_id').one('click', function () {
+        $.get('/search/country', function (result) {
+            var option = '';
+            $.each(result, function (key, data) {
+                option += '<option value="' + key + '">' + data + '</option>'
+            });
+            $('#country_id').html(option);
+        })
+    }).on("change", function () {
+        $('#city_id').removeAttr("disabled");
+        var data = $('#country_id').val();
+        $.get('/search/city', {country_id: data}, function (result) {
+            var option = '';
+            $.each(result, function (key, data) {
+                option += '<option value="' + key + '">' + data + '</option>'
+            });
+            $('#city_id').html(option);
+        })
+    })
 });

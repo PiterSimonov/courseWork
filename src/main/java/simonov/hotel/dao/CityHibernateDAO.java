@@ -1,7 +1,6 @@
 package simonov.hotel.dao;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -33,11 +32,18 @@ public class CityHibernateDAO extends AbstractDAO<City, Integer> implements City
     }
 
     @Override
+    public List<City> getCitiesByCountryId(Integer countryId) {
+        Criteria criteria = getCurrentSession().createCriteria(City.class);
+        criteria.add(Restrictions.eq("country.id", countryId));
+        return criteria.list();
+    }
+
+    @Override
     public List<City> getCitiesByCountryAndName(String cityName, Integer countryId) {
-        Query cityQuery = getCurrentSession().createQuery("from City where country.id=:countryId and name like :cityName");
-        cityQuery.setParameter("countryId", countryId);
-        cityQuery.setParameter("cityName", cityName);
-        return cityQuery.list();
+        Criteria criteria = getCurrentSession().createCriteria(City.class);
+        criteria.add(Restrictions.eq("country.id", countryId))
+                .add(Restrictions.ilike("name", cityName, MatchMode.ANYWHERE));
+        return criteria.list();
     }
 
 

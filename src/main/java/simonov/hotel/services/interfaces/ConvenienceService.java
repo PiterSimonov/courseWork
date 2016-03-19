@@ -9,5 +9,7 @@ import java.util.List;
 public interface ConvenienceService {
     List<Convenience> getConveniencesByHotel(Integer hotelId);
 
+    Convenience getConvenienceById(Integer id);
+
     List<Convenience> getAll();
 }
