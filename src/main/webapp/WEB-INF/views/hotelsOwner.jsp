@@ -12,7 +12,6 @@
 <body>
 User : ${user.id}
 <div class="menuLink"><a href="/">Home</a></div>
-${user.id}
 <div id="hotel-list">
     <table class="table-hotels">
         <c:forEach items="${hotels}" var="hotel">
