@@ -88,6 +88,19 @@ div.right-panel {
     display: inline-block;
     margin-right: 10px;
 }
+
+div.left-panel {
+    position: absolute;
+    top: 40px;
+    right: 12px;
+    float: right;
+    height: 100%;
+    width: 450px;
+    background-color: #C8EEFD;
+    display: inline-block;
+    margin-right: 10px;
+}
+
 #hotel-info{
     top: 5px;
     left: 10px;
