@@ -8,6 +8,7 @@
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
     <script src="<c:url value="/resources/js/main.js" />"></script>
+    <script src="<c:url value="/resources/js/validator.js" />"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Hotel Info</title>
 </head>
@@ -46,10 +47,9 @@
         </table>
     </div>
 </div>
-${user.role} role, user id ${user.id}
-<p>${hotel.user.id}Hotel owner id</p>
 <c:choose>
     <c:when test="${user.role == 'HotelOwner' and hotel.user.id eq user.id}">
+        <div class="left-panel">
         <div class="add-room-div">
             <form id="add-room" method="post" action="/addRoom" enctype="multipart/form-data">
                 <input id="roomNumber" name="number" type="number" placeholder="№" required><br/>
@@ -57,10 +57,11 @@ ${user.role} role, user id ${user.id}
                 <input id="roomPrice" type="number" name="price" placeholder="Price" required><br/>
                 <textarea id="roomDescription" name="description" placeholder="Description"></textarea><br/>
                 <input id="roomPlaces" name="seats" placeholder="Seats" type="number" min="1" max="4" required><br/>
-                <input type="file" name="image"><br/>
+                <input type="file" name="imageFile"><br/>
                 <input type="hidden" name="hotelId" value="${hotel.id}">
                 <input id="roomSubmit" type="submit" value="Add Room">
             </form>
+        </div>
         </div>
     </c:when>
     <c:otherwise>

@@ -79,23 +79,20 @@ public class IndexController {
                           @RequestParam Double price,
                           @RequestParam int seats,
                           @RequestParam int hotelId,
-                          @RequestParam MultipartFile image) {
+                          @RequestParam MultipartFile imageFile) {
         Room room = new Room();
         room.setType(type);
         room.setPrice(price);
         room.setSeats(seats);
         room.setDescription(description);
         room.setNumber(number);
-        Hotel currentHotel = hotelService.getHotelById(hotelId);
-        room.setHotel(currentHotel);
-        if (image.getContentType().equals("image/jpeg")) {
-//            String subPath = servletContext.getRealPath("/resources/images/rooms/") + currentHotel.getName() + room.getId() + ".jpg";
-//            FileUpLoader.uploadImageToServer(image, subPath);
-            room.setImageLink(FileUpLoader.uploadImageToImgur(image));
+        room.setHotel(hotelService.getHotelById(hotelId));
+        if (imageFile.getContentType().equals("image/jpeg")) {
+            room.setImageLink(FileUpLoader.uploadImageToImgur(imageFile));
         }
         roomService.saveRoom(room);
 
-        return "redirect:/hotel/" + currentHotel.getId();
+        return "redirect:/hotel/" + hotelId;
     }
 
     @RequestMapping(value = "/addHotel", method = RequestMethod.POST)
@@ -103,7 +100,7 @@ public class IndexController {
                            @RequestParam("city_id") int cityId,
                            @RequestParam int stars,
                            @RequestParam("convenience") List<Integer> conveniences,
-                           @RequestParam MultipartFile image, @ModelAttribute User user) {
+                           @RequestParam MultipartFile imageFile, @ModelAttribute User user) {
         Hotel newHotel = new Hotel();
         newHotel.setName(name);
         newHotel.setCity(cityService.getCityById(cityId));
@@ -112,10 +109,8 @@ public class IndexController {
         conveniences.stream().forEach(integer -> convenienceList.add(convenienceService.getConvenienceById(integer)));
         newHotel.setConveniences(convenienceList);
         newHotel.setUser(user);
-        if (image.getContentType().equals("image/jpeg")) {
-            String link = FileUpLoader.uploadImageToImgur(image);
-//            String path = servletContext.getRealPath("/resources/images/hotels/") + newHotel.getId() + ".jpg";
-//            FileUpLoader.uploadImageToServer(image, path);
+        if (imageFile.getContentType().equals("image/jpeg")) {
+            String link = FileUpLoader.uploadImageToImgur(imageFile);
             newHotel.setImageLink(link);
         }
         hotelService.saveHotel(newHotel);
