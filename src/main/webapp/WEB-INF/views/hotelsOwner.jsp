@@ -4,7 +4,9 @@
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
     <script src="<c:url value="/resources/js/main.js" />"></script>
+    <script src="<c:url value="/resources/js/validator.js" />"></script>
     <title>Hotel owner</title>
 </head>
 <body>
@@ -38,11 +40,11 @@
                     <input id="hotelName" type="text" name="name" placeholder="Hotel Name" required><br/>
                     <label>Country: </label>
                     <select form="add-hotel" name="country_id" id="country_id" required>
-                        <option value="0">- Choice Country -</option>
+                        <option value="">- Country -</option>
                     </select><br/>
                     <label>City: </label>
                     <select form="add-hotel" name="city_id" id="city_id" disabled required>
-                        <option value="0">- Choice City -</option>
+                        <option value="">- City -</option>
                     </select><br/>
                     <label>Stars: </label>
                     <select form="add-hotel" name="stars" required><br/>
@@ -58,9 +60,9 @@
                         <c:forEach items="${services}" var="service">
                             <option value="${service.id}">${service.description}</option>
                         </c:forEach>
-                    </select>
-                    <input type="file" name="image" accept="image/jpeg">
-                    <input id="hotelSubmit" type="submit" value="Add Hotel">
+                    </select><br/>
+                    <input type="file" name="imageFile" id="image" accept="image/*" style="width: 250px">
+                    <br/><input id="hotelSubmit" type="submit" value="Add Hotel">
                 </form>
             </div>
         </div>
