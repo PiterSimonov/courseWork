@@ -19,17 +19,6 @@ public class FileUpLoader {
     private static final String IMGUR_LINK = "https://api.imgur.com/3/image";
     private static final String CLIENT_ID = "eb5571d14ad3857";
 
-    public static void uploadImageToServer(MultipartFile image, String path) {
-        if (!image.isEmpty()) {
-            try {
-                File imagePath = new File(path);
-                image.transferTo(imagePath);
-            } catch (IOException | IllegalStateException e) {
-                log.error("Image uploading failed due to exception:", e);
-            }
-        }
-    }
-
     public static String uploadImageToImgur(MultipartFile imageFile) {
         URL url = null;
         try {
