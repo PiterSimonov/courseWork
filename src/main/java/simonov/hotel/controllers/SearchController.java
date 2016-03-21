@@ -65,13 +65,12 @@ public class SearchController {
     public String roomsSearch(@PathVariable int hotelId,
                               @ModelAttribute Request request,
                               Model model) {
-        request.setCountryId(1);
-        request.setCityId(1);
         request.setHotelId(hotelId);
         request.setStartDate(LocalDate.parse("2016-03-05"));
         request.setEndDate(LocalDate.parse("2016-05-19"));
         Map<Integer, Integer> seats = new HashMap<>();
-        seats.put(2, 4);
+        seats.put(2, 2);
+        seats.put(3, 1);
         seats.put(1, 1);
         request.setSeats(seats);
         List<Room> rooms = roomService.getFreeRoomsByRequest(request);

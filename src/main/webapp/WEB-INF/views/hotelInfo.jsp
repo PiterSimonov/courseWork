@@ -30,10 +30,8 @@ User : ${user.id}
             <c:forEach items="${rooms}" var="room">
                 <tr class="room-table">
                     <td>
-                        <img onerror="this.onerror=null;this.src='../resources/images/rooms/noImage.jpg'"
-                            <%--src="/resources/images/rooms/${hotel.name}${room.id}.jpg"--%>
-                             src=${room.imageLink}
-                        >
+                        <img onerror="this.onerror=null;this.src='/resources/images/rooms/noImage.jpg'"
+                             src=${room.imageLink}>
                     </td>
                     <td>
                         <a href="${hotel.id}/roomDetails/${room.id}">Room № ${room.number}</a><br/>
