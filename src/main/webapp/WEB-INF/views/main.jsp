@@ -19,7 +19,13 @@ User : ${user.id}
         <span><h5>Filtering Room</h5></span>
         <form id="filter-form" action="search" onsubmit="return checkDate()">
             <label for="city">City</label>
-            <input id="city" type="text" name="city">
+            <div class="AutoComplete">
+                <input id="city" type="text" name="city" >
+                <ul id="list">
+                </ul>
+                <input id ="cityId" type="number" hidden >
+            </div>
+
             <label for="hotel">Hotel</label>
             <input id="hotel" type="text" name="hotel">
             <label>Hotel Rank</label>
@@ -31,10 +37,10 @@ User : ${user.id}
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select>
-            <label id="fromDate">From date</label>
-            <input type="date" name="fromDate" class="date" data-date-split-input="true" required>
-            <label id="toDate">To date</label>
-            <input type="date" name="toDate" class="date" data-date-split-input="true" required>
+            <label id="from">From date</label>
+            <input type="date" name="fromDate"  id="fromDate" class="date" data-date-split-input="true" required>
+            <label id="to">To date</label>
+            <input type="date" name="toDate" id="toDate" class="date" data-date-split-input="true" required>
 
             <label id="numOfTravelers">Number of travelers</label>
             <input type="number" name="numOfTravelers" min="1" max="4" required>

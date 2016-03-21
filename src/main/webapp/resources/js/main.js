@@ -1,8 +1,86 @@
 $(document).ready(function () {
-    $('.date').prop("min", function () {
-        return new Date().toJSON().split('T')[0];
+    var d = new Date();
+    var today = dateToString(d);
+    var nextDay = dateToString(d, 1);
+    var maxDays = dateToString(d, 28);
+    var $fromDate = $('#fromDate');
+    var $toDate = $('#toDate');
+    $fromDate.prop("value", today);
+    $fromDate.prop("min", today);
+    $toDate.prop("value", nextDay);
+    $toDate.prop("min", nextDay);
+    $toDate.prop("max", maxDays);
+
+
+    $("#fromDate").change(function() {
+            var x = fromDate.value;
+            var d = new Date(Date.parse(x));
+            var nextDay = dateToString(d, 1);
+            var maxDays = dateToString(d, 28);
+            var $toDate = $("#toDate");
+            $toDate.prop("max", maxDays);
+            $toDate.prop("value", nextDay);
+            $toDate.prop("min", nextDay);
     });
-    //$("#form-booking").submit(function (e) {
+
+    function dateToString(d, num){
+        if(num === undefined){
+            return d.toJSON().split('T')[0];
+        }else{
+            var nextDay = new Date(d.valueOf()+24*60*60*1000*num);
+            return nextDay.toJSON().split('T')[0];
+        }
+    }
+
+    $("#city").keyup(function() {
+        if (city.value.length >= 3){
+
+            var $city = $("#list");
+            $.ajax({
+                    url: "/city",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            var li = li = document.createElement('li');
+                            li.appendChild(document.createTextNode(data[i].name));
+                            li.onclick = function(){
+                                alert("click");
+                                //city.value = data[i].name;
+                                //$("#cityId").prop("value", data[i].id);
+                                $city.css("display", "none");
+                            };
+                            $city.append(li);
+                            $city.css("display", "block");
+                        }
+                    },
+
+                });
+
+
+
+
+
+        }
+
+        //$.ajax({
+        //    url: "/city",
+        //    type: "GET",
+        //    dataType: "json",
+        //    success: function (data) {
+        //        alert("catch data"),
+        //        alert(data)
+        //        for (var i = 0; i < data.length; i++) {
+        //            alert(data[i].name)
+        //        }
+        //    },
+        //
+        //});
+    })
+
+
+
+        //$("#form-booking").submit(function (e) {
     //    e.preventDefault();
     //    var userRole = $('input#userRole').val();
     //    if (userRole == "HotelOwner" || userRole == 'CLIENT') {
