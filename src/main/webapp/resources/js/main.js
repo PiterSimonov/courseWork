@@ -1,15 +1,7 @@
 $(document).ready(function () {
-    var d = new Date();
-    var today = dateToString(d);
-    var nextDay = dateToString(d, 1);
-    var maxDays = dateToString(d, 28);
-    var $fromDate = $('#fromDate');
-    var $toDate = $('#toDate');
-    $fromDate.prop("value", today);
-    $fromDate.prop("min", today);
-    $toDate.prop("value", nextDay);
-    $toDate.prop("min", nextDay);
-    $toDate.prop("max", maxDays);
+    $('.date').prop("min", function () {
+        return new Date().toJSON().split('T')[0];
+    });
 
 
     $("#fromDate").change(function() {
@@ -73,6 +65,18 @@ $(document).ready(function () {
     })
 
 
+    $('form#choice-room').submit(function (e) {
+        var userRole;
+        $.ajax({
+            url: "/get-user",
+            type: "GET",
+            async: false,
+            success: function (responce) {
+                userRole = responce;
+            }
+        });
+        if (userRole == "HotelOwner" || userRole == 'CLIENT') {
+            $(":submit").attr("disabled", true);
     $('form#choice-room').submit(function (e) {
         var userRole;
         $.ajax({
