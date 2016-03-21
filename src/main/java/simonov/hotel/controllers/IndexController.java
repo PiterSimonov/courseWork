@@ -49,6 +49,14 @@ public class IndexController {
         return "main";
     }
 
+    @RequestMapping(value = "/city")
+    public @ResponseBody String searchCities(){
+        return " [\n" +
+                "     { \"name\": \"home\", \"id\": \"212 555-1234\" },\n" +
+                "     { \"name\": \"fax\", \"id\": \"646 555-4567\" }\n" +
+                " ]";
+    }
+
 
     @RequestMapping(value = "/hotel/{id}")
     public String searchHotel(@PathVariable int id, Model model, @ModelAttribute("user") User user,

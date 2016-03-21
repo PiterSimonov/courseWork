@@ -128,3 +128,28 @@ label.error {
 input.error {
     border: 1px dotted #f00;
 }
+
+.AutoComplete {
+    position: relative;
+    width: 150px;
+}
+.AutoComplete > * {
+    width: 100%;
+}
+.AutoComplete > ul {
+    background: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000;
+    display: none;
+    margin: 5px 0 0 0;
+    padding: 5px 0;
+    position: absolute;
+}
+.AutoComplete li {
+    display: block;
+    padding: 0 5px;
+}
+.AutoComplete li:hover {
+    background: #AAA;
+    cursor: pointer;
+}
