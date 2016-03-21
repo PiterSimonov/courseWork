@@ -21,7 +21,7 @@ import java.util.List;
 
 @Controller
 @EnableWebMvc
-@SessionAttributes(types = {User.class, Hotel.class})
+@SessionAttributes({"user", "hotel"})
 public class AuthenticationController {
     @Autowired
     UserService userService;
@@ -38,7 +38,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String saveUser(@Valid @ModelAttribute User user, BindingResult result, Model model) {
+    public String saveUser(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             user.setRole(Role.NotAuthorized);
             return "registration";
@@ -52,10 +52,17 @@ public class AuthenticationController {
         }
     }
 
+    @RequestMapping(value = "/get-user", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Role getUserRole(@ModelAttribute("user") User user) {
+        return user.getRole();
+    }
+
     @RequestMapping(value = "/check-user", method = RequestMethod.POST)
     public
     @ResponseBody
-    String checkUser(@ModelAttribute User user, Model model) {
+    String checkUser(@ModelAttribute("user") User user, Model model) {
         User loggedUser = userService.getLoggedUser(user.getLogin(), user.getPassword());
         if (loggedUser != null) {
             model.addAttribute("user", loggedUser);
@@ -80,7 +87,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/profile")
-    public String userProfile(@ModelAttribute User user, Model model) {
+    public String userProfile(@ModelAttribute("user") User user, Model model) {
         if (user.getRole() == Role.HotelOwner) {
             List<Hotel> hotels = hotelService.getHotelsByUser(user.getId());
             model.addAttribute("hotels", hotels);
@@ -94,7 +101,8 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/profile/{userId}/edit", method = RequestMethod.GET)
-    public String editUserProfile(@PathVariable int userId, @ModelAttribute User user, Model model) {
+    public String editUserProfile(@PathVariable int userId,
+                                  @ModelAttribute("user") User user) {
         if (userId == user.getId()) {
             return "editProfile";
         }
@@ -103,13 +111,13 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/profile/{userId}/edit", method = RequestMethod.POST)
     public String saveProfile(@PathVariable int userId,
-                              @ModelAttribute User user, Model model) {
+                              @ModelAttribute("user") User user, Model model) {
         userService.update(user);
         return "redirect:/profile";
     }
 
     @RequestMapping(value = "/update-user", method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute User user,
+    public String updateUser(@ModelAttribute("user") User user,
                              @RequestParam String lastName,
                              @RequestParam String firstName,
                              @RequestParam String phone) {
@@ -124,10 +132,10 @@ public class AuthenticationController {
     public String logout(SessionStatus status) {
         //TODO ajax!
         status.setComplete();
-        return "redirect:/";
+        return "redirect:/"; //TODO think this view redirect is not correct
     }
 
-    @ModelAttribute
+    @ModelAttribute("user")
     public User createUser() {
         User user = new User();
         user.setRole(Role.NotAuthorized);

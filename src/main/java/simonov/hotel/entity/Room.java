@@ -25,24 +25,8 @@ public class Room {
     @Column
     private int seats;
 
-    public String getImageLink() {
-        return imageLink;
-    }
-
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
-    }
-
     @Column
     private String imageLink;
-
-    public boolean isLocked() {
-        return locked;
-    }
-
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
 
     @Column
     private boolean locked;
@@ -116,5 +100,21 @@ public class Room {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 }
