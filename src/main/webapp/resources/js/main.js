@@ -45,7 +45,7 @@ $(document).ready(function () {
                             $city.append(li);
                             $city.css("display", "block");
                         }
-                    },
+                    }
                 });
         }
 
@@ -62,21 +62,8 @@ $(document).ready(function () {
         //    },
         //
         //});
-    })
+    });
 
-
-    $('form#choice-room').submit(function (e) {
-        var userRole;
-        $.ajax({
-            url: "/get-user",
-            type: "GET",
-            async: false,
-            success: function (responce) {
-                userRole = responce;
-            }
-        });
-        if (userRole == "HotelOwner" || userRole == 'CLIENT') {
-            $(":submit").attr("disabled", true);
     $('form#choice-room').submit(function (e) {
         var userRole;
         $.ajax({
