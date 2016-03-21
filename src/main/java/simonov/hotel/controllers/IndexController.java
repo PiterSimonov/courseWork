@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @EnableWebMvc
-@SessionAttributes(types = User.class)
+@SessionAttributes("user")
 public class IndexController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class IndexController {
     ConvenienceService convenienceService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String printHotels(@ModelAttribute User user, @ModelAttribute ArrayList<Hotel> hotels, Model model) {
+    public String printHotels(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("hotels", hotelService.getFirstTenHotels());
 //        Request request = new Request();
 //        request.setCountryId(1);
@@ -50,18 +50,22 @@ public class IndexController {
     }
 
 
-    @RequestMapping(value = "/hotel/{id}")
-    public String searchHotel(@PathVariable int id, Model model, @ModelAttribute("user") User user,
-                              @ModelAttribute("hotels") ArrayList<Hotel> hotels) {
-        Hotel hotel = hotelService.getHotelById(id);
+    @RequestMapping(value = "/hotel/{hotelId}")
+    public String searchHotel(@PathVariable int hotelId, Model model) {
+        Hotel hotel = hotelService.getHotelById(hotelId);
+        if (hotel != null) {
         model.addAttribute("hotel", hotel);
-        List<Room> rooms = roomService.getRoomsByHotel(id);
+            List<Room> rooms = roomService.getRoomsByHotel(hotelId);
         model.addAttribute("rooms", rooms);
         return "hotelInfo";
+        } else {
+            model.addAttribute("message", "Hotel with this ID does not exist");
+            return "error";
+        }
     }
 
     @RequestMapping(value = "/hotel/{hotelId}/roomDetails/{roomId}")
-    public String roomInfo(@PathVariable int hotelId, @PathVariable int roomId, Model model, @ModelAttribute User user) {
+    public String roomInfo(@PathVariable int hotelId, @PathVariable int roomId, Model model) {
         Room room = roomService.getRoomById(roomId);
         if (hotelId != room.getHotel().getId()) {
             return "error";
@@ -100,7 +104,8 @@ public class IndexController {
                            @RequestParam("city_id") int cityId,
                            @RequestParam int stars,
                            @RequestParam("convenience") List<Integer> conveniences,
-                           @RequestParam MultipartFile imageFile, @ModelAttribute User user) {
+                           @RequestParam MultipartFile imageFile,
+                           @ModelAttribute("user") User user) {
         Hotel newHotel = new Hotel();
         newHotel.setName(name);
         newHotel.setCity(cityService.getCityById(cityId));
@@ -122,10 +127,5 @@ public class IndexController {
         User user = new User();
         user.setRole(Role.NotAuthorized);
         return user;
-    }
-
-    @ModelAttribute
-    public Room createRoom() {
-        return new Room();
     }
 }

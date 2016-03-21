@@ -10,6 +10,7 @@
     <title>Hotel owner</title>
 </head>
 <body>
+User : ${user.id}
 <div class="menuLink"><a href="/">Home</a></div>
 <div id="hotel-list">
     <table class="table-hotels">

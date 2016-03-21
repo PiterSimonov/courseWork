@@ -11,6 +11,7 @@ $(document).ready(function () {
     //            url: "/check-date",
     //            type: "GET",
     //            data: $("#form-booking").serialize(),
+    //            async: false,
     //            success: function (data) {
     //                if (data) {
     //                    $("#is-free").html("<img class='image-ok' src='/resources/images/ok.gif'/>")
@@ -24,6 +25,24 @@ $(document).ready(function () {
     //        loadPopup();
     //    }
     //});
+
+    $('form#choice-room').submit(function (e) {
+        var userRole;
+        $.ajax({
+            url: "/get-user",
+            type: "GET",
+            async: false,
+            success: function (responce) {
+                userRole = responce;
+            }
+        });
+        if (userRole == "HotelOwner" || userRole == 'CLIENT') {
+            $(":submit").attr("disabled", true);
+        } else {
+            loadPopup();
+            return false;
+        }
+    });
 
     var on = 0;
 

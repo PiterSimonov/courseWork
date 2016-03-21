@@ -12,6 +12,7 @@
     <title>Room info</title>
 </head>
 <body>
+User : ${user.id}
 <%@ include file="forms/loginForm.jsp" %>
 <div class="right-panel">
 </div>

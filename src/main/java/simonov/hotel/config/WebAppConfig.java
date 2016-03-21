@@ -82,5 +82,4 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         resolver.setMaxUploadSize(1024 * 1024 * 3);
         return resolver;
     }
-    //TODO Handling MaxUploadSizeExceededException
 }

@@ -2,10 +2,11 @@ package simonov.hotel.dao;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.stereotype.Repository;
 import simonov.hotel.dao.interfaces.RoomDAO;
 import simonov.hotel.entity.Booking;
+import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Room;
 
 import java.time.LocalDate;
@@ -57,5 +58,31 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
         query.setInteger("hotelId", hotelId);
         query.setString("type", type);
         return query.list();
+    }
+
+    @Override
+    public List<Room> getFreeRoomsByRequest(Request request) {
+        /*   Select * from room as r where hotel_id=?
+              and (seats =? or seats=? or ...)
+              and r.id not IN
+              (SELECT room_id FROM booking WHERE startDate<=? AND endDate>=?) */
+
+        Criteria criteria = getCurrentSession().createCriteria(Room.class, "room");
+        criteria.createAlias("room.hotel", "hotel");
+        criteria.add(Restrictions.eq("hotel.id", request.getHotelId()));
+        Disjunction disjunction = Restrictions.disjunction();
+        request.getSeats().keySet().stream()
+                .forEach(integer -> disjunction.add(Restrictions.eq("room.seats", integer)));
+        criteria.add(disjunction);
+        DetachedCriteria bookingCriteria = DetachedCriteria.forClass(Booking.class, "booking");
+        bookingCriteria.add(Restrictions.and(
+                Restrictions.le("booking.startDate", request.getEndDate()),
+                Restrictions.ge("booking.endDate", request.getStartDate())));
+        bookingCriteria.createAlias("booking.room", "r");
+        bookingCriteria.setProjection(Projections.property("r.id"));
+        criteria.add(Subqueries.propertyNotIn("room.id", bookingCriteria))
+                .setFirstResult(request.getFirstResult())
+                .setMaxResults(request.getLimit());
+        return criteria.list();
     }
 }

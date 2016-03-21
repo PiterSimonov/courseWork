@@ -1,6 +1,7 @@
 package simonov.hotel.services.interfaces;
 
 import org.springframework.stereotype.Service;
+import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Room;
 
 import java.time.LocalDate;
@@ -20,6 +21,8 @@ public interface RoomService {
     List<Room> getRoomsByHotel(int hotelId);
 
     List<Room> getRoomsByType(int hotelId, String type);
+
+    List<Room> getFreeRoomsByRequest(Request request);
 
     List<Room> sortByPrice(List<Room> rooms);
 

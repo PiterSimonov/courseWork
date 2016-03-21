@@ -13,6 +13,7 @@
     <title>Hotel Info</title>
 </head>
 <body>
+User : ${user.id}
 <%@ include file="forms/loginForm.jsp" %>
 <div id="hotel-info">
     <p>Hotel : ${hotel.name}

@@ -25,9 +25,10 @@ public class OrderController {
 
     @RequestMapping(value = "{orderId}/comment/{hotelId}", method = RequestMethod.GET)
     public String openCommentPage(@PathVariable int orderId, @PathVariable int hotelId,
-                                  @ModelAttribute User user, Model model) {
+                                  @ModelAttribute("user") User user, Model model) {
         Order order = orderService.getOrderById(orderId);
-        if (user.getId() == order.getUser().getId() && !order.isCommented() && order.getStatus() == Status.Confirmed) {
+        if (order != null && user.getId() == order.getUser().getId() &&
+                !order.isCommented() && order.getStatus() == Status.Confirmed) {
             return "comment";
         } else {
             model.addAttribute("message", "Wrong URL for leave comment");
@@ -36,8 +37,11 @@ public class OrderController {
     }
 
     @RequestMapping(value = "{orderId}/comment/{hotelId}", method = RequestMethod.POST)
-    public String saveComment(@PathVariable int orderId, @PathVariable int hotelId, @ModelAttribute User user,
-                              @RequestParam("comment") String commentText, @RequestParam int rating) {
+    public String saveComment(@PathVariable int orderId,
+                              @PathVariable int hotelId,
+                              @ModelAttribute("user") User user,
+                              @RequestParam("comment") String commentText,
+                              @RequestParam int rating) {
         Comment comment = new Comment();
         comment.setUser(user);
         comment.setComment(commentText);
@@ -49,7 +53,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "{orderId}/payment", method = RequestMethod.GET)
-    public String getPaymentPage(@PathVariable int orderId, @ModelAttribute User user, Model model) {
+    public String getPaymentPage(@PathVariable int orderId, @ModelAttribute("user") User user, Model model) {
         Order order = orderService.getOrderById(orderId);
         if (user.getId() == order.getUser().getId()) {
             return "payment";

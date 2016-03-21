@@ -26,23 +26,26 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Room> createOrder(List<Booking> bookings, User user) {
-        Order order = new Order();
-        order.setCreationTime(new Date());
-        order.setStatus(Status.NotConfirmed);
-        order.setUser(user);
-        order.setHotel(bookings.get(0).getRoom().getHotel());
-        bookings.stream().forEach(booking -> booking.setOrder(order));
-        List<Room> rooms = bookingService.saveAll(bookings);
-        if (rooms.isEmpty()) {
-            order.setBookings(bookings);
-            double price = 0;
-            for (Booking b : bookings) {
-                int dayCount = Period.between(b.getStartDate(), b.getEndDate()).getDays();
-                price += dayCount * b.getRoom().getPrice();
+        List<Room> rooms = null;
+        if (!bookings.isEmpty()) {
+            Order order = new Order();
+            order.setCreationTime(new Date());
+            order.setStatus(Status.NotConfirmed);
+            order.setUser(user);
+            order.setHotel(bookings.get(0).getRoom().getHotel());
+            bookings.stream().forEach(booking -> booking.setOrder(order));
+            rooms = bookingService.saveAll(bookings);
+            if (rooms.isEmpty()) {
+                order.setBookings(bookings);
+                double price = 0;
+                for (Booking b : bookings) {
+                    int dayCount = Period.between(b.getStartDate(), b.getEndDate()).getDays();
+                    price += dayCount * b.getRoom().getPrice();
+                }
+                order.setPrice(price);
+                orderDAO.save(order);
+                orderControl.addOrder(order);
             }
-            order.setPrice(price);
-            orderDAO.save(order);
-            orderControl.addOrder(order);
         }
         return rooms;
     }
@@ -70,12 +73,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean updateStatus(Order order) {
-//        if (orderControl.removeOrder(order)) {
+        if (orderControl.removeOrder(order)) {
             order.setStatus(Status.Confirmed);
             orderDAO.update(order);
             return true;
-//        }
-//        return false;
+        }
+        return false;
     }
 
     @Override
