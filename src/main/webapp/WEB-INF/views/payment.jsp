@@ -9,9 +9,10 @@
     <title>Payment</title>
 </head>
 <body>
+User : ${user.id}
 <form method="post" id="payment">
     <h3>User fills CARD Number and CVV code</h3>
-    <input type="submit" value="Pay">
+    <input type="submit" id="pay-button" value="Pay">
     <div id="loaderImage" style="display: none"><h4>Please wait...</h4><img
             src="${pageContext.request.contextPath}/resources/images/payment.gif"></div>
 </form>

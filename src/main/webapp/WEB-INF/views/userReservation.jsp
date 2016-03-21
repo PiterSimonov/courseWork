@@ -10,6 +10,7 @@
     <title>User Reservation</title>
 </head>
 <body>
+User : ${user.id}
 <div class="menuLink"><a href="/">Home</a></div>
 <div class="menuLink"><a href="/logout">Logout</a></div>
 <div class="right-panel">

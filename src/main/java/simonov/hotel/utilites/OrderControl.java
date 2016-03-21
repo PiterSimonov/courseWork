@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class OrderControl {
     private static final String MESSAGE = "If you do not pay within a hour, your reservation will be deleted";
     private static final ConcurrentHashMap<Integer, Order> ORDER_MAP = new ConcurrentHashMap<>();
+    private static final Long TWENTY_THREE_HOURS_MILLIS = 82800000L;
+    private static final Long TWENTY_FOUR_HOURS_MILLIS = 86400000L;
     private Logger logger = Logger.getLogger(OrderControl.class);
     @Autowired
     EmailSender emailSender;
@@ -32,11 +34,11 @@ public class OrderControl {
                 for (Map.Entry<Integer, Order> entry : ORDER_MAP.entrySet()) {
                     try {
                         long creationTime = (entry.getValue()).getCreationTime().getTime();
-                        if ((System.currentTimeMillis() - creationTime) >= 120000 /*86400000*/) {
+                        if ((System.currentTimeMillis() - creationTime) >= 220000 /*TWENTY_FOUR_HOURS_MILLIS*/) {
                             orderService.delete(entry.getValue());
                             emailSender.sendEmail(entry.getValue().getUser().getEmail(), "Your bookings is removed");
                             ORDER_MAP.remove(entry.getKey());
-                        } else if ((System.currentTimeMillis() - creationTime) >= 60000 /*82800000*/) {
+                        } else if ((System.currentTimeMillis() - creationTime) >= 120000 /*TWENTY_THREE_HOURS_MILLIS*/) {
                             mailList.add(entry.getValue());
                         }
                     } catch (Exception e) {
@@ -55,7 +57,7 @@ public class OrderControl {
     }
 
     public synchronized boolean removeOrder(Order order) {
-        if (ORDER_MAP.values().contains(order)) {
+        if (ORDER_MAP.containsKey(order.getId())) {
             ORDER_MAP.remove(order.getId());
             return true;
         } else {

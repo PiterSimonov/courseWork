@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import simonov.hotel.dao.RoomHibernateDAO;
+import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Room;
 import simonov.hotel.services.interfaces.RoomService;
 
@@ -50,6 +51,11 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> sortByPrice(List<Room> rooms) {
         rooms.sort((Room o1, Room o2) -> (o1.getPrice().compareTo(o2.getPrice())));
         return rooms;
+    }
+
+    @Override
+    public List<Room> getFreeRoomsByRequest(Request request) {
+        return roomDAO.getFreeRoomsByRequest(request);
     }
 
     @Override
