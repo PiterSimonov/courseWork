@@ -1,5 +1,7 @@
 package simonov.hotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -31,9 +33,11 @@ public class Room {
     @Column
     private boolean locked;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
