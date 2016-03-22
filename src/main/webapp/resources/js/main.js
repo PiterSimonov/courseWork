@@ -33,43 +33,103 @@ $(document).ready(function () {
     }
 
     $("#city").keyup(function() {
+        var $city = $("#cityList");
+        $city.html("");
+        $city.css("display", "none");
         if (city.value.length >= 3){
-
-            var $city = $("#list");
+            var countryId = $("#countryId").attr("value");
+            if (countryId === undefined) {
+                countryId = 0;
+            }
             $.ajax({
-                    url: "/city",
+                url: "/city/" + city.value + "/" + countryId,
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
-                        for (var i = 0; i < data.length; i++) {
+                        data.forEach(function (i) {
                             var li = li = document.createElement('li');
-                            li.appendChild(document.createTextNode(data[i].name));
+                            li.appendChild(document.createTextNode(i.name));
                             li.onclick = function(){
-                                alert("click");
-                                //city.value = data[i].name;
-                                //$("#cityId").prop("value", data[i].id);
+                                city.value = i.name;
+                                $("#cityId").attr("value", i.id);
+                                $city.html("");
                                 $city.css("display", "none");
                             };
                             $city.append(li);
                             $city.css("display", "block");
-                        }
+                        })
                     },
                 });
         }
+    })
+//TODO удаление id.value после стирания страны, города, отеля
+//TODO сворачивание списка при потере фокуса
 
-        //$.ajax({
-        //    url: "/city",
-        //    type: "GET",
-        //    dataType: "json",
-        //    success: function (data) {
-        //        alert("catch data"),
-        //        alert(data)
-        //        for (var i = 0; i < data.length; i++) {
-        //            alert(data[i].name)
-        //        }
-        //    },
-        //
-        //});
+
+    $("#country").keyup(function () {
+        var $country = $("#countryList");
+        $country.html("");
+        $country.css("display", "none");
+        if (country.value.length >= 3) {
+
+            $.ajax({
+                url: "/country/" + country.value,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    data.forEach(function (i) {
+                        var li = li = document.createElement('li');
+                        li.appendChild(document.createTextNode(i.name));
+                        li.onclick = function () {
+                            country.value = i.name;
+                            $("#countryId").attr("value", i.id);
+                            $country.html("");
+                            $country.css("display", "none");
+                        };
+                        $country.append(li);
+                        $country.css("display", "block");
+                    })
+                },
+            });
+        }
+    })
+
+    $("#hotel").keyup(function () {
+        var $hotel = $("#hotelList");
+        $hotel.html("");
+        $hotel.css("display", "none");
+        if (hotel.value.length >= 3) {
+            var cityId = $("#cityId").attr("value");
+            if (cityId === undefined) {
+                cityId = 0;
+            }
+            $.ajax({
+                url: "/hotel/" + hotel.value + "/" + cityId,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    data.forEach(function (i) {
+                        var li = li = document.createElement('li');
+                        li.appendChild(document.createTextNode(i.name));
+                        li.onclick = function () {
+                            hotel.value = i.name;
+                            $("#hotelId").attr("value", i.id);
+                            $hotel.html("");
+                            $hotel.css("display", "none");
+                        };
+                        $hotel.append(li);
+                        $hotel.css("display", "block");
+                    })
+                },
+            });
+        }
+    })
+
+    $("#addRoom").click(function () {
+        var number = document.createElement("input");
+        number.type = "number";
+        $("#addRoom").before(number);
+
     })
 
 

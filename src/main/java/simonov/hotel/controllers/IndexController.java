@@ -1,5 +1,6 @@
 package simonov.hotel.controllers;
 
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 import simonov.hotel.utilites.FileUpLoader;
 
+import javax.json.JsonArray;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class IndexController {
     RoomService roomService;
     @Autowired
     CityService cityService;
+    @Autowired
+    CountryService countryService;
     @Autowired
     ConvenienceService convenienceService;
 
@@ -49,12 +53,34 @@ public class IndexController {
         return "main";
     }
 
-    @RequestMapping(value = "/city")
-    public @ResponseBody String searchCities(){
-        return " [\n" +
-                "     { \"name\": \"home\", \"id\": \"212 555-1234\" },\n" +
-                "     { \"name\": \"fax\", \"id\": \"646 555-4567\" }\n" +
-                " ]";
+    @RequestMapping(value = "/city/{name}/{id}")
+    public
+    @ResponseBody
+    String searchCities(@PathVariable String name, @PathVariable int id) {
+        List<City> list = cityService.getCitiesByCriteria(name, id);
+        JSONArray array = new JSONArray();
+        list.stream().forEach(city -> array.add(city.toJSON()));
+        return array.toString();
+    }
+
+    @RequestMapping(value = "/country/{name}")
+    public
+    @ResponseBody
+    String searchCountry(@PathVariable String name) {
+        List<Country> list = countryService.getCountriesByNameCriteria(name);
+        JSONArray array = new JSONArray();
+        list.stream().forEach(country -> array.add(country.toJSON()));
+        return array.toString();
+    }
+
+    @RequestMapping(value = "/hotel/{name}/{id}")
+    public
+    @ResponseBody
+    String searchHotels(@PathVariable String name, @PathVariable int id) {
+        List<Hotel> list = hotelService.getHotelsByName(name, id);
+        JSONArray array = new JSONArray();
+        list.stream().forEach(city -> array.add(city.toJSON()));
+        return array.toString();
     }
 
 

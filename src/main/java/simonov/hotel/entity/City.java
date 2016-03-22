@@ -1,5 +1,7 @@
 package simonov.hotel.entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -38,4 +40,12 @@ public class City {
     public void setCountry(Country country) {
         this.country = country;
     }
+
+    public JSONObject toJSON() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", id);
+        obj.put("name", name);
+        return obj;
+    }
+
 }

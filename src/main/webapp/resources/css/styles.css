@@ -76,7 +76,7 @@ div.right-panel {
     left: -4px;
     float: left;
     height: 100%;
-    width: 150px;
+    width: 200px;
     background-color: #C8EEFD;
     display: inline-block;
     margin-right: 10px;
@@ -100,7 +100,7 @@ div.left-panel {
 
 }
 form#filter-form input {
-    width: 130px;
+    width: 150px;
 }
 div.main {
     float: left;
@@ -144,6 +144,7 @@ input.error {
     margin: 5px 0 0 0;
     padding: 5px 0;
     position: absolute;
+
 }
 .AutoComplete li {
     display: block;
@@ -153,3 +154,36 @@ input.error {
     background: #AAA;
     cursor: pointer;
 }
+
+.AutoComplete {
+    position: relative;
+    width: 150px;
+}
+
+.AutoComplete > * {
+    width: 100%;
+}
+
+.AutoComplete > ul {
+    background: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000;
+    display: none;
+    margin: 5px 0 0 0;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1000
+
+}
+
+.AutoComplete li {
+    display: block;
+    padding: 0 5px;
+}
+
+.AutoComplete li:hover {
+    background: #AAA;
+    cursor: pointer;
+}
+
+

@@ -71,4 +71,9 @@ public class HotelServiceImpl implements HotelService {
         }
         return hotelDAO.getHotelsWithFreeRoom(request);
     }
+
+    @Override
+    public List<Hotel> getHotelsByName(String name, int id) {
+        return hotelDAO.getHotelsByCriteria(0, id, name);
+    }
 }

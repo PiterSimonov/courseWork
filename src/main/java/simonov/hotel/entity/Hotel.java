@@ -1,5 +1,7 @@
 package simonov.hotel.entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,5 +140,12 @@ public class Hotel {
 
     public void setConveniences(List<Convenience> conveniences) {
         this.conveniences = conveniences;
+    }
+
+    public Object toJSON() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", id);
+        obj.put("name", name);
+        return obj;
     }
 }

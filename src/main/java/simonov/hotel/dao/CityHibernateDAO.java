@@ -27,7 +27,7 @@ public class CityHibernateDAO extends AbstractDAO<City, Integer> implements City
     @Override
     public List<City> getCitiesByCriteria(String cityName) {
         Criteria criteria = getCurrentSession().createCriteria(City.class);
-        criteria.add(Restrictions.ilike("name", cityName, MatchMode.START));
+        criteria.add(Restrictions.ilike("name", cityName, MatchMode.ANYWHERE));
         return criteria.list();
     }
 

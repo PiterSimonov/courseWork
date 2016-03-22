@@ -18,16 +18,30 @@ User : ${user.id}
     <div class="filter">
         <span><h5>Filtering Room</h5></span>
         <form id="filter-form" action="search" onsubmit="return checkDate()">
+            <label for="country">Country</label>
+            <div class="AutoComplete">
+                <input id="country" type="text" name="country">
+                <ul id="countryList">
+                </ul>
+                <input id="countryId" type="number" hidden>
+            </div>
+
             <label for="city">City</label>
             <div class="AutoComplete">
                 <input id="city" type="text" name="city" >
-                <ul id="list">
+                <ul id="cityList">
                 </ul>
                 <input id ="cityId" type="number" hidden >
             </div>
 
             <label for="hotel">Hotel</label>
-            <input id="hotel" type="text" name="hotel">
+            <div class="AutoComplete">
+                <input id="hotel" type="text" name="hotel">
+                <ul id="hotelList">
+                </ul>
+                <input id="hotelId" type="number" hidden>
+            </div>
+
             <label>Hotel Rank</label>
             <select form="filter-form" name="stars">
                 <option></option>
@@ -37,13 +51,16 @@ User : ${user.id}
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select>
+            <br>
             <label id="from">From date</label>
             <input type="date" name="fromDate"  id="fromDate" class="date" data-date-split-input="true" required>
+            <br>
             <label id="to">To date</label>
             <input type="date" name="toDate" id="toDate" class="date" data-date-split-input="true" required>
 
             <label id="numOfTravelers">Number of travelers</label>
             <input type="number" name="numOfTravelers" min="1" max="4" required>
+            <input type="button" name="addRoom" id="addRoom" value="Добавить комнату">
             <input type="submit" value="Search" name="searchSubmit">
         </form>
     </div>

@@ -1,5 +1,7 @@
 package simonov.hotel.entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -39,5 +41,12 @@ public class Country {
 
     public void setCities(List<City> cities) {
         this.cities = cities;
+    }
+
+    public Object toJSON() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", id);
+        obj.put("name", name);
+        return obj;
     }
 }
