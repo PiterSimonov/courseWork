@@ -1,6 +1,7 @@
 package simonov.hotel.dao;
 
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import simonov.hotel.dao.interfaces.BookingDAO;
 import simonov.hotel.entity.Booking;
@@ -18,9 +19,8 @@ public class BookingHibernateDAO extends AbstractDAO<Booking, Integer> implement
 
     @Override
     public List<Booking> getBookingsByRoom(int roomId) {
-        Query query = getCurrentSession().createQuery("from Booking where room.id = :roomId");
-        query.setInteger("roomId", roomId);
-        return query.list();
+        return getCurrentSession().createCriteria(Booking.class)
+                .add(Restrictions.eq("room.id", roomId)).list();
     }
 
     @Override

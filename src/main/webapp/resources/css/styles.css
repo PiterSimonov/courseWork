@@ -71,7 +71,7 @@ div.add-room-div {
     right: 10px;
 }
 
-div.right-panel {
+div.left-panel {
     position: relative;
     left: -4px;
     float: left;
@@ -82,7 +82,7 @@ div.right-panel {
     margin-right: 10px;
 }
 
-div.left-panel {
+div.right-panel {
     position: absolute;
     top: 50px;
     right: 12px;
@@ -97,8 +97,13 @@ div.left-panel {
 #hotel-info{
     top: 5px;
     left: 10px;
-
 }
+
+.orders {
+    width: 70%;
+    display: inline-block;
+}
+
 form#filter-form input {
     width: 150px;
 }
@@ -144,6 +149,7 @@ input.error {
     margin: 5px 0 0 0;
     padding: 5px 0;
     position: absolute;
+    z-index: 1;
 
 }
 .AutoComplete li {
@@ -155,35 +161,8 @@ input.error {
     cursor: pointer;
 }
 
-.AutoComplete {
-    position: relative;
-    width: 150px;
-}
-
-.AutoComplete > * {
-    width: 100%;
-}
-
-.AutoComplete > ul {
-    background: #FFF;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #000;
-    display: none;
-    margin: 5px 0 0 0;
-    padding: 5px 0;
+#payment {
     position: absolute;
-    z-index: 1000
-
+    left: 30%;
+    top: 20%;
 }
-
-.AutoComplete li {
-    display: block;
-    padding: 0 5px;
-}
-
-.AutoComplete li:hover {
-    background: #AAA;
-    cursor: pointer;
-}
-
-

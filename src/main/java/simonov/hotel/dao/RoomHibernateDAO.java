@@ -54,10 +54,10 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
 
     @Override
     public List<Room> getRoomsByType(int hotelId, String type) {
-        Query query = getCurrentSession().createQuery("from Room as room where room.hotel.id = :hotelId and room.type = :type");
-        query.setInteger("hotelId", hotelId);
-        query.setString("type", type);
-        return query.list();
+        Criteria criteria = getCurrentSession().createCriteria(Room.class);
+        criteria.add(Restrictions.eq("hotel.id", hotelId))
+                .add(Restrictions.eq("type", type));
+        return criteria.list();
     }
 
     @Override

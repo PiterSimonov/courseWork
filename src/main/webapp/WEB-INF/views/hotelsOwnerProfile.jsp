@@ -10,7 +10,6 @@
     <title>Hotel owner</title>
 </head>
 <body>
-User : ${user.id}
 <div class="menuLink"><a href="/">Home</a></div>
 <div id="hotel-list">
     <table class="table-hotels">
@@ -35,9 +34,9 @@ User : ${user.id}
 
 <c:choose>
     <c:when test="${user.role == 'HotelOwner'}">
-        <div class="left-panel">
+        <div class="right-panel">
             <div class="addHotel">
-                <form id="add-hotel" method="post" action="addHotel" enctype="multipart/form-data">
+                <form id="add-hotel" method="post" action="addHotel" enctype="multipart/form-data" autocomplete="off">
                     <input id="hotelName" type="text" name="name" placeholder="Hotel Name" required><br/>
                     <label>Country: </label>
                     <select form="add-hotel" name="country_id" id="country_id" required>

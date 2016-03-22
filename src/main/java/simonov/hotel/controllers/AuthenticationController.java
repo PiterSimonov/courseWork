@@ -92,11 +92,11 @@ public class AuthenticationController {
             List<Hotel> hotels = hotelService.getHotelsByUser(user.getId());
             model.addAttribute("hotels", hotels);
             model.addAttribute("services", convenienceService.getAll());
-            return "hotelsOwner";
+            return "hotelsOwnerProfile";
         } else if (user.getRole() == Role.CLIENT) {
             List<Order> orders = orderService.getOrdersByUser(user.getId());
             model.addAttribute("orders", orders);
-            return "userReservation";
+            return "clientProfile";
         } else return "redirect:/";
     }
 

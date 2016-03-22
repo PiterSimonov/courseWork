@@ -1,18 +1,19 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main.js" />"></script>
+    <script src="<c:url value="/resources/js/roomScroll.js" />"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Rooms</title>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/forms/loginForm.jsp" %>
-<h1>Payment page</h1>
-User : ${user.id}
+<h1>Choice rooms for booking</h1>
 <form:form method="POST" commandName="choice" id="choice-room">
     <table>
         <tbody id="room-list">
@@ -32,7 +33,6 @@ User : ${user.id}
         </c:forEach>
         </tbody>
     </table>
-    <input form="choice-room" type="submit" value="Submit">
 </form:form>
 </body>
 </html>

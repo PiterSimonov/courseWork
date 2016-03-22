@@ -3,15 +3,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/animation.js" />"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Payment</title>
 </head>
 <body>
-User : ${user.id}
 <form method="post" id="payment">
-    <h3>User fills CARD Number and CVV code</h3>
+    <h4>User fills CARD Number and CVV code</h4>
     <input type="submit" id="pay-button" value="Pay">
     <div id="loaderImage" style="display: none"><h4>Please wait...</h4><img
             src="${pageContext.request.contextPath}/resources/images/payment.gif"></div>

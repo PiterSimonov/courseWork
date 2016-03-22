@@ -10,18 +10,20 @@
     <title>User Reservation</title>
 </head>
 <body>
-User : ${user.id}
 <div class="menuLink"><a href="/">Home</a></div>
 <div class="menuLink"><a href="/logout">Logout</a></div>
-<div class="right-panel">
+<div class="left-panel">
     <a href="/profile/${user.id}/edit">Edit profile</a>
 </div>
-<div id="hotel-list"><h3>Your orders:</h3><br/>
+<div class="orders"><h3>Your orders:</h3><br/>
     <c:forEach items="${orders}" var="order">
-        <h6>Hotel: ${order.hotel.name}
-            Price: ${order.price},
-            date creation: <fmt:formatDate value="${order.creationTime}" pattern="yyyy-MM-dd"/>
-            Status: ${order.status}
+        <div style="border: solid rgba(180, 136, 255, 0.42); margin-bottom: 5px">
+            <h4>Hotel: ${order.hotel.name}
+                Price: ${order.price},
+                date creation: <fmt:formatDate value="${order.creationTime}" pattern="yyyy-MM-dd HH:mm"/>
+                Status: ${order.status}
+
+            </h4>
             <c:choose>
                 <c:when test="${not order.commented and order.status == 'Confirmed'}">
                     <a href="/order/${order.id}/comment/${order.hotel.id}">Leave comment</a>
@@ -30,9 +32,8 @@ User : ${user.id}
                     <a href="/order/${order.id}/payment">Payment</a>
                 </c:when>
             </c:choose>
-            <br/>
-        </h6>
-        </c:forEach>
+        </div>
+    </c:forEach>
 </div>
 </body>
 </html>

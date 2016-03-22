@@ -13,20 +13,18 @@
     <title>Hotel Info</title>
 </head>
 <body>
-User : ${user.id}
 <%@ include file="forms/loginForm.jsp" %>
 <div id="hotel-info">
     <p>Hotel : ${hotel.name}
-        <c:forEach begin="1" end="${hotel.stars}"><img class="stars"
-                                                       src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/></c:forEach>
-
+        <c:forEach begin="1" end="${hotel.stars}">
+        <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
+        </c:forEach>
 </div>
-<div class="right-panel">
+<div class="left-panel">
 </div>
 <div>
     <div class="main">
         <table>
-            <%--<c:forEach items="${hotel.rooms}" var="room">--%>
             <c:forEach items="${rooms}" var="room">
                 <tr class="room-table">
                     <td>
@@ -48,9 +46,9 @@ User : ${user.id}
 </div>
 <c:choose>
     <c:when test="${user.role == 'HotelOwner' and hotel.user.id eq user.id}">
-        <div class="left-panel">
+        <div class="right-panel">
         <div class="add-room-div">
-            <form id="add-room" method="post" action="/addRoom" enctype="multipart/form-data">
+            <form id="add-room" method="post" action="/addRoom" enctype="multipart/form-data" autocomplete="off">
                 <input id="roomNumber" name="number" type="number" placeholder="№" required><br/>
                 <input id="roomType" type="text" name="type" placeholder="Type" required><br/>
                 <input id="roomPrice" type="number" name="price" placeholder="Price" required><br/>

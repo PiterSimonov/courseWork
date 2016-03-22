@@ -1,6 +1,7 @@
 package simonov.hotel.dao;
 
-import org.hibernate.Query;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import simonov.hotel.dao.interfaces.OrderDAO;
 import simonov.hotel.entity.Order;
@@ -16,10 +17,9 @@ public class OrderHibernateDAO extends AbstractDAO<Order, Integer> implements Or
 
     @Override
     public List<Order> getOrdersByUser(int userId) {
-        Query query = getCurrentSession().createQuery("from Order where user.id=:userId");
-        query.setParameter("userId", userId);
-        List<Order> orders = query.list();
-        orders.stream().forEach(order -> order.getBookings().size());
-        return orders;
+        Criteria criteria = getCurrentSession().createCriteria(Order.class);
+        criteria.add(Restrictions.eq("user.id", userId));
+        criteria.addOrder(org.hibernate.criterion.Order.desc("creationTime"));
+        return criteria.list();
     }
 }
