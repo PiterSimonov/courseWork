@@ -103,8 +103,12 @@ $(document).ready(function () {
             if (cityId === undefined) {
                 cityId = 0;
             }
+            var countryId = $("#countryId").attr("value");
+            if (countryId === undefined) {
+                countryId = 0;
+            }
             $.ajax({
-                url: "/hotel/" + hotel.value + "/" + cityId,
+                url: "/hotel/" + hotel.value + "/" + cityId + "/" + countryId,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {

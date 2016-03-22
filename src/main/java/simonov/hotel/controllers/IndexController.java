@@ -73,11 +73,11 @@ public class IndexController {
         return array.toString();
     }
 
-    @RequestMapping(value = "/hotel/{name}/{id}")
+    @RequestMapping(value = "/hotel/{name}/{cityId}/{countryId}")
     public
     @ResponseBody
-    String searchHotels(@PathVariable String name, @PathVariable int id) {
-        List<Hotel> list = hotelService.getHotelsByName(name, id);
+    String searchHotels(@PathVariable String name, @PathVariable int cityId, @PathVariable int countryId) {
+        List<Hotel> list = hotelService.getHotelsByName(name, cityId, countryId);
         JSONArray array = new JSONArray();
         list.stream().forEach(city -> array.add(city.toJSON()));
         return array.toString();

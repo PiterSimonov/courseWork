@@ -45,8 +45,8 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
         }
         hotelCriteria.add(Restrictions.ilike("name", hotelName, MatchMode.ANYWHERE));
         List<Hotel> hotelList = hotelCriteria.list();
-        hotelList.stream().forEach(hotel -> System.out.println(hotel.getName()));
-        return hotelCriteria.list();
+
+        return hotelList;
     }
 
     @Override

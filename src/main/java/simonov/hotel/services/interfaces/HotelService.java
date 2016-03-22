@@ -25,5 +25,5 @@ public interface HotelService {
 
     List<Hotel> getHotelsWithFreeRoom(Request request);
 
-    List<Hotel> getHotelsByName(String name, int id);
+    List<Hotel> getHotelsByName(String name, int cityId, int countryId);
 }

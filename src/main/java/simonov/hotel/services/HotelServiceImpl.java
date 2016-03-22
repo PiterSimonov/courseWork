@@ -73,7 +73,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Hotel> getHotelsByName(String name, int id) {
-        return hotelDAO.getHotelsByCriteria(0, id, name);
+    public List<Hotel> getHotelsByName(String name, int cityId, int countryId) {
+        return hotelDAO.getHotelsByCriteria(countryId, cityId, name);
     }
 }
