@@ -64,4 +64,5 @@ public class FileUpLoader {
         JsonNode link = jsonData.get("link");
         String stringLink = link.asText();
         return stringLink.replace(".jpg", "m.jpg");
+    }
 }
