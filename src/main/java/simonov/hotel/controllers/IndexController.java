@@ -11,7 +11,6 @@ import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 import simonov.hotel.utilites.FileUpLoader;
 
-import javax.json.JsonArray;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +84,7 @@ public class IndexController {
 
 
     @RequestMapping(value = "/hotel/{hotelId}")
-    public String searchHotel(@PathVariable int hotelId, Model model) {
+    public String getHotel(@PathVariable int hotelId, Model model) {
         Hotel hotel = hotelService.getHotelById(hotelId);
         if (hotel != null) {
         model.addAttribute("hotel", hotel);

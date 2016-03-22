@@ -228,4 +228,45 @@ $(document).ready(function () {
             $('#city_id').html(option);
         })
     })
+
+
+    var inProgress = false;
+    var startFrom = 5;
+
+    $(window).scroll(function () {
+        /* Если высота окна + высота прокрутки больше или равны высоте всего документа
+         и ajax-запрос в настоящий момент не выполняется, то запускаем ajax-запрос */
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() + 250 && !inProgress) {
+            alert("INSIDE IF");
+            var data = {};
+            data["lastRoom"] = startFrom;
+            $.ajax({
+                url: '/search/roomsNext',
+                type: 'POST',
+                data: data,
+                beforeSend: function () {
+                    inProgress = true;
+                }
+            }).done(function (data) {
+                alert(data);
+                data = jQuery.parseJSON(data);
+
+                /* Если массив не пуст  */
+                if (data.length > 0) {
+                    /* Делаем проход по каждому результату, оказвашемуся в массиве,
+                     где в index попадает индекс текущего элемента массива, а в data - сама статья */
+                    $.each(data, function (index, data) {
+
+                        /* Отбираем по идентификатору блок со статьями и дозаполняем его новыми данными */
+                        $("#articles").append("<p><b>" + data.title + "</b><br />" + data.text + "</p>");
+
+                    });
+                    inProgress = false;
+                    startFrom += 10;
+                }
+            });
+        }
+    });
+
+
 });
