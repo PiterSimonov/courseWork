@@ -65,19 +65,30 @@ public class SearchController {
     public String roomsSearch(@PathVariable int hotelId,
                               @ModelAttribute Request request,
                               Model model) {
-        request.setCountryId(1);
-        request.setCityId(1);
         request.setHotelId(hotelId);
         request.setStartDate(LocalDate.parse("2016-03-05"));
         request.setEndDate(LocalDate.parse("2016-05-19"));
         Map<Integer, Integer> seats = new HashMap<>();
-        seats.put(2, 4);
+        seats.put(2, 1);
         seats.put(1, 1);
+        seats.put(3, 1);
         request.setSeats(seats);
         List<Room> rooms = roomService.getFreeRoomsByRequest(request);
         model.addAttribute("choice", new Choice());
         model.addAttribute("rooms", rooms);
         return "search/rooms";
+    }
+
+    @RequestMapping(value = "roomsNext", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    List<Room> getNextFreeRoom(@ModelAttribute Request request,
+                               @RequestParam("lastRoom") int lastRoom) {
+        System.out.println("Inside roomNext" + lastRoom);
+        request.setFirstResult(lastRoom);
+        List<Room> rooms = roomService.getFreeRoomsByRequest(request);
+        rooms.stream().forEach(room -> System.out.println(room.getId()));
+        return rooms;
     }
 
     @RequestMapping(value = "hotel/{hotelId}/rooms", method = RequestMethod.POST)
@@ -148,7 +159,7 @@ public class SearchController {
     @ModelAttribute("request")
     public Request createRequest() {
         Request request = new Request();
-        request.setLimit(10);
+        request.setLimit(5);
         request.setFirstResult(0);
         return request;
     }

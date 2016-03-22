@@ -15,21 +15,24 @@
 User : ${user.id}
 <form:form method="POST" commandName="choice" id="choice-room">
     <table>
-        <tbody>
+        <tbody id="room-list">
         <c:forEach items="${rooms}" var="room">
             <tr>
-                <td>Room ${room.number}</td>
-                <td>Price ${room.price}</td>
+                <td>
+                    <img onerror="this.onerror=null;this.src='/resources/images/rooms/noImage.jpg'"
+                         src=${room.imageLink}>
+                </td>
+                <td>Room № ${room.number}<br/>
+                    Type is ${room.type}<br/>
+                    Places: ${room.seats}<br/>
+                    Price: ${room.price} &#36;
+                </td>
                 <td><form:checkbox path="roomsIds" value="${room.id}"></form:checkbox></td>
             </tr>
         </c:forEach>
-        <tr>
-            <td colspan="3">
-                <input form="choice-room" type="submit" value="Submit">
-            </td>
-        </tr>
         </tbody>
     </table>
+    <input form="choice-room" type="submit" value="Submit">
 </form:form>
 </body>
 </html>
