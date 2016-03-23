@@ -11,8 +11,6 @@ import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 import simonov.hotel.utilites.FileUpLoader;
 
-import javax.servlet.ServletContext;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,18 +51,6 @@ public class IndexController {
 //        hotelService.getHotelsWithFreeRoom(request).stream().forEach(hotel -> System.out.println(hotel.getRooms().size()));
         return "main";
     }
-
-
-    @RequestMapping(value = "/hotel/{name}/{cityId}/{countryId}")
-    public
-    @ResponseBody
-    String searchHotels(@PathVariable String name, @PathVariable int cityId, @PathVariable int countryId) {
-        List<Hotel> list = hotelService.getHotelsByName(name, cityId, countryId);
-        JSONArray array = new JSONArray();
-        list.stream().forEach(city -> array.add(city.toJSON()));
-        return array.toString();
-    }
-
 
     @RequestMapping(value = "/hotel/{hotelId}")
     public String getHotel(@PathVariable int hotelId, Model model) {

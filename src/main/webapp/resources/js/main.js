@@ -126,7 +126,6 @@ $(document).ready(function () {
             });
         }
     });
-    });
 
     $("#country").change(function () {
         $("#countryId").attr("value", 0);
@@ -305,5 +304,5 @@ $(document).ready(function () {
             });
             $('#city_id').html(option);
         })
-    });
+    })
 });
