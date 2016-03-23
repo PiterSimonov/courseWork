@@ -2,7 +2,6 @@ package simonov.hotel.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,7 +21,7 @@ public class Order {
     private Status status;
 
     @Column
-    private Date creationTime;
+    private Long creationTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -58,7 +57,6 @@ public class Order {
     }
 
     public void setBookings(List<Booking> bookings) {
-
         this.bookings = bookings;
     }
 
@@ -70,11 +68,11 @@ public class Order {
         this.status = status;
     }
 
-    public Date getCreationTime() {
+    public Long getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationTime(Long creationTime) {
         this.creationTime = creationTime;
     }
 

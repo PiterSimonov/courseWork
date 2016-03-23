@@ -1,5 +1,6 @@
 package simonov.hotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -41,11 +42,12 @@ public class City {
         this.country = country;
     }
 
-    public JSONObject toJSON() {
+    public Object toJSON() {
         JSONObject obj = new JSONObject();
         obj.put("id", id);
         obj.put("name", name);
         return obj;
     }
+
 
 }

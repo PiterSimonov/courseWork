@@ -38,42 +38,39 @@ $(document).ready(function () {
         $city.css("display", "none");
         if (city.value.length >= 3) {
             var countryId = $("#countryId").attr("value");
-            if (countryId === undefined) {
-                countryId = 0;
-            }
             $.ajax({
-                url: "/city/" + city.value + "/" + countryId,
-                type: "GET",
-                dataType: "json",
-                success: function (data) {
-                    data.forEach(function (i) {
-                        var li = li = document.createElement('li');
-                        li.appendChild(document.createTextNode(i.name));
-                        li.onclick = function () {
-                            city.value = i.name;
-                            $("#cityId").attr("value", i.id);
-                            $city.html("");
-                            $city.css("display", "none");
-                        };
-                        $city.append(li);
-                        $city.css("display", "block");
-                    })
-                }
-            });
+                url: "/search/city/" + city.value + "/" + countryId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        data.forEach(function (i) {
+                            var li = li = document.createElement('li');
+                            li.appendChild(document.createTextNode(i.name));
+                            li.onclick = function(){
+                                city.value = i.name;
+                                $("#cityId").attr("value", i.id);
+                                $("#hotel").val("");
+                                $("#hotelId").attr("value", 0);
+                                $("#hotelList").html("");
+                                $city.html("");
+                                $city.css("display", "none");
+                            };
+                            $city.append(li);
+                            $city.css("display", "block");
+                        })
+                    }
+                });
         }
     });
-//TODO удаление id.value после стирания страны, города, отеля
-//TODO сворачивание списка при потере фокуса
-
 
     $("#country").keyup(function () {
         var $country = $("#countryList");
         $country.html("");
         $country.css("display", "none");
-        if (country.value.length >= 3) {
 
+        if (country.value.length >= 3) {
             $.ajax({
-                url: "/country/" + country.value,
+                url: "/search/country/" + country.value,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -84,6 +81,12 @@ $(document).ready(function () {
                             country.value = i.name;
                             $("#countryId").attr("value", i.id);
                             $country.html("");
+                            $("#city").val("");
+                            $("#cityId").attr("value", 0);
+                            $("#cityList").html("");
+                            $("#hotel").val("");
+                            $("#hotelId").attr("value", 0);
+                            $("#hotelList").html("");
                             $country.css("display", "none");
                         };
                         $country.append(li);
@@ -100,18 +103,13 @@ $(document).ready(function () {
         $hotel.css("display", "none");
         if (hotel.value.length >= 3) {
             var cityId = $("#cityId").attr("value");
-            if (cityId === undefined) {
-                cityId = 0;
-            }
             var countryId = $("#countryId").attr("value");
-            if (countryId === undefined) {
-                countryId = 0;
-            }
             $.ajax({
-                url: "/hotel/" + hotel.value + "/" + cityId + "/" + countryId,
+                url: "/search/hotel/" + hotel.value + "/" + cityId + "/" + countryId,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
+
                     data.forEach(function (i) {
                         var li = li = document.createElement('li');
                         li.appendChild(document.createTextNode(i.name));
@@ -128,6 +126,19 @@ $(document).ready(function () {
             });
         }
     });
+    });
+
+    $("#country").change(function () {
+        $("#countryId").attr("value", 0);
+    });
+
+    $("#city").change(function () {
+        $("#cityId").attr("value", 0);
+    });
+
+    $("#hotel").change(function () {
+        $("#hotelId").attr("value", 0);
+    });
 
     $("#addRoom").click(function () {
         var number = document.createElement("input");
@@ -136,7 +147,41 @@ $(document).ready(function () {
         number.min = "1";
         $("#addRoom").before(number);
 
-    })
+    });
+
+    $("body").click(function (e) {
+        if (e.target.id !== "countryList" && e.target.id !== "country") {
+            $("#countryList").css("display", "none");
+        }
+        if (e.target.id !== "cityList" && e.target.id !== "city") {
+            $("#cityList").css("display", "none");
+        }
+        if (e.target.id !== "hotelList" && e.target.id !== "hotel") {
+            $("#hotelList").css("display", "none");
+        }
+    });
+
+    $("#country").focus(function () {
+        if ($("#countryList").children().length > 0) {
+            $("#countryList").css("display", "block");
+        }
+    });
+
+    $("#city").focus(function () {
+        if ($("#cityList").children().length > 0) {
+            $("#cityList").css("display", "block");
+        }
+    });
+
+    $("#hotel").focus(function () {
+        if ($("#hotelList").children().length > 0) {
+            $("#hotelList").css("display", "block");
+        }
+    });
+
+
+
+
     $('form#choice-room').submit(function (e) {
         var userRole;
         $.ajax({

@@ -11,13 +11,15 @@ h3 {
     font-weight: bold;
 }
 .boxBody {
-    width: 600px;
+    width: 200px;
 }
 #btnLogin {
     float: right;
     margin-top: 10px;
 }
 #back {
+    /* задний фон по умолчанию не виден, его цвет черный, он занимает всё пространство по высоте и ширине,
+     его позиция фиксирована , то есть при скроллинге он никуда не денется */
     display: none;
     height:100%;
     width:100%;
@@ -27,6 +29,11 @@ h3 {
     left:0px;
     background:#000;
 }
+    /* само всплывающее окно , ширину и высоту Вы можете задать на свое усмотрение ,
+     но нет смысла задавать их слишком большими, иначе окно займет весь экран, кроме того следует
+      обратить внимание на свойство margin-left отступ слева , чтобы окно находилось по центру
+       экрана это свойство следует указывать из расчета ширина окна деленная на два плюс два пиксела ,
+        например для ширины окна 300px, margin-left будет равняться 152px  */
 #popup {
     display: none;
     width: 200px;
@@ -63,7 +70,7 @@ img {
     margin: 5px 5px 5px;
 }
 img.stars,img.image-ok {
-    width: 10px;
+    width: 15px;
 }
 
 div.add-room-div {
@@ -115,10 +122,7 @@ div.main {
 span {
     text-align: center;
 }
-
-#error-box {
-    color: red;
-}
+#ajax-error{color:red;}
 
 .menuLink {
     float: right;

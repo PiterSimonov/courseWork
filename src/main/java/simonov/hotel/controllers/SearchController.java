@@ -1,5 +1,6 @@
 package simonov.hotel.controllers;
 
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -32,20 +33,41 @@ public class SearchController {
     CountryService countryService;
 
     @RequestMapping
-    public String search(@RequestParam(required = false) Integer country,
-                         @RequestParam(required = false) Integer city,
-                         @RequestParam(required = false) Integer hotel,
+    public String search(@RequestParam(required = false) String country,
+                         @RequestParam(required = false) Integer countryId,
+                         @RequestParam(required = false) String city,
+                         @RequestParam(required = false) Integer cityId,
+                         @RequestParam(required = false) String hotel,
+                         @RequestParam(required = false) Integer hotelId,
                          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
                          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
                          @RequestParam(required = false) Integer numOfTravelers,
                          Model model) {
-        Request request = new Request();
-        request.setStartDate(fromDate);
-        request.setEndDate(toDate);
-        Map<Integer, Integer> seats = new HashMap<>();
-        seats.put(2, 2);
-        request.setSeats(seats);
-        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
+        System.out.println("tyta");
+        try {
+            Request request = new Request();
+            request.setCountryId(countryId);
+            request.setCityId(cityId);
+            request.setHotelId(hotelId);
+            request.setStartDate(fromDate);
+            request.setEndDate(toDate);
+            Map<Integer, Integer> seats = new HashMap<>();
+            seats.put(2, 2);
+            request.setSeats(seats);
+            model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Request request = new Request();
+//        request.setCountryId(countryId);
+//        request.setCityId(cityId);
+//        request.setHotelId(hotelId);
+//        request.setStartDate(fromDate);
+//        request.setEndDate(toDate);
+//        Map<Integer, Integer> seats = new HashMap<>();
+//        seats.put(2, 2);
+//        request.setSeats(seats);
+//        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
         return "main";
     }
 
@@ -149,6 +171,7 @@ public class SearchController {
         return map;
     }
 
+
     @ModelAttribute("user")
     public User createUser() {
         User user = new User();
@@ -164,4 +187,33 @@ public class SearchController {
         return request;
     }
 
+    @RequestMapping(value = "/hotel/{name}/{cityId}/{countryId}")
+    public
+    @ResponseBody
+    String searchHotels(@PathVariable String name, @PathVariable int cityId, @PathVariable int countryId) {
+        List<Hotel> list = hotelService.getHotelsByName(name, cityId, countryId);
+        JSONArray array = new JSONArray();
+        list.stream().forEach(hotel -> array.add(hotel.toJSON()));
+        return array.toString();
+    }
+
+    @RequestMapping(value = "/country/{name}")
+    public
+    @ResponseBody
+    String searchCities(@PathVariable String name) {
+        List<Country> list = countryService.getCountriesByNameCriteria(name);
+        JSONArray array = new JSONArray();
+        list.stream().forEach(country -> array.add(country.toJSON()));
+        return array.toString();
+    }
+
+    @RequestMapping(value = "/city/{name}/{countryId}")
+    public
+    @ResponseBody
+    String searchCountries(@PathVariable String name, @PathVariable int countryId) {
+        List<City> list = cityService.getCitiesByCriteria(name, countryId);
+        JSONArray array = new JSONArray();
+        list.stream().forEach(city -> array.add(city.toJSON()));
+        return array.toString();
+    }
 }
