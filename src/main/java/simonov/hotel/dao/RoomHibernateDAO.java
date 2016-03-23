@@ -65,7 +65,7 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
         /*   Select * from room as r where hotel_id=?
               and (seats =? or seats=? or ...)
               and r.id not IN
-              (SELECT room_id FROM booking WHERE startDate<=? AND endDate>=?) */
+              (SELECT room_id FROM booking WHERE startDate<=? AND endDate>=?) order by seats limit 0 5 */
 
         Criteria criteria = getCurrentSession().createCriteria(Room.class, "room");
         criteria.createAlias("room.hotel", "hotel");
@@ -82,7 +82,8 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
         bookingCriteria.setProjection(Projections.property("r.id"));
         criteria.add(Subqueries.propertyNotIn("room.id", bookingCriteria))
                 .setFirstResult(request.getFirstResult())
-                .setMaxResults(request.getLimit());
+                .setMaxResults(request.getLimit())
+                .addOrder(Order.asc("seats"));
         return criteria.list();
     }
 }

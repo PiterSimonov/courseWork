@@ -53,7 +53,7 @@
                 <input id="roomType" type="text" name="type" placeholder="Type" required><br/>
                 <input id="roomPrice" type="number" name="price" placeholder="Price" required><br/>
                 <textarea id="roomDescription" name="description" placeholder="Description"></textarea><br/>
-                <input id="roomPlaces" name="seats" placeholder="Seats" type="number" min="1" max="4" required><br/>
+                <input id="roomPlaces" name="seats" placeholder="Seats" type="number" min="1" max="8" required><br/>
                 <input type="file" name="imageFile"><br/>
                 <input type="hidden" name="hotelId" value="${hotel.id}">
                 <input id="roomSubmit" type="submit" value="Add Room">

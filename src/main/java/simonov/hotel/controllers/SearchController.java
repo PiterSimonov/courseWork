@@ -149,20 +149,6 @@ public class SearchController {
         return map;
     }
 
-    @RequestMapping(value = "/", params = {"city", "countryId"})
-    public
-    @ResponseBody
-    List<City> getCities(@RequestParam String city, @RequestParam Integer countryId) {
-        return cityService.getCitiesByCriteria(city, countryId);
-    }
-
-    @RequestMapping(value = "/", params = {"hotel", "cityId", "countryId"})
-    public
-    @ResponseBody
-    List<Hotel> getHotels(@RequestParam String hotel, @RequestParam Integer city, @RequestParam Integer countryId) {
-        return /*hotelService.getHotelsByCriteria(countryId,city,hotel)*/ null;
-    }
-
     @ModelAttribute("user")
     public User createUser() {
         User user = new User();

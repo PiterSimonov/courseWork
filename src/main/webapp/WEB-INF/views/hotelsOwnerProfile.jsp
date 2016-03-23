@@ -26,6 +26,7 @@
                     <div>
                         <a href="/hotel/${hotel.id}">${hotel.name}</a> in ${hotel.city.name}
                     </div>
+                    <div><a href="/hotel/${hotel.id}/edit">Edit</a> </div>
                 </td>
             </tr>
         </c:forEach>

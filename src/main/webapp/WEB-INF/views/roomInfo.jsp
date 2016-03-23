@@ -24,7 +24,7 @@
 <p>Room № ${room.number}</p>
 <p>Description:</p>
 <span>${room.description}<br/></span>
-<img src=${room.imageLink}>
+<img src='${room.imageLink}' onerror="this.onerror=null;this.src='/resources/images/rooms/noImage.jpg'">
 
 <div class="booking-div"></div><br/>
 <div class="main">

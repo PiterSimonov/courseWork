@@ -130,9 +130,8 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(SessionStatus status) {
-        //TODO ajax!
         status.setComplete();
-        return "redirect:/"; //TODO think this view redirect is not correct
+        return "redirect:/";
     }
 
     @ModelAttribute("user")

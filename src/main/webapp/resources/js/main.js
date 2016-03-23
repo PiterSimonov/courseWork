@@ -132,6 +132,8 @@ $(document).ready(function () {
     $("#addRoom").click(function () {
         var number = document.createElement("input");
         number.type = "number";
+        number.max = "8";
+        number.min = "1";
         $("#addRoom").before(number);
 
     })
