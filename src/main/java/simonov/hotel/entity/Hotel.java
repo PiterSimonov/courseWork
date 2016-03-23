@@ -1,5 +1,6 @@
 package simonov.hotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Hotel {
     private String description;
 
     @Column
+    @JsonIgnore
     private int stars;
 
     @OneToMany(mappedBy = "hotel")

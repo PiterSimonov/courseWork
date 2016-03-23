@@ -19,27 +19,27 @@ User : ${user.id}
         <span><h5>Filtering Room</h5></span>
         <form id="filter-form" action="search" onsubmit="return checkDate()">
             <label for="country">Country</label>
-            <div class="AutoComplete">
-                <input id="country" type="text" name="country">
+            <div id="first" class="AutoComplete">
+                <input id="country" type="text" name="country" autocomplete="off">
                 <ul id="countryList">
                 </ul>
-                <input id="countryId" type="number" hidden>
+                <input id="countryId" name="countryId" value="0" type="number" hidden>
             </div>
 
             <label for="city">City</label>
             <div class="AutoComplete">
-                <input id="city" type="text" name="city" >
+                <input id="city" type="text" name="city" autocomplete="off">
                 <ul id="cityList">
                 </ul>
-                <input id ="cityId" type="number" hidden >
+                <input id="cityId" name="cityId" value="0" type="number" hidden>
             </div>
 
             <label for="hotel">Hotel</label>
             <div class="AutoComplete">
-                <input id="hotel" type="text" name="hotel">
+                <input id="hotel" type="text" name="hotel" autocomplete="off">
                 <ul id="hotelList">
                 </ul>
-                <input id="hotelId" type="number" hidden>
+                <input id="hotelId" name="hotelId" value="0" type="number" hidden>
             </div>
 
             <label>Hotel Rank</label>

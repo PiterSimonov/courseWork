@@ -54,25 +54,6 @@ public class IndexController {
         return "main";
     }
 
-    @RequestMapping(value = "/city/{name}/{id}")
-    public
-    @ResponseBody
-    String searchCities(@PathVariable String name, @PathVariable int id) {
-        List<City> list = cityService.getCitiesByCriteria(name, id);
-        JSONArray array = new JSONArray();
-        list.stream().forEach(city -> array.add(city.toJSON()));
-        return array.toString();
-    }
-
-    @RequestMapping(value = "/country/{name}")
-    public
-    @ResponseBody
-    String searchCountry(@PathVariable String name) {
-        List<Country> list = countryService.getCountriesByNameCriteria(name);
-        JSONArray array = new JSONArray();
-        list.stream().forEach(country -> array.add(country.toJSON()));
-        return array.toString();
-    }
 
     @RequestMapping(value = "/hotel/{name}/{cityId}/{countryId}")
     public
