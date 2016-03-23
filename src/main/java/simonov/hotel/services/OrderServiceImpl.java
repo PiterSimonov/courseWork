@@ -61,6 +61,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getNotConfirmedOrders() {
+        return orderDAO.getNotConfirmedOrders();
+    }
+
+    @Override
     public Order getOrderById(int id) {
         return orderDAO.get(id);
     }

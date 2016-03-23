@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import simonov.hotel.entity.Order;
 import simonov.hotel.services.interfaces.OrderService;
 
+import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,6 @@ public class OrderControl {
     OrderService orderService;
 
     public OrderControl() {
-        //TODO init ORDER_MAP from BD order with status NotConfirmed
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleWithFixedDelay((Runnable) () -> {
             List<Order> mailList = new LinkedList<>();
@@ -64,6 +64,11 @@ public class OrderControl {
         } else {
             return false;
         }
+    }
+
+    @PostConstruct
+    private void init(){
+        orderService.getNotConfirmedOrders().stream().forEach(this::addOrder);
     }
 }
 
