@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     var d = new Date();
     var today = dateToString(d);
     var nextDay = dateToString(d, 1);
@@ -11,6 +12,9 @@ $(document).ready(function () {
     $toDate.prop("min", nextDay);
     $toDate.prop("max", maxDays);
 
+    var $bookingDate =$('.booking-date');
+    $bookingDate.prop("min", today);
+    $bookingDate.prop("value", today);
 
     $("#fromDate").change(function () {
         var x = fromDate.value;
@@ -40,26 +44,26 @@ $(document).ready(function () {
             var countryId = $("#countryId").attr("value");
             $.ajax({
                 url: "/search/city/" + city.value + "/" + countryId,
-                    type: "GET",
-                    dataType: "json",
-                    success: function (data) {
-                        data.forEach(function (i) {
-                            var li = li = document.createElement('li');
-                            li.appendChild(document.createTextNode(i.name));
-                            li.onclick = function(){
-                                city.value = i.name;
-                                $("#cityId").attr("value", i.id);
-                                $("#hotel").val("");
-                                $("#hotelId").attr("value", 0);
-                                $("#hotelList").html("");
-                                $city.html("");
-                                $city.css("display", "none");
-                            };
-                            $city.append(li);
-                            $city.css("display", "block");
-                        })
-                    }
-                });
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    data.forEach(function (i) {
+                        var li = li = document.createElement('li');
+                        li.appendChild(document.createTextNode(i.name));
+                        li.onclick = function () {
+                            city.value = i.name;
+                            $("#cityId").attr("value", i.id);
+                            $("#hotel").val("");
+                            $("#hotelId").attr("value", 0);
+                            $("#hotelList").html("");
+                            $city.html("");
+                            $city.css("display", "none");
+                        };
+                        $city.append(li);
+                        $city.css("display", "block");
+                    })
+                }
+            });
         }
     });
 
@@ -177,8 +181,6 @@ $(document).ready(function () {
             $("#hotelList").css("display", "block");
         }
     });
-
-
 
 
     $('form#choice-room').submit(function (e) {
@@ -304,5 +306,48 @@ $(document).ready(function () {
             });
             $('#city_id').html(option);
         })
+    });
+
+
+    $(".accordion h4:first").addClass("active");
+    $(".accordion div:not(:first)").hide();
+    $(".accordion h4").click(function () {
+        $(this).next("div").slideToggle("slow")
+            .siblings("div:visible").slideUp("slow");
+        $(this).toggleClass("active");
+        $(this).siblings("h4").removeClass("active");
+    });
+
+
+    $('#edit-hotel').submit(function (e) {
+        e.preventDefault();
+        var $thisForm = $(this);
+        var $submit = $thisForm.find(":submit");
+        var id = $('input[name=hotelId]').val();
+        var myForm = new FormData(this);
+        var name = $thisForm.find('input[name=name]').val();
+        var stars = $thisForm.find('select[name=stars]').val();
+        $.ajax({
+            url: '/hotel/' + id + '/edit',
+            data: myForm,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            beforeSend: function(){
+                $submit.attr("disabled", true);
+                $('#wait').text("Please wait");
+            },
+            success: function (data) {
+                $('#hotel-info').children('div').text("Hotel : " + name);
+                $('#image-stars').empty();
+                for (var i =0; i<stars; i++){
+                    $('#image-stars').append('<img class="stars" src="/resources/images/hotels/stars.png"/>');
+                }
+                $submit.attr("disabled", false);
+                $('#wait').text("");
+            }
+        });
     })
+
 });

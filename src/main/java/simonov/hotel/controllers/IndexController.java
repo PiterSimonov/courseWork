@@ -2,6 +2,7 @@ package simonov.hotel.controllers;
 
 import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 import simonov.hotel.utilites.FileUpLoader;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class IndexController {
     @Autowired
     RoomService roomService;
     @Autowired
+    BookingService bookingService;
+    @Autowired
     CityService cityService;
     @Autowired
     CountryService countryService;
@@ -35,20 +39,6 @@ public class IndexController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String printHotels(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("hotels", hotelService.getFirstTenHotels());
-//        Request request = new Request();
-//        request.setCountryId(1);
-//        request.setCityId(1);
-//        request.setHotelId(1);
-//        request.setStartDate(LocalDate.parse("2016-03-05"));
-//        request.setEndDate(LocalDate.parse("2016-05-19"));
-//        Map<Integer, Integer> seats = new HashMap<>();
-//        seats.put(2, 4);
-//        seats.put(1,1);
-//        request.setSeats(seats);
-//        request.setFirstResult(0);
-//        request.setLimit(10);
-//        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
-//        hotelService.getHotelsWithFreeRoom(request).stream().forEach(hotel -> System.out.println(hotel.getRooms().size()));
         return "main";
     }
 
@@ -59,6 +49,7 @@ public class IndexController {
             model.addAttribute("hotel", hotel);
             List<Room> rooms = roomService.getRoomsByHotel(hotelId);
             model.addAttribute("rooms", rooms);
+            model.addAttribute("services", convenienceService.getAll());
             return "hotelInfo";
         } else {
             model.addAttribute("message", "Hotel with this ID does not exist");
@@ -66,42 +57,33 @@ public class IndexController {
         }
     }
 
-    @RequestMapping(value = "/hotel/{hotelId}/edit", method = RequestMethod.GET)
-    public String editHotel(@PathVariable int hotelId, Model model, @ModelAttribute User user) {
-        Hotel hotel = hotelService.getHotelById(hotelId);
-        if (hotel.getUser().getId() == user.getId()) {
-            return "editHotelPage";
-        } else {
-            model.addAttribute("message","You are not a hotel owner!");
-            return "error";
-        }
-    }
-
     @RequestMapping(value = "/hotel/{hotelId}/edit", method = RequestMethod.POST)
-    public String updateHotel(@PathVariable int hotelId, @RequestParam String name,
-                              @RequestParam int stars,
-                              @RequestParam("convenience") List<Integer> conveniences,
-                              @RequestParam MultipartFile imageFile,
-                              Model model, @ModelAttribute User user) {
+    public
+    @ResponseBody
+    boolean updateHotel(@PathVariable int hotelId,
+                        @RequestParam String name,
+                        @RequestParam int stars,
+                        @RequestParam("convenience") List<Integer> conveniences,
+                        @RequestParam MultipartFile imageFile) {
         Hotel hotel = hotelService.getHotelById(hotelId);
-
-        if (hotel.getUser().getId() == user.getId()) {
-            List<Convenience> convenienceList = new ArrayList<>();
-            conveniences.stream().forEach(integer -> convenienceList.add(convenienceService.getConvenienceById(integer)));
-            hotel.setConveniences(convenienceList);
-            hotel.setName(name);
-            hotel.setStars(stars);
-            return "hotelOwnerProfile";
-        } else {
-            model.addAttribute("message","You are not a hotel owner!");
-            return "error";
+        List<Convenience> convenienceList = new ArrayList<>();
+        conveniences.stream().forEach(integer -> convenienceList.add(convenienceService.getConvenienceById(integer)));
+        hotel.setConveniences(convenienceList);
+        hotel.setName(name);
+        hotel.setStars(stars);
+        if (!imageFile.isEmpty() && imageFile.getContentType().equals("image/jpeg")) {
+            String link = FileUpLoader.uploadImageToImgur(imageFile);
+            hotel.setImageLink(link);
         }
+        hotelService.update(hotel);
+        return true;
     }
 
     @RequestMapping(value = "/hotel/{hotelId}/roomDetails/{roomId}")
     public String roomInfo(@PathVariable int hotelId, @PathVariable int roomId, Model model) {
         Room room = roomService.getRoomById(roomId);
         if (hotelId != room.getHotel().getId()) {
+            model.addAttribute("message","This room is not in this hotel");
             return "error";
         }
         model.addAttribute("hotel", room.getHotel());
@@ -133,7 +115,7 @@ public class IndexController {
         return "redirect:/hotel/" + hotelId;
     }
 
-    @RequestMapping(value = "/addHotel", method = RequestMethod.POST)
+    @RequestMapping(value = "/addHotel", method = RequestMethod.POST) //TODO this must be ajax request
     public String addHotel(@RequestParam String name,
                            @RequestParam("city_id") int cityId,
                            @RequestParam int stars,
@@ -154,6 +136,21 @@ public class IndexController {
         }
         hotelService.saveHotel(newHotel);
         return "redirect:/profile";
+    }
+
+    @RequestMapping("hotel/{hotelId}/getBooking")
+    public String getBooking(@PathVariable int hotelId,
+                             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
+                             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
+                             @RequestParam(required = false) Integer roomNumber, @ModelAttribute User user,Model model) {
+        if (hotelService.getHotelById(hotelId).getUser().getId() == user.getId()) {
+            List<Booking> bookings = bookingService.getBookingByCriteria(hotelId,fromDate,toDate, roomNumber!=null?roomNumber:0);
+            model.addAttribute("bookings",bookings);
+            return "booking";
+        } else {
+            model.addAttribute("message","You are not the owner of this hotel");
+            return "error";
+        }
     }
 
     @ModelAttribute("user")

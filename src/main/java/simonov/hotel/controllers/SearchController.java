@@ -43,7 +43,6 @@ public class SearchController {
                          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
                          @RequestParam(required = false) Integer numOfTravelers,
                          Model model) {
-        System.out.println("tyta");
         try {
             Request request = new Request();
             request.setCountryId(countryId);
@@ -58,16 +57,6 @@ public class SearchController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        Request request = new Request();
-//        request.setCountryId(countryId);
-//        request.setCityId(cityId);
-//        request.setHotelId(hotelId);
-//        request.setStartDate(fromDate);
-//        request.setEndDate(toDate);
-//        Map<Integer, Integer> seats = new HashMap<>();
-//        seats.put(2, 2);
-//        request.setSeats(seats);
-//        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
         return "main";
     }
 
@@ -123,7 +112,7 @@ public class SearchController {
             bookings.add(booking);
         }
         orderService.createOrder(bookings, user); //TODO if room not booking - > return back without this room
-        return "redirect:/profile";   //TODO need to be change
+        return "redirect:/profile";
     }
 
     @RequestMapping(value = "check-date", method = RequestMethod.GET)
@@ -132,25 +121,16 @@ public class SearchController {
     boolean checkUser(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
                       @RequestParam int roomId, @ModelAttribute User user) {
-        if (user.getRole() != Role.NotAuthorized) {
-            if (roomService.isFree(fromDate, toDate, roomId)) {
+        if (user.getRole() != Role.NotAuthorized && roomService.isFree(fromDate, toDate, roomId)) {
                 Booking booking = new Booking();
                 booking.setStartDate(fromDate);
                 booking.setEndDate(toDate);
                 booking.setRoom(roomService.getRoomById(roomId));
                 bookingService.saveAll(Collections.singletonList(booking));//TODO rebuild this
                 return true;
-            } else return false;
         } else {
             return false;
         }
-    }
-
-    @RequestMapping(value = "/", params = "country")
-    public
-    @ResponseBody
-    List<Country> getCountries(@RequestParam String country) {
-        return countryService.getCountriesByNameCriteria(country);
     }
 
     @RequestMapping(value = "/country")
@@ -169,22 +149,6 @@ public class SearchController {
         Map<Integer, String> map = new HashMap<>();
         cityService.getCitiesByCountryId(countryId).stream().forEach(city -> map.put(city.getId(), city.getName()));
         return map;
-    }
-
-
-    @ModelAttribute("user")
-    public User createUser() {
-        User user = new User();
-        user.setRole(Role.NotAuthorized);
-        return user;
-    }
-
-    @ModelAttribute("request")
-    public Request createRequest() {
-        Request request = new Request();
-        request.setLimit(5);
-        request.setFirstResult(0);
-        return request;
     }
 
     @RequestMapping(value = "/hotel/{name}/{cityId}/{countryId}")
@@ -216,4 +180,21 @@ public class SearchController {
         list.stream().forEach(city -> array.add(city.toJSON()));
         return array.toString();
     }
+
+    @ModelAttribute("user")
+    public User createUser() {
+        User user = new User();
+        user.setRole(Role.NotAuthorized);
+        return user;
+    }
+
+    @ModelAttribute("request")
+    public Request createRequest() {
+        Request request = new Request();
+        request.setLimit(5);
+        request.setFirstResult(0);
+        return request;
+    }
+
+
 }

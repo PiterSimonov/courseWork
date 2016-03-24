@@ -26,7 +26,6 @@
                     <div>
                         <a href="/hotel/${hotel.id}">${hotel.name}</a> in ${hotel.city.name}
                     </div>
-                    <div><a href="/hotel/${hotel.id}/edit">Edit</a> </div>
                 </td>
             </tr>
         </c:forEach>
@@ -43,7 +42,7 @@
                     <select form="add-hotel" name="country_id" id="country_id" required>
                         <option value="">- Country -</option>
                     </select><br/>
-                    <label>City: </label>
+                    <label>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
                     <select form="add-hotel" name="city_id" id="city_id" disabled required>
                         <option value="">- City -</option>
                     </select><br/>

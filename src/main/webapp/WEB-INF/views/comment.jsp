@@ -9,7 +9,7 @@
 <form id="comment-form" method="post">
     <fieldset class="boxBody">
     <label for="comment-text">Comment:</label><br/>
-    <textarea id="comment-text" name="comment" rows="10" cols="30" maxlength="255" style="resize: none"></textarea>
+    <textarea id="comment-text" name="comment" rows="10" cols="30" maxlength="255"></textarea>
     <label for="rating">Rating:</label>
     <input id="rating" type="number" name="rating" min="1" max="5" required>
     <input type="submit" name="Save" value="SAVE">

@@ -25,11 +25,19 @@ $(document).ready(function () {
     });
 
     $('form#choice-room').on('change', 'input[type=checkbox]', function () {
-        if (this.checked) {
-            var $submit = $('<input />', {type: 'submit', form: 'choice-room', value: 'Book'})
-            $(this).after($submit);
+        if ($('form#choice-room :checked').length <= 8) {
+            if (this.checked) {
+                var $submit = $('<input />', {type: 'submit', form: 'choice-room', value: 'Book'});
+                $(this).after($submit);
+            } else {
+                $(this).next("input[type=submit]").remove();
+                $('input[type=checkbox]').siblings('div').each(function(){
+                    $(this).text("");
+                })
+            }
         } else {
-            $(this).next("input[type=submit]").remove();
+            $(this).siblings('div').text("Sorry, but it's enough");
+            $(this).attr('checked', false)
         }
     });
 });
@@ -55,7 +63,7 @@ function addRoom(room) {
         "Places: " + room.seats + "<br/>Price: " + room.price + " &#36;");
     row.append(tableData2);
     var tableData3 = $('<td>');
-    tableData3.append(cbIndex).append(cbIndex2);
+    tableData3.append(cbIndex).append(cbIndex2).append($('<div>'));
     row.append(tableData3);
     container.append(row);
 }
