@@ -28,7 +28,7 @@
                     Places: ${room.seats}<br/>
                     Price: ${room.price} &#36;
                 </td>
-                <td><form:checkbox path="roomsIds" value="${room.id}"></form:checkbox></td>
+                <td><form:checkbox path="roomsIds" value="${room.id}"></form:checkbox><div></div></td>
             </tr>
         </c:forEach>
         </tbody>

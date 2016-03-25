@@ -4,9 +4,8 @@
     <title>Error</title>
 </head>
 <body>
-User : ${user.id}
-Error!
-${message}
+Oops!
+<h3>${message}</h3>
 
 <a href="javascript:history.back();">Back</a>
 </body>

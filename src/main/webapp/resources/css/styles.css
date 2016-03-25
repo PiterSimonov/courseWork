@@ -63,11 +63,6 @@ img.stars,img.image-ok {
     width: 15px;
 }
 
-div.add-room-div {
-    position: absolute;
-    right: 10px;
-}
-
 div.left-panel {
     position: relative;
     left: -4px;
@@ -159,4 +154,38 @@ input.error {
     position: absolute;
     left: 30%;
     top: 20%;
+}
+
+.accordion {
+    width: 450px;
+    border-bottom: solid 1px #c4c4c4;
+}
+.accordion h4 {
+    padding: 7px 15px;
+    margin: 0;
+    font: bold 120%/100% Arial, Helvetica, sans-serif;
+    border: solid 1px #c4c4c4;
+    border-bottom: none;
+    cursor: pointer;
+}
+.accordion h4:hover {
+    background-color: #e3e2e2;
+}
+.accordion h4.active {
+    background-position: right 5px;
+}
+.accordion div {
+    background: #f7f7f7;
+    margin: 0;
+    padding: 10px 15px 20px;
+    border-left: solid 1px #c4c4c4;
+    border-right: solid 1px #c4c4c4;
+}
+textarea {
+    resize: none;
+}
+
+table#bookings td {
+    padding: 5px;
+    text-align: center;
 }

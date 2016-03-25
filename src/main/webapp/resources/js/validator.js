@@ -27,6 +27,8 @@ $(document).ready(function () {
         }
         return true;
     }, "Please enter a file with a valid extension.");
+
+    
     $('form#registerForm').validate({
         rules: {
             login: {
@@ -92,8 +94,19 @@ $(document).ready(function () {
             }
         },
         message: {
-            imageFile: {fileSize: "File must be JPG, GIF or PNG, less than 3MB"},
             country_id: {min: "Please select a country"}
+        }
+    });
+
+    $('form#edit-hotel').validate({
+        rules: {
+            name:{
+                required:true
+            },
+            imageFile: {
+                fileSize: 3145728,
+                accept: "png|jpe?g|gif"
+            }
         }
     })
 });

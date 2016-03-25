@@ -11,6 +11,8 @@ public interface OrderService {
 
     List<Order> getOrdersByUser(int userId);
 
+    List<Order> getNotConfirmedOrders();
+
     Order getOrderById(int id);
 
     List<Room> createOrder(List<Booking> bookings, User user);

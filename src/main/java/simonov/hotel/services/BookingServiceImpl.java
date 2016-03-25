@@ -9,6 +9,7 @@ import simonov.hotel.entity.Booking;
 import simonov.hotel.entity.Room;
 import simonov.hotel.services.interfaces.BookingService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,11 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void delete(Booking booking, String message) {
         bookingDAO.delete(booking);
+    }
+
+    @Override
+    public List<Booking> getBookingByCriteria(int hotelId, LocalDate fromDate, LocalDate toDate, int roomNumber) {
+        return bookingDAO.getBookingByCriteria(hotelId,fromDate,toDate,roomNumber);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package simonov.hotel.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -47,5 +48,19 @@ public class BookingHibernateDAO extends AbstractDAO<Booking, Integer> implement
         query.setParameter("hotelId", hotelId);
         query.setParameter("today", LocalDate.now());
         return query.list();
+    }
+
+    @Override
+    public List<Booking> getBookingByCriteria(int hotelId, LocalDate fromDate, LocalDate toDate, int roomNumber) {
+        Criteria criteria = getCurrentSession().createCriteria(Booking.class);
+        criteria.add(Restrictions.le("startDate",toDate));
+        criteria.add(Restrictions.ge("endDate",fromDate));
+        criteria.createAlias("room","r");
+        criteria.createAlias("r.hotel","hotel");
+        criteria.add(Restrictions.eq("hotel.id",hotelId));
+        if (roomNumber>0){
+            criteria.add(Restrictions.eq("r.number",roomNumber));
+        }
+        return criteria.list();
     }
 }
