@@ -55,7 +55,7 @@
                           autocomplete="off">
                         <input id="roomNumber" name="number" type="number" placeholder="№" required><br/>
                         <input id="roomType" type="text" name="type" placeholder="Type" required><br/>
-                        <input id="roomPrice" type="number" step="0.01" name="price" placeholder="Price" required><br/>
+                        <input id="roomPrice" type="number" min="1" name="price" placeholder="Price" required><br/>
                         <textarea id="roomDescription" name="description" placeholder="Description"
                                   maxlength="255"></textarea><br/>
                         <label for="roomPlaces">Seats: </label>

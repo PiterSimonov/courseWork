@@ -22,7 +22,7 @@ public class Room {
     private String description;
 
     @Column
-    private Double price;
+    private int price;
 
     @Column
     private int seats;
@@ -42,11 +42,11 @@ public class Room {
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-    public Double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

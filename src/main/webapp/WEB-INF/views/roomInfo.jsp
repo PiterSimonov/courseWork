@@ -8,6 +8,7 @@
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
     <script src="<c:url value="/resources/js/main.js" />"></script>
+    <script src="<c:url value="/resources/js/validator.js" />"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Room info</title>
 </head>
@@ -27,7 +28,7 @@
                             </tr>
                             <tr>
                                 <td><label for="roomPrice">Price: </label></td>
-                                <td><input id="roomPrice" type="number" step="0.01" name="price" value="${room.price}" required></td>
+                                <td><input id="roomPrice" type="number" min="1" name="price" value="${room.price}" required></td>
                             </tr>
                             <tr>
                                 <td><label for="roomDescription">Description: </label></td>
