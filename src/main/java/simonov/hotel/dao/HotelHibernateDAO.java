@@ -60,7 +60,8 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
 
     @Override
     public List<Hotel> getHotelsWithFreeRoom(Request request) {
-        Query query = getCurrentSession().createQuery(request.getQuery());
+        int index = 1;
+        Query query = getCurrentSession().createQuery(getQuery(request));
         query.setParameter("startDate", request.getStartDate());
         query.setParameter("endDate", request.getEndDate());
         if (request.getHotelId() != 0) {
@@ -79,8 +80,8 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
         if (request.getLimit() != 0) {
             query.setMaxResults(request.getLimit());
         }
+
         if (request.getSeats() != null) {
-            int index = 1;
             for (Map.Entry entry : request.getSeats().entrySet()) {
                 query.setParameter("seats" + index, entry.getKey());
                 query.setParameter("value" + index, ((Integer) entry.getValue()).longValue());
@@ -89,6 +90,33 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
         }
         return query.list();
     }
+
+    private String getQuery(Request request) {
+        StringBuilder query = new StringBuilder("from Hotel as h where");
+        StringBuilder subquery = new StringBuilder(" (");
+        int index = 1;
+        if (request.getHotelId() != 0) {
+            query.append(" h.name = :hotelId ");
+        } else if (request.getCityId() != 0) {
+            query.append(" h.city.id = :cityId ");
+        } else if (request.getCountryId() != 0) {
+            query.append(" h.city in (select c.id from City as c where c.country.id = :countryId)  ");
+        }
+        if (request.getSeats() != null) {
+            for (Map.Entry entry : request.getSeats().entrySet()) {
+                query.append(" and (select count(r.id) from Room as r where h.id = r.hotel.id and r.seats = :seats" + index + " and not exists " +
+                        "(select distinct b.room.id from Booking as b where r.id = b.room.id and (endDate>=:startDate and startDate<=:endDate)))>=:value"
+                        + index);
+                index++;
+            }
+        }
+
+        if (request.getStars() != 0) {
+            query.append(" and h.stars = :stars and");
+        }
+        return query.toString();
+    }
+
 
     @Override
     public List<Hotel> getHotelsByCity(int city) {

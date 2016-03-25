@@ -142,7 +142,10 @@ $(document).ready(function () {
     $("#addRoom").click(function () {
         var number = document.createElement("input");
         number.type = "number";
-        $("#addRoom").before(number);
+        number.min = 1;
+        number.max = 4;
+        number.value = 1;
+        $("#rooms").append(number);
 
     });
 
@@ -175,6 +178,57 @@ $(document).ready(function () {
             $("#hotelList").css("display", "block");
         }
     });
+
+    $("#search").click(function () {
+        var seats = {};
+        var elements = $("#rooms").children();
+        $.each(elements, function () {
+            var x = this.value;
+            if (x in seats) {
+                var val = seats[this.value];
+                seats[this.value] = val + 1;
+
+            } else {
+                seats[this.value] = 1;
+            }
+        });
+
+        var param = {};
+        param.countryId = $("#countryId").val();
+        param.cityId = $("#cityId").val();
+        param.hotelId = $("#hotelId").val();
+        param.startDate = $("#fromDate").val();
+        param.endDate = $("#toDate").val();
+        param.seats = seats;
+        param.firstResult = 1;
+        param.limit = 5;
+
+        var jsonData = JSON.stringify(param);
+        $.ajax({
+            url: "/search/test",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: jsonData,
+            success: function () {
+                document.location.href = "/search/hotels"
+            }
+        });
+
+    });
+
+    var firstResult = 1;
+
+    $("#more").on("click", (function () {
+        firstResult += 5;
+        $.ajax({
+            url: "/search/nextHotels/" + firstResult,
+            type: "GET",
+            success: function (data) {
+                $("#hotelsList").append(data);
+            }
+        });
+    }));
+
 
 
 

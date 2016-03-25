@@ -59,15 +59,6 @@ public class HotelServiceImpl implements HotelService {
     public List<Hotel> getHotelsWithFreeRoom(Request request) {
         if (request.getCountryId() == 0 && request.getCityId() == 0 && request.getHotelId() == 0) {
             return null;
-        } else if (request.getHotelId() != 0) {
-            request.setCountryId(0);
-            request.setCityId(0);
-        } else if (request.getCityId() != 0) {
-            request.setCountryId(0);
-            request.setHotelId(0);
-        } else {
-            request.setCityId(0);
-            request.setHotelId(0);
         }
         return hotelDAO.getHotelsWithFreeRoom(request);
     }

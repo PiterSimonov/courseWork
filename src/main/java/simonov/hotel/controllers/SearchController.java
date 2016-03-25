@@ -3,13 +3,18 @@ package simonov.hotel.controllers;
 import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,49 +40,26 @@ public class SearchController {
     @Autowired
     CountryService countryService;
 
-    @RequestMapping
-    public String search(@RequestParam(required = false) String country,
-                         @RequestParam(required = false) Integer countryId,
-                         @RequestParam(required = false) String city,
-                         @RequestParam(required = false) Integer cityId,
-                         @RequestParam(required = false) String hotel,
-                         @RequestParam(required = false) Integer hotelId,
-                         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
-                         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
-                         @RequestParam(required = false) Integer numOfTravelers,
-                         Model model) {
-        System.out.println("tyta");
-        try {
-            Request request = new Request();
-            request.setCountryId(countryId);
-            request.setCityId(cityId);
-            request.setHotelId(hotelId);
-            request.setStartDate(fromDate);
-            request.setEndDate(toDate);
-            Map<Integer, Integer> seats = new HashMap<>();
-            seats.put(2, 2);
-            request.setSeats(seats);
-            model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        Request request = new Request();
-//        request.setCountryId(countryId);
-//        request.setCityId(cityId);
-//        request.setHotelId(hotelId);
-//        request.setStartDate(fromDate);
-//        request.setEndDate(toDate);
-//        Map<Integer, Integer> seats = new HashMap<>();
-//        seats.put(2, 2);
-//        request.setSeats(seats);
-//        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
-        return "main";
+
+    @RequestMapping(value = "test", method = RequestMethod.POST, headers = "Accept=application/json")
+    public
+    @ResponseBody
+    void search(@RequestBody Request request, Model model) {
+        model.addAttribute("request", request);
     }
 
     @RequestMapping("hotels")
-    public String mainSearch(@ModelAttribute Request request) {
-        hotelService.getHotelsWithFreeRoom(request);
+    public String mainSearch(@ModelAttribute Request request, Model model) {
+        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
         return "search/hotels";
+    }
+
+    @RequestMapping(value = "nextHotels/{firstResult}")
+    public String searchNext(@ModelAttribute Request request, @PathVariable int firstResult, Model model) {
+        request.setFirstResult(firstResult);
+        model.addAttribute("request", request);
+        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
+        return "search/nextHotels";
     }
 
     @RequestMapping(value = "hotel/{hotelId}/rooms", method = RequestMethod.GET)
@@ -166,8 +148,6 @@ public class SearchController {
     @ModelAttribute("request")
     public Request createRequest() {
         Request request = new Request();
-        request.setLimit(5);
-        request.setFirstResult(0);
         return request;
     }
 

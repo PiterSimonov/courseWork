@@ -59,9 +59,12 @@ User : ${user.id}
             <input type="date" name="toDate" id="toDate" class="date" data-date-split-input="true" required>
 
             <label id="numOfTravelers">Number of travelers</label>
-            <input type="number" name="numOfTravelers" min="1" max="4" required>
+            <div id="rooms">
+                <input type="number" name="numOfTravelers" min="1" max="4" value="1" required>
+            </div>
+
             <input type="button" name="addRoom" id="addRoom" value="Добавить комнату">
-            <input type="submit" value="Search" name="searchSubmit">
+            <input type="button" name="search" id="search" value="Search">
         </form>
     </div>
 </div>
