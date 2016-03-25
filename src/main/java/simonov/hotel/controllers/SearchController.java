@@ -3,18 +3,14 @@ package simonov.hotel.controllers;
 import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.core.MediaType;
+
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -82,7 +78,6 @@ public class SearchController {
         return rooms;
     }
 
-
     @RequestMapping(value = "roomsNext", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -93,7 +88,6 @@ public class SearchController {
         request.setRoomsFirstResult(0);
         return rooms;
     }
-
 
     @RequestMapping(value = "hotel/{hotelId}/rooms", method = RequestMethod.POST)
     public String createOrder(@PathVariable int hotelId, @ModelAttribute Request request,
