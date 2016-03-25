@@ -17,6 +17,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @EnableWebMvc
@@ -59,7 +60,7 @@ public class SearchController {
         return "search/nextHotels";
     }
 
-    @RequestMapping(value = "hotel/rooms/{hotelId}", method = RequestMethod.GET)
+    @RequestMapping(value = "hotel/{hotelId}/rooms", method = RequestMethod.GET)
     public String roomsSearch(@PathVariable int hotelId,
                               @ModelAttribute Request request,
                               Model model) {
@@ -86,10 +87,9 @@ public class SearchController {
     @ResponseBody
     List<Room> getNextFreeRoom(@ModelAttribute Request request,
                                @RequestParam("lastRoom") int lastRoom) {
-
         request.setRoomsFirstResult(lastRoom);
         List<Room> rooms = roomService.getFreeRoomsByRequest(request);
-        rooms.stream().forEach(room -> System.out.println(room.getId()));
+        request.setRoomsFirstResult(0);
         return rooms;
     }
 
@@ -97,8 +97,7 @@ public class SearchController {
     @RequestMapping(value = "hotel/{hotelId}/rooms", method = RequestMethod.POST)
     public String createOrder(@PathVariable int hotelId, @ModelAttribute Request request,
                               @ModelAttribute Choice choice,
-                              @ModelAttribute("user") User user
-    ) {
+                              @ModelAttribute("user") User user, Model model) {
         List<Integer> ids = choice.getRoomsIds();
         List<Booking> bookings = new ArrayList<>();
         for (int i : ids) {
@@ -108,8 +107,17 @@ public class SearchController {
             booking.setEndDate(request.getEndDate());
             bookings.add(booking);
         }
-        orderService.createOrder(bookings, user); //TODO if room not booking - > return back without this room
-        return "redirect:/profile";
+        List<Room> rooms = orderService.createOrder(bookings, user);
+        if (rooms.size() == 0) {
+            return "redirect:/profile";
+        } else {
+            String roomNumbers = rooms.stream().map(room -> String.valueOf(room.getNumber())).collect(Collectors.joining(", "));
+            model.addAttribute("message", "Sorry, but room №: " + roomNumbers + " already booked");
+            List<Room> roomList = roomService.getFreeRoomsByRequest(request);
+            model.addAttribute("choice", new Choice());
+            model.addAttribute("rooms", roomList);
+            return "search/rooms";
+        }
     }
 
     @RequestMapping(value = "check-date", method = RequestMethod.GET)

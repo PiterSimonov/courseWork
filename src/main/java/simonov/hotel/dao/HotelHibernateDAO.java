@@ -78,7 +78,6 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
         if (request.getLimit() != 0) {
             query.setMaxResults(request.getLimit());
         }
-
         if (request.getSeats() != null) {
             int index = 1;
             for (Map.Entry entry : request.getSeats().entrySet()) {
@@ -91,17 +90,16 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
     }
 
     private String getQuery(Request request) {
-        StringBuilder query = new StringBuilder("from Hotel as h where");
-        StringBuilder subquery = new StringBuilder(" (");
-        int index = 1;
+        StringBuilder query = new StringBuilder("from Hotel as h where ");
         if (request.getHotelId() != 0) {
-            query.append(" h.id = :hotelId ");
+            query.append("h.id = :hotelId ");
         } else if (request.getCityId() != 0) {
-            query.append(" h.city.id = :cityId ");
+            query.append("h.city.id = :cityId ");
         } else if (request.getCountryId() != 0) {
-            query.append(" h.city.id in (select c.id from City as c where c.country.id = :countryId)  ");
+            query.append("h.city in (select c.id from City as c where c.country.id = :countryId) ");
         }
         if (request.getSeats() != null) {
+            int index = 1;
             for (Map.Entry entry : request.getSeats().entrySet()) {
                 query.append(" and (select count(r.id) from Room as r where h.id = r.hotel.id and r.seats = :seats" + index + " and not exists " +
                         "(select distinct b.room.id from Booking as b where r.id = b.room.id and (endDate>=:startDate and startDate<=:endDate)))>=:value"
@@ -109,7 +107,6 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
                 index++;
             }
         }
-
         if (request.getStars() != 0) {
             query.append(" and h.stars = :stars and");
         }
@@ -130,40 +127,5 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
         query.setParameter("country", country);
         return query.list();
     }
-
-//    private String getPreparedQuery(Request request) {
-//        StringBuilder query = new StringBuilder("select distinct h from Hotel as h inner join fetch h.rooms as room where");
-//        StringBuilder subQuery = new StringBuilder(" (");
-//        int mapSize = request.getSeats().size();
-//
-//        if (request.getCityId() != 0) {
-//            query.append(" h.city.id = :cityId and");
-//        } else if (request.getHotelId() != 0) {
-//            query.append(" h.id = :hotelId and");
-//        } else if (request.getCountryId() != 0) {
-//            query.append(" h.city in (select c.id from City as c where c.country.id = :countryId) and ");
-//        }
-//        if (request.getSeats() != null) {
-//            for (int index = 1; index <= mapSize; index++) {
-//                query.append(" (select count(r.id) from Room as r where h.id = r.hotel.id " +
-//                        "and r.seats = :seats").append(index)
-//                        .append(" and not exists (select distinct b.room.id from Booking as b where r.id = b.room.id" +
-//                                " and (endDate>=:startDate and startDate<=:endDate)))>=:value").append(index).append(" and ");
-//                if (index == mapSize) {
-//                    subQuery.append("room.seats = :seats").append(index).append(") and");
-//                } else {
-//                    subQuery.append("room.seats = :seats").append(index).append(" or ");
-//                }
-//            }
-//            query.append(subQuery);
-//        }
-//
-//        if (request.getStars() != 0) {
-//            query.append(" h.stars = :stars and");
-//        }
-//        query.append(" not exists (select distinct b.room.id from Booking as b where room.id = b.room.id" +
-//                " and (endDate>=:startDate and startDate<=:endDate)) order by h.id");
-//        return query.toString();
-//    }
 }
 

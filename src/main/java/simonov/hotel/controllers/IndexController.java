@@ -79,11 +79,34 @@ public class IndexController {
         return true;
     }
 
+    @RequestMapping(value = "room/{roomId}/edit", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Room updateRoom(@PathVariable int roomId,
+                    @RequestParam String type,
+                    @RequestParam double price,
+                    @RequestParam String description,
+                    @RequestParam int seats,
+                    @RequestParam MultipartFile imageFile
+    ) {
+        System.out.println("Inside room edit " + type + " price:" + price);
+        Room room = roomService.getRoomById(roomId);
+        room.setType(type);
+        room.setPrice(price);
+        room.setDescription(description);
+        room.setSeats(seats);
+        if (imageFile.getContentType().equals("image/jpeg")) {
+            room.setImageLink(FileUpLoader.uploadImageToImgur(imageFile));
+        }
+        roomService.update(room);
+        return room;
+    }
+
     @RequestMapping(value = "/hotel/{hotelId}/roomDetails/{roomId}")
     public String roomInfo(@PathVariable int hotelId, @PathVariable int roomId, Model model) {
         Room room = roomService.getRoomById(roomId);
         if (hotelId != room.getHotel().getId()) {
-            model.addAttribute("message","This room is not in this hotel");
+            model.addAttribute("message", "This room is not in this hotel");
             return "error";
         }
         model.addAttribute("hotel", room.getHotel());
@@ -142,13 +165,13 @@ public class IndexController {
     public String getBooking(@PathVariable int hotelId,
                              @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
                              @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
-                             @RequestParam(required = false) Integer roomNumber, @ModelAttribute User user,Model model) {
+                             @RequestParam(required = false) Integer roomNumber, @ModelAttribute User user, Model model) {
         if (hotelService.getHotelById(hotelId).getUser().getId() == user.getId()) {
-            List<Booking> bookings = bookingService.getBookingByCriteria(hotelId,fromDate,toDate, roomNumber!=null?roomNumber:0);
-            model.addAttribute("bookings",bookings);
+            List<Booking> bookings = bookingService.getBookingByCriteria(hotelId, fromDate, toDate, roomNumber != null ? roomNumber : 0);
+            model.addAttribute("bookings", bookings);
             return "booking";
         } else {
-            model.addAttribute("message","You are not the owner of this hotel");
+            model.addAttribute("message", "You are not the owner of this hotel");
             return "error";
         }
     }

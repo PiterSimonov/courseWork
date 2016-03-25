@@ -14,6 +14,44 @@
 <body>
 <%@ include file="forms/loginForm.jsp" %>
 <div class="right-panel">
+    <c:choose>
+        <c:when test="${hotel.user.id == user.id}">
+            <div class="accordion">
+                <h4>Edit Room</h4>
+                <div style="display: none;">
+                    <form id="edit-room" method="post" enctype="multipart/form-data" autocomplete="off">
+                        <table>
+                            <tr>
+                                <td><label for="roomType">Type: </label></td>
+                                <td><input id="roomType" type="text" name="type" value="${room.type}" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="roomPrice">Price: </label></td>
+                                <td><input id="roomPrice" type="number" step="0.01" name="price" value="${room.price}" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="roomDescription">Description: </label></td>
+                                <td><textarea id="roomDescription" name="description"
+                                              maxlength="255">${room.description}</textarea></td>
+                            </tr>
+                            <tr>
+                                <td><label for="roomPlaces">Seats: </label></td>
+                                <td><input id="roomPlaces" name="seats" type="number" min="1" max="8" value="${room.seats}"
+                                           required></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><input type="file" name="imageFile" id="roomImage" accept="image/*"
+                                                       style="width: 250px">
+                                </td>
+                                <input type="hidden" name="roomId" value="${room.id}">
+                            </tr>
+                        </table>
+                        <input id="roomSubmit" type="submit" value="Save"><span id="wait"></span>
+                    </form>
+                </div>
+            </div>
+        </c:when>
+    </c:choose>
 </div>
 <div id="hotel-info">
     <p>Hotel : ${hotel.name}
@@ -22,18 +60,23 @@
     </p>
 </div>
 <p>Room № ${room.number}</p>
+<p>Type: <span id="type">${room.type}</span></p>
+<p>Seats: <span id="seats">${room.seats}</span></p>
+<p>Price: <span id="price">${room.price}</span></p>
 <p>Description:</p>
-<span>${room.description}<br/></span>
-<img src='${room.imageLink}' onerror="this.onerror=null;this.src='/resources/images/rooms/noImage.jpg'">
-
-<div class="booking-div"></div><br/>
+<span id="description">${room.description}</span><br/>
+<span id="image"><img src='${room.imageLink}'
+                      onerror="this.onerror=null;this.src='/resources/images/rooms/noImage.jpg'">
+</span>
+<div class="booking-div"></div>
+<br/>
 <div class="main">
     <form id="form-booking" method="post">
         <input type="date" name="fromDate" id="fromDate" class="date" data-date-split-input="true" required><br/>
         <input type="date" name="toDate" id="toDate" class="date" data-date-split-input="true" required><br/>
         <input name="roomId" id="roomId" value="${room.id}" hidden>
         <input name="userRole" id="userRole" value="${user.role}" hidden>
-        <input type="submit" value="Booking">
+        <input type="submit" value="Book">
     </form>
     <div id="is-free"></div>
 </div>

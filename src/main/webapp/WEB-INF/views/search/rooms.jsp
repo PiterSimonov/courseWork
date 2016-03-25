@@ -1,4 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+﻿<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -16,7 +16,7 @@
 <h1>Choice rooms for booking</h1>
 <input type="button" name="sortPrice" id="sortPrice" value="ByPriceAsc">
 <input type="button" name="sortSeats" id="sortSeats" value="BySeatsAsc">
-
+<h3>${message}</h3>
 <form:form method="POST" commandName="choice" id="choice-room">
     <table>
         <tbody id="room-list">
