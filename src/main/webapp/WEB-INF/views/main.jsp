@@ -12,12 +12,11 @@
     <title>Hotel Booking Service</title>
 </head>
 <body>
-User : ${user.id}
 <%@ include file="forms/loginForm.jsp"%>
-<div class="right-panel">
+<div class="left-panel">
     <div class="filter">
         <span><h5>Filtering Room</h5></span>
-        <form id="filter-form" action="search" onsubmit="return checkDate()">
+        <form id="filter-form" action="search" autocomplete="off">
             <label for="country">Country</label>
             <div id="first" class="AutoComplete">
                 <input id="country" type="text" name="country" autocomplete="off">
@@ -64,7 +63,7 @@ User : ${user.id}
             </div>
 
             <input type="button" name="addRoom" id="addRoom" value="Добавить комнату">
-            <input type="button" name="search" id="search" value="Search">
+            <input type="submit" value="Search" name="searchSubmit">
         </form>
     </div>
 </div>

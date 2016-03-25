@@ -12,7 +12,6 @@
     <title>Room info</title>
 </head>
 <body>
-User : ${user.id}
 <%@ include file="forms/loginForm.jsp" %>
 <div class="right-panel">
 </div>
@@ -25,7 +24,7 @@ User : ${user.id}
 <p>Room № ${room.number}</p>
 <p>Description:</p>
 <span>${room.description}<br/></span>
-<img src=${room.imageLink}>
+<img src='${room.imageLink}' onerror="this.onerror=null;this.src='/resources/images/rooms/noImage.jpg'">
 
 <div class="booking-div"></div><br/>
 <div class="main">
@@ -34,8 +33,7 @@ User : ${user.id}
         <input type="date" name="toDate" id="toDate" class="date" data-date-split-input="true" required><br/>
         <input name="roomId" id="roomId" value="${room.id}" hidden>
         <input name="userRole" id="userRole" value="${user.role}" hidden>
-
-        <input type="submit" value="Booking" name="booking">
+        <input type="submit" value="Booking">
     </form>
     <div id="is-free"></div>
 </div>

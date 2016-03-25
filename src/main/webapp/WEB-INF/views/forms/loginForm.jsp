@@ -12,7 +12,7 @@
 </div>
 <div id="popup">
     <div>
-        <form:form method="POST" commandName="user" action="check-user" id="loginForm">
+        <form:form method="POST" commandName="user" action="check-user" id="loginForm" autocomplete="false">
             <h4>Enter to the site<br/></h4>
             <form:label path="login">Login:</form:label><br/>
             <form:input path="login"/>

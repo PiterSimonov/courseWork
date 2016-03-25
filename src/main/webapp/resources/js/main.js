@@ -12,31 +12,31 @@ $(document).ready(function () {
     $toDate.prop("max", maxDays);
 
 
-    $("#fromDate").change(function() {
-            var x = fromDate.value;
-            var d = new Date(Date.parse(x));
-            var nextDay = dateToString(d, 1);
-            var maxDays = dateToString(d, 28);
-            var $toDate = $("#toDate");
-            $toDate.prop("max", maxDays);
-            $toDate.prop("value", nextDay);
-            $toDate.prop("min", nextDay);
+    $("#fromDate").change(function () {
+        var x = fromDate.value;
+        var d = new Date(Date.parse(x));
+        var nextDay = dateToString(d, 1);
+        var maxDays = dateToString(d, 28);
+        var $toDate = $("#toDate");
+        $toDate.prop("max", maxDays);
+        $toDate.prop("value", nextDay);
+        $toDate.prop("min", nextDay);
     });
 
-    function dateToString(d, num){
-        if(num === undefined){
+    function dateToString(d, num) {
+        if (num === undefined) {
             return d.toJSON().split('T')[0];
-        }else{
-            var nextDay = new Date(d.valueOf()+24*60*60*1000*num);
+        } else {
+            var nextDay = new Date(d.valueOf() + 24 * 60 * 60 * 1000 * num);
             return nextDay.toJSON().split('T')[0];
         }
     }
 
-    $("#city").keyup(function() {
+    $("#city").keyup(function () {
         var $city = $("#cityList");
         $city.html("");
         $city.css("display", "none");
-        if (city.value.length >= 3){
+        if (city.value.length >= 3) {
             var countryId = $("#countryId").attr("value");
             $.ajax({
                 url: "/search/city/" + city.value + "/" + countryId,
@@ -92,7 +92,7 @@ $(document).ready(function () {
                         $country.append(li);
                         $country.css("display", "block");
                     })
-                },
+                }
             });
         }
     });
@@ -122,7 +122,7 @@ $(document).ready(function () {
                         $hotel.append(li);
                         $hotel.css("display", "block");
                     })
-                },
+                }
             });
         }
     });
@@ -143,9 +143,10 @@ $(document).ready(function () {
         var number = document.createElement("input");
         number.type = "number";
         number.min = 1;
-        number.max = 4;
         number.value = 1;
+        number.max = 8;
         $("#rooms").append(number);
+
 
     });
 
@@ -251,6 +252,39 @@ $(document).ready(function () {
         }
     });
 
+    $("#form-booking").submit(function (e) {
+        e.preventDefault();
+        var userRole;
+        $.ajax({
+            url: "/get-user",
+            type: "GET",
+            async: false,
+            success: function (responce) {
+                userRole = responce;
+            }
+        });
+        if (userRole == "HotelOwner" || userRole == 'CLIENT') {
+            $(":submit").attr("disabled", true);
+            $.ajax({
+                url: "search/check-date", //TODO create order with one booking... and Controller for handling this
+                type: "GET",
+                data: $("#form-booking").serialize(),
+                success: function (data) {
+                    if (data) {
+
+                    } else {
+                        $("#is-free").html("<img class='image-ok' src='/resources/images/error.jpg'/> Sorry, this roomis booking for thi dates")
+                    }
+                }
+            });
+            $(":submit").removeAttr("disabled");
+        } else {
+            loadPopup();
+            return false;
+        }
+
+    });
+
     var on = 0;
 
     function loadPopup() {
@@ -324,45 +358,4 @@ $(document).ready(function () {
             $('#city_id').html(option);
         })
     })
-
-
-    var inProgress = false;
-    var startFrom = 5;
-
-    $(window).scroll(function () {
-        /* Если высота окна + высота прокрутки больше или равны высоте всего документа
-         и ajax-запрос в настоящий момент не выполняется, то запускаем ajax-запрос */
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() + 250 && !inProgress) {
-            alert("INSIDE IF");
-            var data = {};
-            data["lastRoom"] = startFrom;
-            $.ajax({
-                url: '/search/roomsNext',
-                type: 'POST',
-                data: data,
-                beforeSend: function () {
-                    inProgress = true;
-                }
-            }).done(function (data) {
-                alert(data);
-                data = jQuery.parseJSON(data);
-
-                /* Если массив не пуст  */
-                if (data.length > 0) {
-                    /* Делаем проход по каждому результату, оказвашемуся в массиве,
-                     где в index попадает индекс текущего элемента массива, а в data - сама статья */
-                    $.each(data, function (index, data) {
-
-                        /* Отбираем по идентификатору блок со статьями и дозаполняем его новыми данными */
-                        $("#articles").append("<p><b>" + data.title + "</b><br />" + data.text + "</p>");
-
-                    });
-                    inProgress = false;
-                    startFrom += 10;
-                }
-            });
-        }
-    });
-
-
 });

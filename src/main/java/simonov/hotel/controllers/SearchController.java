@@ -16,10 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @EnableWebMvc
@@ -33,8 +30,8 @@ public class SearchController {
     RoomService roomService;
     @Autowired
     OrderService orderService;
-    //    @Autowired
-//    BookingService bookingService;
+    @Autowired
+    BookingService bookingService;
     @Autowired
     CityService cityService;
     @Autowired
@@ -69,6 +66,7 @@ public class SearchController {
         request.setHotelId(hotelId);
         request.setStartDate(LocalDate.parse("2016-03-05"));
         request.setEndDate(LocalDate.parse("2016-05-19"));
+        request.setFirstResult(0);
         Map<Integer, Integer> seats = new HashMap<>();
         seats.put(2, 1);
         seats.put(1, 1);
@@ -106,10 +104,29 @@ public class SearchController {
             booking.setEndDate(request.getEndDate());
             bookings.add(booking);
         }
-        orderService.createOrder(bookings, user);
+        orderService.createOrder(bookings, user); //TODO if room not booking - > return back without this room
         return "redirect:/profile";   //TODO need to be change
     }
 
+    @RequestMapping(value = "check-date", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    boolean checkUser(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
+                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
+                      @RequestParam int roomId, @ModelAttribute User user) {
+        if (user.getRole() != Role.NotAuthorized) {
+            if (roomService.isFree(fromDate, toDate, roomId)) {
+                Booking booking = new Booking();
+                booking.setStartDate(fromDate);
+                booking.setEndDate(toDate);
+                booking.setRoom(roomService.getRoomById(roomId));
+                bookingService.saveAll(Collections.singletonList(booking));//TODO rebuild this
+                return true;
+            } else return false;
+        } else {
+            return false;
+        }
+    }
 
     @RequestMapping(value = "/", params = "country")
     public
@@ -117,7 +134,6 @@ public class SearchController {
     List<Country> getCountries(@RequestParam String country) {
         return countryService.getCountriesByNameCriteria(country);
     }
-
 
     @RequestMapping(value = "/country")
     public

@@ -11,8 +11,6 @@ import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 import simonov.hotel.utilites.FileUpLoader;
 
-import javax.servlet.ServletContext;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,28 +52,48 @@ public class IndexController {
         return "main";
     }
 
-
-    @RequestMapping(value = "/hotel/{name}/{cityId}/{countryId}")
-    public
-    @ResponseBody
-    String searchHotels(@PathVariable String name, @PathVariable int cityId, @PathVariable int countryId) {
-        List<Hotel> list = hotelService.getHotelsByName(name, cityId, countryId);
-        JSONArray array = new JSONArray();
-        list.stream().forEach(city -> array.add(city.toJSON()));
-        return array.toString();
-    }
-
-
     @RequestMapping(value = "/hotel/{hotelId}")
     public String getHotel(@PathVariable int hotelId, Model model) {
         Hotel hotel = hotelService.getHotelById(hotelId);
         if (hotel != null) {
-        model.addAttribute("hotel", hotel);
+            model.addAttribute("hotel", hotel);
             List<Room> rooms = roomService.getRoomsByHotel(hotelId);
-        model.addAttribute("rooms", rooms);
-        return "hotelInfo";
+            model.addAttribute("rooms", rooms);
+            return "hotelInfo";
         } else {
             model.addAttribute("message", "Hotel with this ID does not exist");
+            return "error";
+        }
+    }
+
+    @RequestMapping(value = "/hotel/{hotelId}/edit", method = RequestMethod.GET)
+    public String editHotel(@PathVariable int hotelId, Model model, @ModelAttribute User user) {
+        Hotel hotel = hotelService.getHotelById(hotelId);
+        if (hotel.getUser().getId() == user.getId()) {
+            return "editHotelPage";
+        } else {
+            model.addAttribute("message","You are not a hotel owner!");
+            return "error";
+        }
+    }
+
+    @RequestMapping(value = "/hotel/{hotelId}/edit", method = RequestMethod.POST)
+    public String updateHotel(@PathVariable int hotelId, @RequestParam String name,
+                              @RequestParam int stars,
+                              @RequestParam("convenience") List<Integer> conveniences,
+                              @RequestParam MultipartFile imageFile,
+                              Model model, @ModelAttribute User user) {
+        Hotel hotel = hotelService.getHotelById(hotelId);
+
+        if (hotel.getUser().getId() == user.getId()) {
+            List<Convenience> convenienceList = new ArrayList<>();
+            conveniences.stream().forEach(integer -> convenienceList.add(convenienceService.getConvenienceById(integer)));
+            hotel.setConveniences(convenienceList);
+            hotel.setName(name);
+            hotel.setStars(stars);
+            return "hotelOwnerProfile";
+        } else {
+            model.addAttribute("message","You are not a hotel owner!");
             return "error";
         }
     }

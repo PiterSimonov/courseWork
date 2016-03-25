@@ -1,6 +1,7 @@
 package simonov.hotel.dao;
 
-import org.hibernate.Query;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import simonov.hotel.dao.interfaces.CommentDAO;
 import simonov.hotel.entity.Comment;
@@ -17,9 +18,9 @@ public class CommentHibernateDAO extends AbstractDAO<Comment, Integer> implement
 
     @Override
     public List<Comment> getCommentsByHotel(int hotelId) {
-        Query query = getCurrentSession().createQuery("from Comment where hotel.id = :hotelId");
-        query.setInteger("hotelId", hotelId);
-        return query.list();
+        Criteria criteria = getCurrentSession().createCriteria(Comment.class);
+        criteria.add(Restrictions.eq("hotel.id", hotelId));
+        return criteria.list();
     }
 
 }

@@ -10,7 +10,6 @@
     <title>Edit Profile</title>
 </head>
 <body>
-User : ${user.id}
 <div>
     <form:form commandName="user" id="edit-user-form" method="post">
         <form:label path="firstName">First Name:</form:label><br/>

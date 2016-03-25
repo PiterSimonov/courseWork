@@ -27,6 +27,7 @@ public class OrderControl {
     OrderService orderService;
 
     public OrderControl() {
+        //TODO init ORDER_MAP from BD order with status NotConfirmed
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleWithFixedDelay((Runnable) () -> {
             List<Order> mailList = new LinkedList<>();
