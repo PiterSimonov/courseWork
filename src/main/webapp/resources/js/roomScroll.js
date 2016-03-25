@@ -41,6 +41,7 @@ $(document).ready(function () {
         }
     });
 
+
     var SORT_BY_PRICE_ASC = 0;
     var SORT_BY_PRICE_DESC = 1;
     var SORT_BY_SEATS_ASC = 2;
@@ -67,7 +68,31 @@ $(document).ready(function () {
                 inProgress = false;
             }
         });
-    })
+    });
+
+
+    $("#sortSeats").on("click", function () {
+        startFrom = 5;
+        var sortVal;
+        if ($(this).val() === 'BySeatsAsc') {
+            sortVal = SORT_BY_SEATS_ASC;
+            $(this).val("BySeatsDesc");
+        } else {
+            sortVal = SORT_BY_SEATS_DESC;
+            $(this).val("BySeatsAsc");
+        }
+        $.ajax({
+            url: "/search/hotel/rooms/sort/" + sortVal,
+            type: "GET",
+            success: function (data) {
+                $("#room-list").html("");
+                $.each(data, function (index, data) {
+                    addRoom(data);
+                });
+                inProgress = false;
+            }
+        });
+    });
 
 
 
