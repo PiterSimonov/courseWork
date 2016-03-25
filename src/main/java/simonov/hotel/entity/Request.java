@@ -14,6 +14,10 @@ public class Request {
     private int stars;
     private int firstResult;
     private int limit;
+    private RoomSort roomSort = RoomSort.SeatsAsc;
+    private int roomsFirstResult;
+    private int roomsLimit = 5;
+
 
 
 
@@ -87,5 +91,29 @@ public class Request {
 
     public void setLimit(int limit) {
         this.limit = limit;
+    }
+
+    public RoomSort getRoomSort() {
+        return roomSort;
+    }
+
+    public void setRoomSort(RoomSort roomSort) {
+        this.roomSort = roomSort;
+    }
+
+    public int getRoomsFirstResult() {
+        return roomsFirstResult;
+    }
+
+    public void setRoomsFirstResult(int roomsFirstResult) {
+        this.roomsFirstResult = roomsFirstResult;
+    }
+
+    public int getRoomsLimit() {
+        return roomsLimit;
+    }
+
+    public void setRoomsLimit(int roomsLimit) {
+        this.roomsLimit = roomsLimit;
     }
 }

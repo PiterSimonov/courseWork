@@ -14,7 +14,7 @@
 <body>
 User : ${user.id}
 <%@ include file="../forms/loginForm.jsp" %>
-<div class="right-panel">
+<div class="left-panel">
     <div class="filter">
         <span><h5>Filtering Room</h5></span>
         <form id="filter-form" action="search" onsubmit="return checkDate()">
@@ -81,7 +81,7 @@ User : ${user.id}
                 </td>
                 <td>
                     <div>
-                        <a href="/hotel/${hotel.id}">${hotel.name}</a> in ${hotel.city.name}
+                        <a href="/search/hotel/rooms/${hotel.id}">${hotel.name}</a> in ${hotel.city.name}
                     </div>
                     <div>Rating <fmt:formatNumber value="${hotel.rating}" maxFractionDigits="1"/>/5</div>
                 </td>

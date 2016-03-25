@@ -14,6 +14,7 @@
 <body>
 <%@ include file="/WEB-INF/views/forms/loginForm.jsp" %>
 <h1>Choice rooms for booking</h1>
+<input type="button" name="sortPrice" id="sortPrice" value="ByPriceAsc">
 <form:form method="POST" commandName="choice" id="choice-room">
     <table>
         <tbody id="room-list">

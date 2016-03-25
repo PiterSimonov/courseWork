@@ -40,6 +40,39 @@ $(document).ready(function () {
             $(this).attr('checked', false)
         }
     });
+
+    var SORT_BY_PRICE_ASC = 0;
+    var SORT_BY_PRICE_DESC = 1;
+    var SORT_BY_SEATS_ASC = 2;
+    var SORT_BY_SEATS_DESC = 3;
+
+    $("#sortPrice").on("click", function () {
+        startFrom = 5;
+        var sortVal;
+        if ($(this).val() === 'ByPriceAsc') {
+            sortVal = SORT_BY_PRICE_ASC;
+            $(this).val("ByPriceDesc");
+        } else {
+            sortVal = SORT_BY_PRICE_DESC;
+            $(this).val("ByPriceAsc");
+        }
+        $.ajax({
+            url: "/search/hotel/rooms/sort/" + sortVal,
+            type: "GET",
+            success: function (data) {
+                $("#room-list").html("");
+                $.each(data, function (index, data) {
+                    addRoom(data);
+                });
+                inProgress = false;
+            }
+        });
+    })
+
+
+
+
+
 });
 
 function addRoom(room) {

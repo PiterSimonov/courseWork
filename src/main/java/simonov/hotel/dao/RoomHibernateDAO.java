@@ -8,9 +8,12 @@ import simonov.hotel.dao.interfaces.RoomDAO;
 import simonov.hotel.entity.Booking;
 import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Room;
+import simonov.hotel.entity.RoomSort;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static simonov.hotel.entity.RoomSort.*;
 
 @Repository
 @SuppressWarnings("unchecked")
@@ -81,9 +84,23 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
         bookingCriteria.createAlias("booking.room", "r");
         bookingCriteria.setProjection(Projections.property("r.id"));
         criteria.add(Subqueries.propertyNotIn("room.id", bookingCriteria))
-                .setFirstResult(request.getFirstResult())
-                .setMaxResults(request.getLimit())
-                .addOrder(Order.asc("seats"));
+                .setFirstResult(request.getRoomsFirstResult())
+                .setMaxResults(request.getRoomsLimit());
+        switch (request.getRoomSort()) {
+            case SeatsAsc:
+                criteria.addOrder(Order.asc("seats"));
+                break;
+            case SeatsDesc:
+                criteria.addOrder(Order.desc("seats"));
+                break;
+            case PriceAsc:
+                criteria.addOrder(Order.asc("price"));
+                break;
+            case PriceDesc:
+                criteria.addOrder(Order.desc("price"));
+                break;
+        }
+
         return criteria.list();
     }
 }

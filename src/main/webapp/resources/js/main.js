@@ -205,7 +205,7 @@ $(document).ready(function () {
         param.startDate = $("#fromDate").val();
         param.endDate = $("#toDate").val();
         param.seats = seats;
-        param.firstResult = 1;
+        param.firstResult = 0;
         param.limit = 5;
 
         var jsonData = JSON.stringify(param);
@@ -221,10 +221,10 @@ $(document).ready(function () {
 
     });
 
-    var firstResult = 1;
+    var firstResult = 0;
 
     $("#more").on("click", (function () {
-        firstResult += 5;
+        firstResult = firstResult + 5;
         $.ajax({
             url: "/search/nextHotels/" + firstResult,
             type: "GET",
@@ -233,8 +233,6 @@ $(document).ready(function () {
             }
         });
     }));
-
-
 
     $('form#choice-room').submit(function (e) {
         var userRole;

@@ -13,7 +13,7 @@
 </head>
 <body>
 <%@ include file="forms/loginForm.jsp"%>
-<div class="right-panel">
+<div class="left-panel">
     <div class="filter">
         <span><h5>Filtering Room</h5></span>
         <form id="filter-form" action="search" autocomplete="off">
