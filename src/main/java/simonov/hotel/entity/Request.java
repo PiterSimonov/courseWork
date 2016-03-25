@@ -17,8 +17,7 @@ public class Request {
     private RoomSort roomSort = RoomSort.SeatsAsc;
     private int roomsFirstResult;
     private int roomsLimit = 5;
-
-
+    private int roomHotelId;
 
 
     public int getCountryId() {
@@ -115,5 +114,13 @@ public class Request {
 
     public void setRoomsLimit(int roomsLimit) {
         this.roomsLimit = roomsLimit;
+    }
+
+    public void setRoomHotelId(int roomHotelId) {
+        this.roomHotelId = roomHotelId;
+    }
+
+    public int getRoomHotelId() {
+        return roomHotelId;
     }
 }

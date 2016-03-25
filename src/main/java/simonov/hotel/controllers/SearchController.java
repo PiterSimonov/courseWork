@@ -60,12 +60,13 @@ public class SearchController {
         return "search/nextHotels";
     }
 
-    @RequestMapping(value = "hotel/{hotelId}/rooms", method = RequestMethod.GET)
-    public String roomsSearch(@PathVariable int hotelId,
+    @RequestMapping(value = "hotel/{roomHotelId}/rooms", method = RequestMethod.GET)
+    public String roomsSearch(@PathVariable int roomHotelId,
                               @ModelAttribute Request request,
                               Model model) {
-        request.setHotelId(hotelId);
+        request.setRoomHotelId(roomHotelId);
         List<Room> rooms = roomService.getFreeRoomsByRequest(request);
+        model.addAttribute("hotel",hotelService.getHotelById(roomHotelId));
         model.addAttribute("choice", new Choice());
         model.addAttribute("rooms", rooms);
         return "search/rooms";

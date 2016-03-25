@@ -13,6 +13,7 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/forms/loginForm.jsp" %>
+<h1>Hotel ${hotel.name}</h1>
 <h1>Choice rooms for booking</h1>
 <input type="button" name="sortPrice" id="sortPrice" value="ByPriceAsc">
 <input type="button" name="sortSeats" id="sortSeats" value="BySeatsAsc">
