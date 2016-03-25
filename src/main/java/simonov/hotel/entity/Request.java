@@ -17,6 +17,7 @@ public class Request {
     private RoomSort roomSort = RoomSort.SeatsAsc;
     private int roomsFirstResult;
     private int roomsLimit = 5;
+    private int roomHotelId;
 
 
 
@@ -115,5 +116,14 @@ public class Request {
 
     public void setRoomsLimit(int roomsLimit) {
         this.roomsLimit = roomsLimit;
+    }
+
+    public int getRoomHotelId() {
+        return roomHotelId;
+    }
+
+    public void setRoomHotelId(int roomHotelId) {
+
+        this.roomHotelId = roomHotelId;
     }
 }

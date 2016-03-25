@@ -72,7 +72,7 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
 
         Criteria criteria = getCurrentSession().createCriteria(Room.class, "room");
         criteria.createAlias("room.hotel", "hotel");
-        criteria.add(Restrictions.eq("hotel.id", request.getHotelId()));
+        criteria.add(Restrictions.eq("hotel.id", request.getRoomHotelId()));
         Disjunction disjunction = Restrictions.disjunction();
         request.getSeats().keySet().stream()
                 .forEach(integer -> disjunction.add(Restrictions.eq("room.seats", integer)));
