@@ -13,7 +13,7 @@
 </head>
 <body>
 <%@ include file="forms/loginForm.jsp"%>
-<div class="left-panel">
+<div class="right-panel">
     <div class="filter">
         <span><h5>Filtering Room</h5></span>
         <form id="filter-form" action="search" autocomplete="off">
@@ -63,7 +63,7 @@
             </div>
 
             <input type="button" name="addRoom" id="addRoom" value="Добавить комнату">
-            <input type="submit" value="Search" name="searchSubmit">
+            <input type="button" name="search" id="search" value="Search">
         </form>
     </div>
 </div>
