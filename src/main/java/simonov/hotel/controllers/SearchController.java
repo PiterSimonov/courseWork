@@ -74,21 +74,18 @@ public class SearchController {
     public
     @ResponseBody
     List<Room> roomsSort(@PathVariable int sort, @ModelAttribute Request request) {
-        System.out.println("tyt");
         request.setRoomSort(RoomSort.values()[sort]);
         request.setRoomsFirstResult(0);
-        System.out.println(request.getRoomSort());
         List<Room> rooms = roomService.getFreeRoomsByRequest(request);
         return rooms;
-
     }
+
 
     @RequestMapping(value = "roomsNext", method = RequestMethod.POST)
     public
     @ResponseBody
     List<Room> getNextFreeRoom(@ModelAttribute Request request,
                                @RequestParam("lastRoom") int lastRoom) {
-
 
         request.setRoomsFirstResult(lastRoom);
         List<Room> rooms = roomService.getFreeRoomsByRequest(request);

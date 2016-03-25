@@ -143,15 +143,20 @@ $(document).ready(function () {
         $("#hotelId").attr("value", 0);
     });
 
+    var roomCounter = 1;
+
     $("#addRoom").click(function () {
+
         var number = document.createElement("input");
         number.type = "number";
         number.min = 1;
         number.value = 1;
         number.max = 8;
         $("#rooms").append(number);
-
-
+        roomCounter++;
+        if (roomCounter >= 8) {
+            $("#addRoom").attr("disabled", true);
+        }
     });
 
     $("body").click(function (e) {

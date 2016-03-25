@@ -23,7 +23,7 @@ User : ${user.id}
                 <input id="country" type="text" name="country" autocomplete="off">
                 <ul id="countryList">
                 </ul>
-                <input id="countryId" name="countryId" value="${request.countryId}" type="number" hidden>
+                <input id="countryId" name="countryId" type="number" hidden>
             </div>
 
             <label for="city">City</label>

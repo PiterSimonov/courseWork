@@ -57,8 +57,11 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<Hotel> getHotelsWithFreeRoom(Request request) {
+        int roomsCount = request.getSeats().values().stream().reduce(0, (sum, element) -> sum + element);
+        if (roomsCount > 8) {
+            return null;
+        }
         if (request.getCountryId() == 0 && request.getCityId() == 0 && request.getHotelId() == 0) {
-            System.out.println("null");
             return null;
         }
         return hotelDAO.getHotelsWithFreeRoom(request);
