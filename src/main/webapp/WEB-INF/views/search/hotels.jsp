@@ -7,13 +7,14 @@
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main.js" />"></script>
+    <script src="<c:url value="/resources/js/searchHotels.js" />"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Hotel Booking Service</title>
 </head>
 <body>
+User : ${user.id}
 <%@ include file="../forms/loginForm.jsp" %>
-<div class="left-panel">
+<div class="left-panel" id="left-panel">
     <div class="filter">
         <span><h5>Filtering Room</h5></span>
         <form id="filter-form" action="search" onsubmit="return checkDate()">

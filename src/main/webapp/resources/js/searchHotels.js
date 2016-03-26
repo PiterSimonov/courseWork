@@ -1,22 +1,27 @@
 $(document).ready(function () {
+    var roomCounter = 0;
 
+    if (localStorage.getItem('form')) {
+        $('#left-panel').html(localStorage.getItem('form'));
+        var elements = $("#rooms :input[type='number']");
+        $.each(elements, function () {
+            roomCounter++;
+            $(this).on("change", function () {
+                this.setAttribute("value", this.value);
+            })
+        });
+        var buttons = $("#rooms :input[type='button']");
+        $.each(buttons, function () {
+            $(this).on("click", function () {
+                var el = this.previousElementSibling;
+                this.parentElement.removeChild(el);
+                this.parentElement.removeChild(this);
+                roomCounter--;
+                $("#addRoom").attr("disabled", false);
+            })
+        });
 
-    var d = new Date();
-    var today = dateToString(d);
-    var nextDay = dateToString(d, 1);
-    var maxDays = dateToString(d, 28);
-    var $fromDate = $('#fromDate');
-    var $toDate = $('#toDate');
-    $fromDate.attr("value", today);
-    $fromDate.attr("min", today);
-    $toDate.attr("value", nextDay);
-    $toDate.attr("min", nextDay);
-    $toDate.attr("max", maxDays);
-
-    var $bookingDate =$('.booking-date');
-    $bookingDate.prop("min", today);
-    $bookingDate.prop("value", today);
-
+    }
 
     $("#fromDate").change(function () {
         $("#fromDate").attr("value", fromDate.value);
@@ -155,8 +160,6 @@ $(document).ready(function () {
     $("#hotel").change(function () {
         $("#hotelId").attr("value", 0);
     });
-
-    var roomCounter = 1;
 
     $("#addRoom").click(function () {
 
@@ -430,14 +433,14 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             type: 'POST',
-            beforeSend: function(){
+            beforeSend: function () {
                 $submit.attr("disabled", true);
                 $('#wait').text("Please wait");
             },
             success: function (data) {
                 $('#hotel-info').children('div').text("Hotel : " + name);
                 $('#image-stars').empty();
-                for (var i =0; i<stars; i++){
+                for (var i = 0; i < stars; i++) {
                     $('#image-stars').append('<img class="stars" src="/resources/images/hotels/stars.png"/>');
                 }
                 $submit.attr("disabled", false);
@@ -445,7 +448,7 @@ $(document).ready(function () {
             }
         });
     });
-$('#edit-room').submit(function (e) {
+    $('#edit-room').submit(function (e) {
         e.preventDefault();
         var $thisForm = $(this);
         var $submit = $thisForm.find(":submit");
@@ -481,5 +484,4 @@ $('#edit-room').submit(function (e) {
             }
         });
     });
-
 });
