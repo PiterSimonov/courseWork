@@ -1,6 +1,7 @@
 package simonov.hotel.entity;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Map;
 
 public class Request {
@@ -10,15 +11,14 @@ public class Request {
     private int hotelId;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Map<Integer, Integer> seats;
+    private Map<Integer, Integer> seats = Collections.emptyMap();
     private int stars;
-    private int firstResult;
-    private int limit;
+    private int firstResult = 0;
+    private int limit = 5;
     private RoomSort roomSort = RoomSort.SeatsAsc;
-    private int roomsFirstResult;
+    private int roomsFirstResult = 0;
     private int roomsLimit = 5;
     private int roomHotelId;
-
 
     public int getCountryId() {
         return countryId;

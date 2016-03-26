@@ -1,6 +1,5 @@
 package simonov.hotel.controllers;
 
-import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -144,7 +143,7 @@ public class IndexController {
         return "redirect:/hotel/" + hotelId;
     }
 
-    @RequestMapping(value = "/addHotel", method = RequestMethod.POST) //TODO this must be ajax request
+    @RequestMapping(value = "/addHotel", method = RequestMethod.POST)
     public String addHotel(@RequestParam String name,
                            @RequestParam("city_id") int cityId,
                            @RequestParam int stars,
