@@ -41,6 +41,12 @@ public class IndexController {
         model.addAttribute("hotels", hotelService.getFirstTenHotels());
         return "main";
     }
+    @RequestMapping(value = "/error",  method = RequestMethod.GET)
+    public String error(@RequestParam String message, Model model) {
+        model.addAttribute("message", message);
+        return "error";
+    }
+
 
     @RequestMapping(value = "/hotel/{hotelId}")
     public String getHotel(@PathVariable int hotelId, Model model) {

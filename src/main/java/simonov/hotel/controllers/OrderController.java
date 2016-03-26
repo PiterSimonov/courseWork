@@ -62,15 +62,14 @@ public class OrderController {
             return "error";
         }
     }
-    @RequestMapping(value = "{orderId}/delete", method = RequestMethod.GET)
-    public String deleteOrder(@PathVariable int orderId, @ModelAttribute("user") User user, Model model) {
+    @RequestMapping(value = "{orderId}/delete", method = RequestMethod.POST)
+    public @ResponseBody boolean deleteOrder(@PathVariable int orderId, @ModelAttribute("user") User user) {
         Order order = orderService.getOrderById(orderId);
-        if (user.getId() == order.getUser().getId()) {
+        if (order!=null && user.getId() == order.getUser().getId()) {
             orderService.delete(order);
-            return "redirect:/profile";
+            return true;
         } else {
-            model.addAttribute("message", "Wrong URL for delete order");
-            return "error";
+            return false;
         }
     }
 
