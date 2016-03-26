@@ -29,7 +29,7 @@
                 </c:when>
                 <c:when test="${order.status=='NotConfirmed'}">
                     <a href="/order/${order.id}/payment">Payment</a>
-                    <a class="delete-order" href="/order/${order.id}/delete">[Cancel]</a>
+                    <a class="delete-order" href="${order.id}">[Cancel]</a>
                 </c:when>
             </c:choose>
         </div>
