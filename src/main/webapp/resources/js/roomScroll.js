@@ -87,6 +87,7 @@ $(document).ready(function () {
         });
     });
 
+
     $("#sortSeats").on("click", function () {
         startFrom = 5;
         var sortVal;
