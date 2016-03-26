@@ -88,6 +88,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(Order order) {
+        orderControl.removeOrder(order);
         orderDAO.delete(order);
     }
 }

@@ -41,6 +41,12 @@ public class IndexController {
         model.addAttribute("hotels", hotelService.getFirstTenHotels());
         return "main";
     }
+    @RequestMapping(value = "/error",  method = RequestMethod.GET)
+    public String error(@RequestParam String message, Model model) {
+        model.addAttribute("message", message);
+        return "error";
+    }
+
 
     @RequestMapping(value = "/hotel/{hotelId}")
     public String getHotel(@PathVariable int hotelId, Model model) {
@@ -84,7 +90,7 @@ public class IndexController {
     @ResponseBody
     Room updateRoom(@PathVariable int roomId,
                     @RequestParam String type,
-                    @RequestParam double price,
+                    @RequestParam int price,
                     @RequestParam String description,
                     @RequestParam int seats,
                     @RequestParam MultipartFile imageFile
@@ -119,7 +125,7 @@ public class IndexController {
     public String addRoom(@RequestParam String type,
                           @RequestParam int number,
                           @RequestParam String description,
-                          @RequestParam Double price,
+                          @RequestParam int price,
                           @RequestParam int seats,
                           @RequestParam int hotelId,
                           @RequestParam MultipartFile imageFile) {

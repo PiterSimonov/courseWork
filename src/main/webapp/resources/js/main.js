@@ -383,6 +383,10 @@ $(document).ready(function () {
         var myForm = new FormData(this);
         var name = $thisForm.find('input[name=name]').val();
         var stars = $thisForm.find('select[name=stars]').val();
+        if($thisForm.valid()){
+            $submit.attr("disabled", true);
+            $('#wait').text("Please wait");
+        }
         $.ajax({
             url: '/hotel/' + id + '/edit',
             data: myForm,
@@ -390,10 +394,6 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             type: 'POST',
-            beforeSend: function(){
-                $submit.attr("disabled", true);
-                $('#wait').text("Please wait");
-            },
             success: function (data) {
                 $('#hotel-info').children('div').text("Hotel : " + name);
                 $('#image-stars').empty();
@@ -442,4 +442,22 @@ $('#edit-room').submit(function (e) {
         });
     });
 
+    $('.delete-order').on('click', function(e){
+        e.preventDefault();
+        var $thisOrder = $(this);
+        var $divParent = $thisOrder.parent("div");
+        var orderId = $(this).attr('href');
+       alert($(this).attr('href'));
+        $.ajax({
+            url: "/order/"+orderId+"/delete",
+            type: 'POST',
+            success: function(date){
+                if (date){
+                    $divParent.remove();
+                } else {
+                    document.location.href = "/error?message=Your order has been deleted"
+                }
+            }
+        });
+    });
 });

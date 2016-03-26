@@ -62,6 +62,17 @@ public class OrderController {
             return "error";
         }
     }
+    @RequestMapping(value = "{orderId}/delete", method = RequestMethod.POST)
+    public @ResponseBody boolean deleteOrder(@PathVariable int orderId, @ModelAttribute("user") User user) {
+        Order order = orderService.getOrderById(orderId);
+        if (order!=null && user.getId() == order.getUser().getId()) {
+            orderService.delete(order);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @RequestMapping(value = "{orderId}/payment", method = RequestMethod.POST)
     public String payment(@PathVariable int orderId) {
