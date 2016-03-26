@@ -48,12 +48,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> sortByPrice(List<Room> rooms) {
-        rooms.sort((Room o1, Room o2) -> (o1.getPrice().compareTo(o2.getPrice())));
-        return rooms;
-    }
-
-    @Override
     public List<Room> getFreeRoomsByRequest(Request request) {
         return roomDAO.getFreeRoomsByRequest(request);
     }

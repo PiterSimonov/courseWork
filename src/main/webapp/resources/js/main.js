@@ -311,14 +311,15 @@ $(document).ready(function () {
         if (userRole == "HotelOwner" || userRole == 'CLIENT') {
             $(":submit").attr("disabled", true);
             $.ajax({
-                url: "search/check-date", //TODO create order with one booking... and Controller for handling this
+                url: "/order/check-date",
                 type: "GET",
                 data: $("#form-booking").serialize(),
+                async: false,
                 success: function (data) {
                     if (data) {
-
+                        document.location.href = "/profile";
                     } else {
-                        $("#is-free").html("<img class='image-ok' src='/resources/images/error.jpg'/> Sorry, this roomis booking for thi dates")
+                        $("#is-free").html("<img class='image-ok' src='/resources/images/error.jpg'/> Sorry, not aviable right now")
                     }
                 }
             });
@@ -423,6 +424,10 @@ $(document).ready(function () {
         var myForm = new FormData(this);
         var name = $thisForm.find('input[name=name]').val();
         var stars = $thisForm.find('select[name=stars]').val();
+        if($thisForm.valid()){
+            $submit.attr("disabled", true);
+            $('#wait').text("Please wait");
+        }
         $.ajax({
             url: '/hotel/' + id + '/edit',
             data: myForm,
@@ -430,10 +435,6 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             type: 'POST',
-            beforeSend: function(){
-                $submit.attr("disabled", true);
-                $('#wait').text("Please wait");
-            },
             success: function (data) {
                 $('#hotel-info').children('div').text("Hotel : " + name);
                 $('#image-stars').empty();
@@ -482,4 +483,21 @@ $('#edit-room').submit(function (e) {
         });
     });
 
+    $('.delete-order').on('click', function(e){
+        e.preventDefault();
+        var $thisOrder = $(this);
+        var $divParent = $thisOrder.parent("div");
+        var orderId = $(this).attr('href');
+        $.ajax({
+            url: "/order/"+orderId+"/delete",
+            type: 'POST',
+            success: function(date){
+                if (date){
+                    $divParent.remove();
+                } else {
+                    document.location.href = "/error?message=Your order has been deleted"
+                }
+            }
+        });
+    });
 });

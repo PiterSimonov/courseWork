@@ -27,7 +27,9 @@ $(document).ready(function () {
         }
         return true;
     }, "Please enter a file with a valid extension.");
-
+    $.validator.addMethod("double", function (value, element) {
+        return $.isNumeric(value);
+    },"Enter e valid number");
     
     $('form#registerForm').validate({
         rules: {
@@ -84,6 +86,10 @@ $(document).ready(function () {
 
     $('form#add-hotel, #add-room').validate({
         rules: {
+            price:{
+                required: true,
+                digits: true
+            },
             imageFile: {
                 fileSize: 3145728,
                 accept: "png|jpe?g|gif"
@@ -98,8 +104,12 @@ $(document).ready(function () {
         }
     });
 
-    $('form#edit-hotel').validate({
+    $('form#edit-hotel, #edit-room').validate({
         rules: {
+            price:{
+                required: true,
+                digits: true
+            },
             name:{
                 required:true
             },

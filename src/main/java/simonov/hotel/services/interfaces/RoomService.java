@@ -24,7 +24,5 @@ public interface RoomService {
 
     List<Room> getFreeRoomsByRequest(Request request);
 
-    List<Room> sortByPrice(List<Room> rooms);
-
     void update(Room room);
 }

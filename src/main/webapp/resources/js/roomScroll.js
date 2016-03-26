@@ -41,7 +41,6 @@ $(document).ready(function () {
         }
     });
 
-
     var SORT_BY_PRICE_ASC = 0;
     var SORT_BY_PRICE_DESC = 1;
     var SORT_BY_SEATS_ASC = 2;
@@ -70,7 +69,6 @@ $(document).ready(function () {
         });
     });
 
-
     $("#sortSeats").on("click", function () {
         startFrom = 5;
         var sortVal;
@@ -93,11 +91,6 @@ $(document).ready(function () {
             }
         });
     });
-
-
-
-
-
 });
 
 function addRoom(room) {

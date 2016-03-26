@@ -17,12 +17,11 @@
 </div>
 <div class="orders"><h3>Your orders:</h3><br/>
     <c:forEach items="${orders}" var="order">
-        <div style="border: solid rgba(180, 136, 255, 0.42); margin-bottom: 5px">
+        <div id="order${order.id}" style="border: solid rgba(180, 136, 255, 0.42); margin-bottom: 5px">
             <h4>Hotel: ${order.hotel.name}
                 Price: ${order.price},
                 date creation: <fmt:formatDate value="${order.creationTime}" pattern="yyyy-MM-dd HH:mm"/>
                 Status: ${order.status}
-
             </h4>
             <c:choose>
                 <c:when test="${not order.commented and order.status == 'Confirmed'}">
@@ -30,6 +29,7 @@
                 </c:when>
                 <c:when test="${order.status=='NotConfirmed'}">
                     <a href="/order/${order.id}/payment">Payment</a>
+                    <a class="delete-order" href="${order.id}">[Cancel]</a>
                 </c:when>
             </c:choose>
         </div>
