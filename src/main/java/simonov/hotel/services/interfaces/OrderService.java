@@ -13,6 +13,8 @@ public interface OrderService {
 
     List<Order> getNotConfirmedOrders();
 
+    long getNotConfirmedOrdersCountByUser(int userId);
+
     Order getOrderById(int id);
 
     List<Room> createOrder(List<Booking> bookings, User user);

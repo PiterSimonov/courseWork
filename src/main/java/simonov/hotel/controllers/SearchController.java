@@ -2,22 +2,14 @@ package simonov.hotel.controllers;
 
 import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.core.MediaType;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @EnableWebMvc
@@ -37,7 +29,6 @@ public class SearchController {
     CityService cityService;
     @Autowired
     CountryService countryService;
-
 
     @RequestMapping(value = "test", method = RequestMethod.POST, headers = "Accept=application/json")
     public
@@ -66,7 +57,7 @@ public class SearchController {
                               Model model) {
         request.setRoomHotelId(roomHotelId);
         List<Room> rooms = roomService.getFreeRoomsByRequest(request);
-        model.addAttribute("hotel",hotelService.getHotelById(roomHotelId));
+        model.addAttribute("hotel", hotelService.getHotelById(roomHotelId));
         model.addAttribute("choice", new Choice());
         model.addAttribute("rooms", rooms);
         return "search/rooms";
@@ -82,7 +73,6 @@ public class SearchController {
         return rooms;
     }
 
-
     @RequestMapping(value = "roomsNext", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -92,51 +82,6 @@ public class SearchController {
         List<Room> rooms = roomService.getFreeRoomsByRequest(request);
         request.setRoomsFirstResult(0);
         return rooms;
-    }
-
-
-    @RequestMapping(value = "hotel/{hotelId}/rooms", method = RequestMethod.POST)
-    public String createOrder(@PathVariable int hotelId, @ModelAttribute Request request,
-                              @ModelAttribute Choice choice,
-                              @ModelAttribute("user") User user, Model model) {
-        List<Integer> ids = choice.getRoomsIds();
-        List<Booking> bookings = new ArrayList<>();
-        for (int i : ids) {
-            Booking booking = new Booking();
-            booking.setRoom(roomService.getRoomById(i));
-            booking.setStartDate(request.getStartDate());
-            booking.setEndDate(request.getEndDate());
-            bookings.add(booking);
-        }
-        List<Room> rooms = orderService.createOrder(bookings, user);
-        if (rooms.size() == 0) {
-            return "redirect:/profile";
-        } else {
-            String roomNumbers = rooms.stream().map(room -> String.valueOf(room.getNumber())).collect(Collectors.joining(", "));
-            model.addAttribute("message", "Sorry, but room №: " + roomNumbers + " already booked");
-            List<Room> roomList = roomService.getFreeRoomsByRequest(request);
-            model.addAttribute("choice", new Choice());
-            model.addAttribute("rooms", roomList);
-            return "search/rooms";
-        }
-    }
-
-    @RequestMapping(value = "check-date", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    boolean checkUser(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
-                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
-                      @RequestParam int roomId, @ModelAttribute User user) {
-        if (user.getRole() != Role.NotAuthorized && roomService.isFree(fromDate, toDate, roomId)) {
-                Booking booking = new Booking();
-                booking.setStartDate(fromDate);
-                booking.setEndDate(toDate);
-                booking.setRoom(roomService.getRoomById(roomId));
-                bookingService.saveAll(Collections.singletonList(booking));//TODO rebuild this
-                return true;
-        } else {
-            return false;
-        }
     }
 
     @RequestMapping(value = "/country")
@@ -189,18 +134,11 @@ public class SearchController {
 
     @ModelAttribute("user")
     public User createUser() {
-        User user = new User();
-        user.setRole(Role.NotAuthorized);
-        return user;
+        return new User();
     }
 
     @ModelAttribute("request")
     public Request createRequest() {
-        Request request = new Request();
-        request.setLimit(5);
-        request.setFirstResult(0);
-        return request;
+        return new Request();
     }
-
-
 }

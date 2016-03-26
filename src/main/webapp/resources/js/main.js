@@ -271,14 +271,15 @@ $(document).ready(function () {
         if (userRole == "HotelOwner" || userRole == 'CLIENT') {
             $(":submit").attr("disabled", true);
             $.ajax({
-                url: "search/check-date", //TODO create order with one booking... and Controller for handling this
+                url: "/order/check-date",
                 type: "GET",
                 data: $("#form-booking").serialize(),
+                async: false,
                 success: function (data) {
                     if (data) {
-
+                        document.location.href = "/profile";
                     } else {
-                        $("#is-free").html("<img class='image-ok' src='/resources/images/error.jpg'/> Sorry, this roomis booking for thi dates")
+                        $("#is-free").html("<img class='image-ok' src='/resources/images/error.jpg'/> Sorry, not aviable right now")
                     }
                 }
             });
@@ -447,7 +448,6 @@ $('#edit-room').submit(function (e) {
         var $thisOrder = $(this);
         var $divParent = $thisOrder.parent("div");
         var orderId = $(this).attr('href');
-       alert($(this).attr('href'));
         $.ajax({
             url: "/order/"+orderId+"/delete",
             type: 'POST',

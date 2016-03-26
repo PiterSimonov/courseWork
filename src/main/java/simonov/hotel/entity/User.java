@@ -32,7 +32,7 @@ public class User {
 
     @Column
     @Enumerated(EnumType.ORDINAL)
-    private Role role;
+    private Role role = Role.NotAuthorized;
 
     @Column
     @Length(min = 6, max = 25)

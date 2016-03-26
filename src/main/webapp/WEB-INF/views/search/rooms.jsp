@@ -18,7 +18,7 @@
 <input type="button" name="sortPrice" id="sortPrice" value="ByPriceAsc">
 <input type="button" name="sortSeats" id="sortSeats" value="BySeatsAsc">
 <h3>${message}</h3>
-<form:form method="POST" commandName="choice" id="choice-room">
+<form:form method="POST" action="/order/hotel/${hotel.id}/rooms" commandName="choice" id="choice-room">
     <table>
         <tbody id="room-list">
         <c:forEach items="${rooms}" var="room">
