@@ -41,6 +41,24 @@ $(document).ready(function () {
         }
     });
 
+    $('form#choice-room').submit(function (e) {
+        var userRole;
+        $.ajax({
+            url: "/get-user",
+            type: "GET",
+            async: false,
+            success: function (responce) {
+                userRole = responce;
+            }
+        });
+        if (userRole == "HotelOwner" || userRole == 'CLIENT') {
+            $(":submit").attr("disabled", true);
+        } else {
+            loadPopup();
+            return false;
+        }
+    });
+
     var SORT_BY_PRICE_ASC = 0;
     var SORT_BY_PRICE_DESC = 1;
     var SORT_BY_SEATS_ASC = 2;
@@ -68,6 +86,7 @@ $(document).ready(function () {
             }
         });
     });
+
 
     $("#sortSeats").on("click", function () {
         startFrom = 5;
@@ -110,7 +129,7 @@ function addRoom(room) {
     tableData.append(image);
     row.append(tableData);
     var tableData2 = $('<td>');
-    tableData2.append("Room №" + room.number + "<br/>Type is" + room.type + "<br/>" +
+    tableData2.append("Room № " + room.number + "<br/>Type is " + room.type + "<br/>" +
         "Places: " + room.seats + "<br/>Price: " + room.price + " &#36;");
     row.append(tableData2);
     var tableData3 = $('<td>');

@@ -4,11 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script src="<c:url value='/resources/js/validator.js'/>"></script>
     <link href="<c:url value='/resources/css/styles.css'/>" rel="stylesheet">
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="<c:url value='/resources/js/validator.js'/>"></script>
     <title>Hotel Booking</title>
 </head>
 <body>
