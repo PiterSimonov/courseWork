@@ -35,7 +35,7 @@ public class User {
     @Column
     @Enumerated(EnumType.ORDINAL)
     @JsonIgnore
-    private Role role;
+    private Role role = Role.NotAuthorized;
 
     @Column
     @Length(min = 6, max = 25)

@@ -158,7 +158,7 @@ $(document).ready(function () {
     $("#hotel").change(function () {
         $("#hotelId").attr("value", 0);
     });
-
+    var roomCounter = 1;
     $("#addRoom").click(function () {
 
         var number = document.createElement("input");
