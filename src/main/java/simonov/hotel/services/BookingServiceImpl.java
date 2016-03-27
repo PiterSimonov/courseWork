@@ -2,64 +2,39 @@ package simonov.hotel.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import simonov.hotel.dao.interfaces.BookingDAO;
 import simonov.hotel.dao.interfaces.RoomDAO;
 import simonov.hotel.entity.Booking;
+import simonov.hotel.entity.Order;
 import simonov.hotel.entity.Room;
 import simonov.hotel.services.interfaces.BookingService;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
 public class BookingServiceImpl implements BookingService {
-
+    @Autowired
+    protected PlatformTransactionManager txManager;
     @Autowired
     BookingDAO bookingDAO;
     @Autowired
     RoomDAO roomDAO;
 
     @Override
-    public List<Booking> getBookingsByRoom(int roomId) {
-        return bookingDAO.getBookingsByRoom(roomId);
-    }
-
-    @Override
-    public List<Booking> getBookingsByHotel(int hotelId) {
-        return bookingDAO.getBookingsByHotel(hotelId);
-    }
-
-    @Override
-    public List<Booking> getActualBookingsByHotel(int hotelId) {
-        return bookingDAO.getActualBookingsByHotel(hotelId);
-    }
-
-    @Override
-    public List<Booking> getHistoryBookingsByHotel(int hotelId) {
-        return bookingDAO.getHistoryBookingsByHotel(hotelId);
-    }
-
-    @Override
-    public void delete(Booking booking, String message) {
-        bookingDAO.delete(booking);
-    }
-
-    @Override
     public List<Booking> getBookingByCriteria(int hotelId, LocalDate fromDate, LocalDate toDate, int roomNumber) {
         return bookingDAO.getBookingByCriteria(hotelId,fromDate,toDate,roomNumber);
-    }
-
-    @Override
-    public void update(Booking booking) {
-        bookingDAO.update(booking);
-    }
-
-    @Override
-    public List<Booking> getBookings() {
-        return bookingDAO.getAll();
     }
 
     @Override
@@ -81,5 +56,20 @@ public class BookingServiceImpl implements BookingService {
             bookings.stream().forEach(booking -> roomDAO.unlock(booking.getRoom().getId()));
         }
         return result;
+    }
+
+    @Override
+    public void deleteHistoryBookings() {
+        bookingDAO.deleteHistoryBookings();
+    }
+
+    @PostConstruct
+    private void deleteOldBooking(){
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread thread = new Thread(r);
+            thread.setDaemon(true);
+            return thread;
+        });
+        service.scheduleWithFixedDelay((Runnable) this::deleteHistoryBookings, 0, 7, TimeUnit.DAYS);
     }
 }
