@@ -1,6 +1,7 @@
 package simonov.hotel.controllers;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,8 @@ public class SearchController {
     CityService cityService;
     @Autowired
     CountryService countryService;
+    @Autowired
+    CommentService commentService;
 
 
     @RequestMapping(value = "test", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -179,6 +182,16 @@ public class SearchController {
         JSONArray array = new JSONArray();
         list.stream().forEach(city -> array.add(city.toJSON()));
         return array.toString();
+    }
+
+    @RequestMapping(value = "/comments/{hotelId}")
+    public
+    @ResponseBody
+    List<Comment> getHotelById(@PathVariable int hotelId) {
+        List<Comment> list = commentService.getCommentsByHotel(hotelId);
+        System.out.println(list.size());
+
+        return list;
     }
 
     @ModelAttribute("user")

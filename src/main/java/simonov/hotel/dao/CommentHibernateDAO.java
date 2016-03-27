@@ -1,6 +1,7 @@
 package simonov.hotel.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import simonov.hotel.dao.interfaces.CommentDAO;
@@ -19,6 +20,7 @@ public class CommentHibernateDAO extends AbstractDAO<Comment, Integer> implement
     @Override
     public List<Comment> getCommentsByHotel(int hotelId) {
         Criteria criteria = getCurrentSession().createCriteria(Comment.class);
+        criteria.setFetchMode("user", FetchMode.JOIN);
         criteria.add(Restrictions.eq("hotel.id", hotelId));
         return criteria.list();
     }
