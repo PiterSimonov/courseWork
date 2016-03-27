@@ -140,8 +140,6 @@ public class SearchController {
     @ResponseBody
     List<Comment> getHotelById(@PathVariable int hotelId) {
         List<Comment> list = commentService.getCommentsByHotel(hotelId);
-        System.out.println(list.size());
-
         return list;
     }
 
