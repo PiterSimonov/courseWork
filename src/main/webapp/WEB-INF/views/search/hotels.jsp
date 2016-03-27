@@ -94,10 +94,8 @@
     <input type="button" name="more" id="more" value="More">
 
 </div>
-
 <div id="popup_name" class="popup_block">
     <div id="commentsWindow" style="width: 700px; max-height: 400px; overflow-y: scroll">
-
     </div>
 </div>
 </body>
