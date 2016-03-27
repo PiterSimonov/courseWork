@@ -41,6 +41,7 @@ $(document).ready(function () {
 
         return false;
     });
+
 //Закрываем окно и фон затемнения
     $(document).on('click', 'a.close, #fade', function () { //закрытие по клику вне окна, т.е. по фону...
         $('#fade , .popup_block').fadeOut(function () {
