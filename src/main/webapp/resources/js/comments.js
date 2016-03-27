@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     $('body').on('click','a.poplight[href^=#]',function () {
         $.ajax({
             url: "/search//comments/" + this.id,
