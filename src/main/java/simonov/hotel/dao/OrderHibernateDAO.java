@@ -1,6 +1,7 @@
 package simonov.hotel.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import simonov.hotel.dao.interfaces.OrderDAO;
@@ -29,5 +30,14 @@ public class OrderHibernateDAO extends AbstractDAO<Order, Integer> implements Or
         Criteria criteria = getCurrentSession().createCriteria(Order.class);
         criteria.add(Restrictions.eq("status", Status.NotConfirmed));
         return criteria.list();
+    }
+
+    @Override
+    public long getNotConfirmedOrdersCountByUser(int userId) {
+        Criteria criteria = getCurrentSession().createCriteria(Order.class);
+        criteria.add(Restrictions.eq("status", Status.NotConfirmed));
+        criteria.add(Restrictions.eq("user.id",userId));
+        criteria.setProjection(Projections.rowCount());
+        return (long) criteria.uniqueResult();
     }
 }

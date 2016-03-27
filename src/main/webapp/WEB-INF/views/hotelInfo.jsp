@@ -1,15 +1,16 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
     <script src="<c:url value="/resources/js/main.js" />"></script>
+    <script src="<c:url value="/resources/js/login.js" />"></script>
+    <script src="<c:url value="/resources/js/accordion.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Hotel Info</title>
 </head>
 <body>
@@ -55,7 +56,7 @@
                           autocomplete="off">
                         <input id="roomNumber" name="number" type="number" placeholder="№" required><br/>
                         <input id="roomType" type="text" name="type" placeholder="Type" required><br/>
-                        <input id="roomPrice" type="number" step="0.01" name="price" placeholder="Price" required><br/>
+                        <input id="roomPrice" type="number" min="1" name="price" placeholder="Price" required><br/>
                         <textarea id="roomDescription" name="description" placeholder="Description"
                                   maxlength="255"></textarea><br/>
                         <label for="roomPlaces">Seats: </label>

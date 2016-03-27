@@ -9,4 +9,6 @@ public interface OrderDAO extends GenericDAO<Order, Integer> {
     List<Order> getOrdersByUser(int userId);
 
     List<Order> getNotConfirmedOrders();
+
+    long getNotConfirmedOrdersCountByUser(int userId);
 }

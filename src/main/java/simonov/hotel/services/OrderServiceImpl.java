@@ -66,6 +66,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public long getNotConfirmedOrdersCountByUser(int userId) {
+        return orderDAO.getNotConfirmedOrdersCountByUser(userId);
+    }
+
+    @Override
     public Order getOrderById(int id) {
         return orderDAO.get(id);
     }
@@ -88,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(Order order) {
+        orderControl.removeOrder(order);
         orderDAO.delete(order);
     }
 }

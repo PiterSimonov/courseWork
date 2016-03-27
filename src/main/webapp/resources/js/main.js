@@ -14,8 +14,8 @@ $(document).ready(function () {
     $toDate.attr("max", maxDays);
 
     var $bookingDate =$('.booking-date');
-    $bookingDate.prop("min", today);
-    $bookingDate.prop("value", today);
+    $bookingDate.attr("min", today);
+    $bookingDate.attr("value", today);
 
 
     $("#fromDate").change(function () {
@@ -25,10 +25,14 @@ $(document).ready(function () {
         var nextDay = dateToString(d, 1);
         var maxDays = dateToString(d, 28);
         var $toDate = $("#toDate");
+        var $endDate =$("#endDate");
         $toDate.attr("max", maxDays);
         $toDate.attr("value", nextDay);
         $toDate.val(nextDay);
         $toDate.attr("min", nextDay);
+        $endDate.attr("min",x);
+        $endDate.attr("value",x);
+        $endDate.val(x);
     });
 
     function dateToString(d, num) {
@@ -40,74 +44,24 @@ $(document).ready(function () {
         }
     }
 
-    $("#city").keyup(function () {
-        city.setAttribute("value", city.value);
-        var $city = $("#cityList");
-        $city.html("");
-        $city.css("display", "none");
-        if (city.value.length >= 3) {
-            var countryId = $("#countryId").attr("value");
-            $.ajax({
-                url: "/search/city/" + city.value + "/" + countryId,
-                type: "GET",
-                dataType: "json",
-                success: function (data) {
-                    data.forEach(function (i) {
-                        var li = li = document.createElement('li');
-                        li.appendChild(document.createTextNode(i.name));
-                        li.onclick = function () {
-                            $("#city").attr("value", i.name);
-                            $("#city").val(i.name);
-                            $("#cityId").attr("value", i.id);
-                            $("#hotel").attr("value", "");
-                            $("#hotelId").attr("value", 0);
-                            $("#hotelList").html("");
-                            $city.html("");
-                            $city.css("display", "none");
-                        };
-                        $city.append(li);
-                        $city.css("display", "block");
-                    })
-                }
+    $('#country_id').one('click', function () {
+        $.get('/search/country', function (result) {
+            var option = '';
+            $.each(result, function (key, data) {
+                option += '<option value="' + key + '">' + data + '</option>'
             });
-        }
-    });
-
-    $("#country").keyup(function () {
-        country.setAttribute("value", country.value);
-        var $country = $("#countryList");
-        $country.html("");
-        $country.css("display", "none");
-
-        if (country.value.length >= 3) {
-            $.ajax({
-                url: "/search/country/" + country.value,
-                type: "GET",
-                dataType: "json",
-                success: function (data) {
-                    data.forEach(function (i) {
-                        var li = li = document.createElement('li');
-                        li.appendChild(document.createTextNode(i.name));
-                        li.onclick = function () {
-                            $("#country").attr("value", i.name);
-                            $("#country").val(i.name);
-                            $("#countryId").attr("value", i.id);
-                            $country.html("");
-                            $("#city").attr("value", "");
-                            $("#city").val("");
-                            $("#cityId").attr("value", 0);
-                            $("#cityList").html("");
-                            $("#hotel").attr("value", "");
-                            $("#hotel").val("");
-                            $("#hotelId").attr("value", 0);
-                            $("#hotelList").html("");
-                            $country.css("display", "none");
-                        };
-                        $country.append(li);
-                        $country.css("display", "block");
-                    })
-                }
+            $('#country_id').html(option);
+        })
+    }).on("change", function () {
+        $('#city_id').removeAttr("disabled");
+        var data = $('#country_id').val();
+        $.get('/search/city', {country_id: data}, function (result) {
+            var option = '';
+            $.each(result, function (key, data) {
+                option += '<option value="' + key + '">' + data + '</option>'
             });
+            $('#city_id').html(option);
+        })
         }
     });
 
@@ -312,14 +266,15 @@ $(document).ready(function () {
         if (userRole == "HotelOwner" || userRole == 'CLIENT') {
             $(":submit").attr("disabled", true);
             $.ajax({
-                url: "search/check-date", //TODO create order with one booking... and Controller for handling this
+                url: "/order/check-date",
                 type: "GET",
                 data: $("#form-booking").serialize(),
+                async: false,
                 success: function (data) {
                     if (data) {
-
+                        document.location.href = "/profile";
                     } else {
-                        $("#is-free").html("<img class='image-ok' src='/resources/images/error.jpg'/> Sorry, this roomis booking for thi dates")
+                        $("#is-free").html("<img class='image-ok' src='/resources/images/error.jpg'/> Sorry, not aviable right now")
                     }
                 }
             });
@@ -328,61 +283,24 @@ $(document).ready(function () {
             loadPopup();
             return false;
         }
-
     });
 
-    var on = 0;
-
-    function loadPopup() {
-        if (on == 0) {
-            $("#back").css("opacity", "0.6");
-            $("#popup").slideDown(500);
-            $("#back").fadeIn(1500);
-            on = 1;
-        }
-    }
-
-    function off() {
-        if (on == 1) {
-            $("#popup").slideUp("fast");
-            $("#back").fadeOut("fast");
-            on = 0;
-        }
-    }
-
-    $("a#showpopup").click(function () {
-        loadPopup();
-    });
-    $("div#back").click(function () {
-        off();
-    });
-    $("div.close").click(function () {
-        off();
-    });
-    $("#loginForm").submit(function (e) {
+    $('.delete-order').on('click', function(e){
         e.preventDefault();
-        var loginInput = $('input#login').val();
-        if (loginInput.length < 3) {
-            $("#error-box").text("Login length must be > 3");
-        } else if ($('input#password').val().length < 6) {
-            $("#error-box").text("Password length must be > 6");
-        }
-        else {
-            $.ajax({
-                url: '/check-user',
-                type: 'POST',
-                data: $("#loginForm").serialize(),
-                success: function (data) {
-                    if (data == 'logged') {
-                        off();
-                        $('.user-bar').html('<a class="menuLink" href="/profile">Profile</a>' +
-                            '<a class="menuLink" href="/logout">Logout</a>')
-                    } else {
-                        $("#error-box").text(data);
-                    }
+        var $thisOrder = $(this);
+        var $divParent = $thisOrder.parent("div");
+        var orderId = $(this).attr('href');
+        $.ajax({
+            url: "/order/"+orderId+"/delete",
+            type: 'POST',
+            success: function(date){
+                if (date){
+                    $divParent.remove();
+                } else {
+                    document.location.href = "/error?message=Your order has been deleted"
                 }
-            });
-        }
+            }
+        });
     });
 
     $('#country_id').one('click', function () {
