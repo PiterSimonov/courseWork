@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('a.poplight[href^=#]').click(function () {
+    $('a.poplight[href^=#]').on('click', function () {
 
         $.ajax({
             url: "/search//comments/" + this.id,
@@ -43,6 +43,8 @@ $(document).ready(function () {
 
         return false;
     });
+
+
 //Закрываем окно и фон затемнения
     $(document).on('click', 'a.close, #fade', function () { //закрытие по клику вне окна, т.е. по фону...
         $('#fade , .popup_block').fadeOut(function () {

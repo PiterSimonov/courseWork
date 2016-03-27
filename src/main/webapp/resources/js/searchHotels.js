@@ -1,7 +1,8 @@
 $(document).ready(function () {
-    var roomCounter = 0;
+
 
     if (localStorage.getItem('form')) {
+        var roomCounter = 0;
         $('#left-panel').html(localStorage.getItem('form'));
         var elements = $("#rooms :input[type='number']");
         $.each(elements, function () {
