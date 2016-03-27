@@ -1,8 +1,6 @@
 $(document).ready(function () {
 
-    $('a.poplight[href^=#]').on('click', function () {
-
-    //$('body').on('click','a.poplight[href^=#]',function () {
+    $('body').on('click','a.poplight[href^=#]',function () {
         $.ajax({
             url: "/search//comments/" + this.id,
             type: "GET",
