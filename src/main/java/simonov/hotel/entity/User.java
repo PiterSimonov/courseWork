@@ -1,5 +1,6 @@
 package simonov.hotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,26 +29,32 @@ public class User {
     @Column(unique = true)
     @NotEmpty
     @Email
+    @JsonIgnore
     private String email;
 
     @Column
     @Enumerated(EnumType.ORDINAL)
-    private Role role = Role.NotAuthorized;
+    @JsonIgnore
+    private Role role;
 
     @Column
     @Length(min = 6, max = 25)
+    @JsonIgnore
     private String password;
 
     @Column
     private String phone;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Hotel> hotels;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Order> orders;
 
     public String getPassword() {
