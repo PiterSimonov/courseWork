@@ -157,7 +157,7 @@ public class SearchController {
     public
     @ResponseBody
     Hotel saveHotel(@RequestParam("hotel") String hotelJson,
-                    @RequestParam MultipartFile image,
+                    @RequestParam(required = false) MultipartFile image,
                     @ModelAttribute User user) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
