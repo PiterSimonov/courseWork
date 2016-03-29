@@ -97,10 +97,21 @@ $(document).ready(function () {
             country_id: {
                 required: true,
                 min: 1
+            },
+            number : {
+                required: true,
+                remote: {
+                    url: '/check-room-number',
+                    type: "get",
+                    data: {hotelId: $(this).find("input[name=hotelId]").val()}
+                }
             }
         },
-        message: {
-            country_id: {min: "Please select a country"}
+        messages: {
+            country_id: {required: "Please select a country"},
+            number: {
+                remote: "This room number already exist"
+            }
         }
     });
 

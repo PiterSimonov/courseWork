@@ -4,7 +4,7 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
     <script src="<c:url value="/resources/js/animation.js" />"></script>
     <title>Payment</title>
 </head>

@@ -300,6 +300,16 @@ $(document).ready(function () {
         })
     });
 
+    $('#add-hotel').submit(function (e) {
+        var $thisForm = $(this);
+        var $submit = $thisForm.find(":submit");
+        if($thisForm.valid()){
+            $submit.attr("disabled", true);
+            $('#wait').text("Please wait");
+        }
+        return true;
+    });
+
     $('.delete-order').on('click', function(e){
         e.preventDefault();
         var $thisOrder = $(this);
