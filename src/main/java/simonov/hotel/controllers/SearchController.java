@@ -1,15 +1,19 @@
 package simonov.hotel.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import simonov.hotel.entity.*;
 import simonov.hotel.services.interfaces.*;
+import simonov.hotel.utilites.FileUpLoader;
 
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -32,6 +36,8 @@ public class SearchController {
     CountryService countryService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    ConvenienceService convenienceService;
 
     @RequestMapping(value = "test", method = RequestMethod.POST, headers = "Accept=application/json")
     public
@@ -152,4 +158,29 @@ public class SearchController {
     public Request createRequest() {
         return new Request();
     }
+
+
+    @RequestMapping(value = "/saveHotel", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Hotel saveHotel(@RequestParam("hotel") String hotelJson,
+                    @RequestParam MultipartFile image,
+                    @ModelAttribute User user) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Hotel hotel = objectMapper.readValue(hotelJson, Hotel.class);
+            hotel.setUser(user);
+            if (image.getContentType().equals("image/jpeg")) {
+                String link = FileUpLoader.uploadImageToImgur(image);
+                hotel.setImageLink(link);
+            }
+            hotelService.saveHotel(hotel);
+            return hotelService.getHotelById(hotel.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

@@ -24,21 +24,23 @@ public class Hotel {
     private String description;
 
     @Column
-    @JsonIgnore
     private int stars;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hotel")
     private List<Room> rooms;
 
     @ManyToOne
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hotel")
     private List<Comment> comments;
 
     @Column
     private Double rating;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "hotels_conveniences",
             joinColumns = @JoinColumn(name = "hotel_id"),

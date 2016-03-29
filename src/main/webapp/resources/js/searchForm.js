@@ -1,28 +1,5 @@
 $(document).ready(function () {
 
-
-    if (localStorage.getItem('form')) {
-        var roomCounter = 0;
-        $('#left-panel').html(localStorage.getItem('form'));
-        var elements = $("#rooms :input[type='number']");
-        $.each(elements, function () {
-            roomCounter++;
-            $(this).on("change", function () {
-                this.setAttribute("value", this.value);
-            })
-        });
-        var buttons = $("#rooms :input[type='button']");
-        $.each(buttons, function () {
-            $(this).on("click", function () {
-                var el = this.previousElementSibling;
-                this.parentElement.removeChild(el);
-                this.parentElement.removeChild(this);
-                roomCounter--;
-                $("#addRoom").attr("disabled", false);
-            })
-        });
-    }
-
     $("#fromDate").change(function () {
         $("#fromDate").attr("value", fromDate.value);
         var x = fromDate.value;
@@ -43,7 +20,7 @@ $(document).ready(function () {
             var nextDay = new Date(d.valueOf() + 24 * 60 * 60 * 1000 * num);
             return nextDay.toJSON().split('T')[0];
         }
-    }
+    };
 
     $("#city").keyup(function () {
         city.setAttribute("value", city.value);
@@ -161,12 +138,14 @@ $(document).ready(function () {
         $("#hotelId").attr("value", 0);
     });
 
-    $("#addRoom").click(function () {
+    var roomCounter = $("#rooms :input[type='number']").length;
+
+    $("#addRoom").on("click", (function () {
 
         var number = document.createElement("input");
         number.type = "number";
         number.min = 1;
-        number.setAttribute("value", 1);
+        number.setAttribute("value", 2);
         number.max = 8;
         number.onchange = function () {
             number.setAttribute("value", number.value);
@@ -176,12 +155,7 @@ $(document).ready(function () {
         del.type = "button";
         del.value = "X";
         del.style = "width:24px;height:22px;color:red";
-        del.onclick = function () {
-            del.parentElement.removeChild(del);
-            number.parentElement.removeChild(number);
-            roomCounter--;
-            $("#addRoom").attr("disabled", false);
-        };
+
         number.appendChild(del);
         $("#rooms").append(number);
         $("#rooms").append(del);
@@ -190,6 +164,15 @@ $(document).ready(function () {
         if (roomCounter >= 8) {
             $("#addRoom").attr("disabled", true);
         }
+    }));
+
+    $('body').on('click', "#rooms :input[type='button']", function () {
+
+        var el = this.previousElementSibling;
+        this.parentElement.removeChild(el);
+        this.parentElement.removeChild(this);
+        roomCounter--;
+        $("#addRoom").attr("disabled", false);
     });
 
     $("body").click(function (e) {

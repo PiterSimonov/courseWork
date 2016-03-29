@@ -6,13 +6,14 @@
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
     <script src="<c:url value="/resources/js/main.js" />"></script>
+    <script src="<c:url value="/resources/js/saveHotel.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
     <title>Hotel owner</title>
 </head>
 <body>
 <div class="menuLink"><a href="/">Home</a></div>
 <div id="hotel-list">
-    <table class="table-hotels">
+    <table class="table-hotels" id="table-hotels">
         <c:forEach items="${hotels}" var="hotel">
             <tr>
                 <td>
@@ -47,7 +48,7 @@
                         <option value="">- City -</option>
                     </select><br/>
                     <label>Stars: </label>
-                    <select form="add-hotel" name="stars" required><br/>
+                    <select id="stars" form="add-hotel" name="stars" required><br/>
                         <option></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -56,13 +57,19 @@
                         <option value="5">5</option>
                     </select><br/>
                     <label>Services:</label>
-                    <select form="add-hotel" name="convenience" size="5" multiple>
+                    <div id="conveniences" style="border: 1px solid #C0C0C0">
+                            <%--<select form="add-hotel" name="convenience" size="5" multiple>--%>
                         <c:forEach items="${services}" var="service">
-                            <option value="${service.id}">${service.description}</option>
+                            <input type="checkbox" name="option1" value="${service.id}">${service.description}<br>
+
+
+                            <%--<option value="${service.id}">${service.description}</option>--%>
                         </c:forEach>
-                    </select><br/>
+                    </div>
+                        <%--</select>--%>
+                    <br/>
                     <input type="file" name="imageFile" id="image" accept="image/*" style="width: 250px">
-                    <br/><input id="hotelSubmit" type="submit" value="Add Hotel">
+                    <br/><input id="hotelSubmit" type="button" value="Add Hotel">
                 </form>
             </div>
         </div>

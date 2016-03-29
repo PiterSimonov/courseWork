@@ -16,6 +16,7 @@ public class City {
     @Column
     private String name;
 
+    @JsonIgnore
     @ManyToOne
     private Country country;
 

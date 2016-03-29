@@ -7,7 +7,6 @@
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
-    <script src="<c:url value="/resources/js/main.js" />"></script>
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/accordion.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
