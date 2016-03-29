@@ -13,6 +13,16 @@ $(document).ready(function () {
         $toDate.attr("min", nextDay);
     });
 
+    $("#toDate").change(function () {
+        $("#toDate").attr("value", toDate.value);
+        var x = toDate.value;
+        var d = new Date(Date.parse(x));
+        var $toDate = $("#toDate");
+        $toDate.attr("value", dateToString(d));
+        $toDate.val(dateToString(d));
+    });
+
+
     function dateToString(d, num) {
         if (num === undefined) {
             return d.toJSON().split('T')[0];

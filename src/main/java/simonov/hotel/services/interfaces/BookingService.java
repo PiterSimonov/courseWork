@@ -11,19 +11,7 @@ import java.util.List;
 public interface BookingService {
     List<Room> saveAll(List<Booking> bookings);
 
-    List<Booking> getActualBookingsByHotel(int hotelId);
-
-    List<Booking> getHistoryBookingsByHotel(int hotelId);
-
-    List<Booking> getBookingsByRoom(int roomId);
-
-    List<Booking> getBookingsByHotel(int hotelId);
-
-    void delete(Booking booking, String message);
-
-    List<Booking> getBookings();
-
-    void update(Booking booking);
+    void deleteHistoryBookings();
 
     List<Booking> getBookingByCriteria(int hotelId, LocalDate fromDate, LocalDate toDate, int roomNumber);
 }

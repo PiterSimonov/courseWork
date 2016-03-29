@@ -106,7 +106,6 @@ public class OrderController {
                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
                               @RequestParam int roomId, @ModelAttribute User user) {
         long userOrderCount = orderService.getNotConfirmedOrdersCountByUser(user.getId());
-        System.out.println("Inside checkDate " + fromDate.toString());
         if (user.getRole() != Role.NotAuthorized && userOrderCount <= 8 && roomService.isFree(fromDate, toDate, roomId)) {
             Booking booking = new Booking();
             booking.setStartDate(fromDate);

@@ -2,7 +2,6 @@ package simonov.hotel.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +25,6 @@ public class SearchController {
     HotelService hotelService;
     @Autowired
     RoomService roomService;
-    @Autowired
-    OrderService orderService;
-    @Autowired
-    BookingService bookingService;
     @Autowired
     CityService cityService;
     @Autowired
@@ -78,8 +73,7 @@ public class SearchController {
     List<Room> roomsSort(@PathVariable int sort, @ModelAttribute Request request) {
         request.setRoomSort(RoomSort.values()[sort]);
         request.setRoomsFirstResult(0);
-        List<Room> rooms = roomService.getFreeRoomsByRequest(request);
-        return rooms;
+        return roomService.getFreeRoomsByRequest(request);
     }
 
     @RequestMapping(value = "roomsNext", method = RequestMethod.POST)
@@ -145,8 +139,7 @@ public class SearchController {
     public
     @ResponseBody
     List<Comment> getHotelById(@PathVariable int hotelId) {
-        List<Comment> list = commentService.getCommentsByHotel(hotelId);
-        return list;
+        return commentService.getCommentsByHotel(hotelId);
     }
 
     @ModelAttribute("user")
