@@ -176,4 +176,27 @@ public class SearchController {
         return null;
     }
 
+    @RequestMapping(value = "/saveRoom", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Room saveHotel(@RequestParam("room") String roomJson,
+                   @RequestParam MultipartFile image) {
+        System.out.println("tyt");
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Room room = objectMapper.readValue(roomJson, Room.class);
+            if (image.getContentType().equals("image/jpeg")) {
+                String link = FileUpLoader.uploadImageToImgur(image);
+                room.setImageLink(link);
+            }
+            System.out.println(room.getPrice());
+            roomService.saveRoom(room);
+            return room;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
 }

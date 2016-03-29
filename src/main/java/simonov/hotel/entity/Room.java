@@ -31,13 +31,13 @@ public class Room {
     private String imageLink;
 
     @Column
-    private boolean locked;
+    private boolean locked = false;
 
     @JsonIgnore
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
 
-    @JsonIgnore
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;

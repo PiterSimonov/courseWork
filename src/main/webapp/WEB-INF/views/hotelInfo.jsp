@@ -10,6 +10,7 @@
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/accordion.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
+    <script src="<c:url value="/resources/js/saveRoom.js" />"></script>
     <title>Hotel Info</title>
 </head>
 <body>
@@ -24,7 +25,7 @@
 </div>
 <div>
     <div class="main">
-        <table>
+        <table id="table-rooms">
             <c:forEach items="${rooms}" var="room">
                 <tr class="room-table">
                     <td>
@@ -36,8 +37,6 @@
                         Type is ${room.type}<br/>
                         Places: ${room.seats}<br/>
                         Price: ${room.price} &#36;
-                    </td>
-                    <td>
                     </td>
                 </tr>
             </c:forEach>
@@ -61,9 +60,9 @@
                         <label for="roomPlaces">Seats: </label>
                         <input id="roomPlaces" name="seats" type="number" min="1" max="8"
                                required><br/>
-                        <input type="file" name="imageFile" accept="image/*" style="width: 250px"><br/>
-                        <input type="hidden" name="hotelId" value="${hotel.id}">
-                        <input id="roomSubmit" type="submit" value="Add Room">
+                        <input type="file" id="imageFile" name="imageFile" accept="image/*" style="width: 250px"><br/>
+                        <input type="hidden" id="hotelId" name="hotelId" value="${hotel.id}">
+                        <input id="roomSubmit" type="button" value="Add Room">
                     </form>
                 </div>
                 <h4>Edit Hotel</h4>

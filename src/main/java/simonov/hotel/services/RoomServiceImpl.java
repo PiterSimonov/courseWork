@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import simonov.hotel.dao.RoomHibernateDAO;
+import simonov.hotel.dao.interfaces.HotelDAO;
+import simonov.hotel.entity.Hotel;
 import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Room;
 import simonov.hotel.services.interfaces.RoomService;
@@ -16,9 +18,13 @@ import java.util.List;
 public class RoomServiceImpl implements RoomService {
     @Autowired
     RoomHibernateDAO roomDAO;
+    @Autowired
+    HotelDAO hotelDAO;
 
     @Override
     public void saveRoom(Room room) {
+        Hotel hotel = hotelDAO.get(room.getHotel().getId());
+        room.setHotel(hotel);
         roomDAO.save(room);
     }
 
