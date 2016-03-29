@@ -22,13 +22,11 @@ public class SearchController {
     @Autowired
     RoomService roomService;
     @Autowired
-    OrderService orderService;
-    @Autowired
-    BookingService bookingService;
-    @Autowired
     CityService cityService;
     @Autowired
     CountryService countryService;
+    @Autowired
+    CommentService commentService;
 
     @RequestMapping(value = "test", method = RequestMethod.POST, headers = "Accept=application/json")
     public
@@ -69,8 +67,7 @@ public class SearchController {
     List<Room> roomsSort(@PathVariable int sort, @ModelAttribute Request request) {
         request.setRoomSort(RoomSort.values()[sort]);
         request.setRoomsFirstResult(0);
-        List<Room> rooms = roomService.getFreeRoomsByRequest(request);
-        return rooms;
+        return roomService.getFreeRoomsByRequest(request);
     }
 
     @RequestMapping(value = "roomsNext", method = RequestMethod.POST)
@@ -130,6 +127,13 @@ public class SearchController {
         JSONArray array = new JSONArray();
         list.stream().forEach(city -> array.add(city.toJSON()));
         return array.toString();
+    }
+
+    @RequestMapping(value = "/comments/{hotelId}")
+    public
+    @ResponseBody
+    List<Comment> getHotelById(@PathVariable int hotelId) {
+        return commentService.getCommentsByHotel(hotelId);
     }
 
     @ModelAttribute("user")

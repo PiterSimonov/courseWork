@@ -37,20 +37,11 @@ h3 {
     overflow-y:auto;
     color: #000;
     background-color: lavender;
-    border: 15px solid lightcyan;
+    border: 7px solid lightcyan;
     border-radius: 15px 15px 15px 15px;
     height:200px;
 }
-div.close {
-    position: absolute;
-    right: 19px;
-    top: 1px;
-    cursor: pointer;
-    color: red;
-    width:15px;
-    height:15px;
-    font-weight:bold;
-}
+
 *{
     font-family: verdana,arial,sans-serif;
 }
@@ -189,3 +180,114 @@ table#bookings td {
     padding: 5px;
     text-align: center;
 }
+
+/*a {color: #333; text-decoration: none; font-size: 25px;}*/
+/*a:hover {color:#ccc; text-decoration:none}*/
+
+/**/
+
+#fade {
+    display: none; /*--по умолчанию скрыто--*/
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+    z-index: 9999;
+}
+
+.popup_block {
+    display: none; /*--по умолчанию скрыто--*/
+    background: #fff;
+    padding: 20px;
+    border: 8px solid rgb(134, 134, 134);
+    float: left;
+    font-size: 85%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    color: #000;
+    max-width: 750px;
+    min-width: 320px;
+    height: auto;
+    z-index: 99999;
+    /*--CSS3 тень блока--*/
+    -webkit-box-shadow: 0px 0px 20px #000;
+    -moz-box-shadow: 0px 0px 20px #000;
+    box-shadow: 0px 0px 20px #000;
+    /*--CSS3 скругление углов--*/
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+.popup_block p {
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+    color: #000;
+    line-height: 1.6;
+}
+
+.popup_block h2 {
+    margin: 0px 0 10px;
+    color: rgb(43, 43, 43);
+    font-weight: 400;
+    text-align: center;
+    text-shadow: 1px 1px 2px #0D0C0C;
+}
+
+/* формируем кнопку закрытия */
+.close {
+    background-color: rgba(61, 61, 61, 0.8);
+    border: 2px solid #ccc;
+    height: 25px;
+    line-height: 20px;
+    position: absolute;
+    right: 1px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    padding: 0;
+    top: 1px;
+    width: 25px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+}
+
+.close:before {
+    color: rgba(255, 255, 255, 0.9);
+    content: "X";
+    font-size: 12px;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
+}
+
+.close:hover {
+    background-color: rgba(252, 20, 0, 0.8);
+}
+
+.shadow {
+    box-shadow: 4px 4px 10px #857373;
+    -webkit-box-shadow: 4px 4px 10px #857373;
+    -moz-box-shadow: 4px 4px 10px #857373;
+    padding: 0;
+}
+
+/*--фиксированное позиционирование для IE6--*/
+* html #fade {
+    position: absolute;
+}
+
+* html .popup_block {
+    position: absolute;
+}
+
+

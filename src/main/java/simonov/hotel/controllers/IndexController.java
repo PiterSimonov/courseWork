@@ -23,15 +23,11 @@ public class IndexController {
     @Autowired
     HotelService hotelService;
     @Autowired
-    UserService userService;
-    @Autowired
     RoomService roomService;
     @Autowired
     BookingService bookingService;
     @Autowired
     CityService cityService;
-    @Autowired
-    CountryService countryService;
     @Autowired
     ConvenienceService convenienceService;
 
@@ -183,8 +179,6 @@ public class IndexController {
 
     @ModelAttribute("user")
     public User createUser() {
-        User user = new User();
-        user.setRole(Role.NotAuthorized);
-        return user;
+        return new User();
     }
 }

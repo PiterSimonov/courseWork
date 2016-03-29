@@ -77,5 +77,36 @@ $(document).ready(function () {
         });
     });
 
-
+    $("#form-booking").submit(function (e) {
+        e.preventDefault();
+        var userRole;
+        $.ajax({
+            url: "/get-user",
+            type: "GET",
+            async: false,
+            success: function (responce) {
+                userRole = responce;
+            }
+        });
+        if (userRole == "HotelOwner" || userRole == 'CLIENT') {
+            $(":submit").attr("disabled", true);
+            $.ajax({
+                url: "/order/check-date",
+                type: "GET",
+                data: $("#form-booking").serialize(),
+                async: false,
+                success: function (data) {
+                    if (data) {
+                        document.location.href = "/profile";
+                    } else {
+                        $("#is-free").html("<img class='image-ok' src='/resources/images/error.jpg'/> Sorry, not aviable right now")
+                    }
+                }
+            });
+            $(":submit").removeAttr("disabled");
+        } else {
+            loadPopup();
+            return false;
+        }
+    });
 });

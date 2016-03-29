@@ -24,7 +24,7 @@
             <span id="error-box"></span>
         </form:form>
     </div>
-    <div class="close">[X]</div>
+    <div class="close"></div>
 </div>
 
 <div id="back"></div>

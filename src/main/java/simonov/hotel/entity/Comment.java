@@ -1,5 +1,7 @@
 package simonov.hotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,7 @@ public class Comment {
     @Column
     private String comment;
 
+    @JsonIgnore
     @ManyToOne
     private Hotel hotel;
 

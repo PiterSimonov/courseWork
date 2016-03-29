@@ -16,6 +16,9 @@
                 <a href="/search/hotel/${hotel.id}/rooms">${hotel.name}</a> in ${hotel.city.name}
             </div>
             <div>Rating <fmt:formatNumber value="${hotel.rating}" maxFractionDigits="1"/>/5</div>
+            <div>
+                <a href="#?w=700" rel="popup_name" class="poplight" id="${hotel.id}">Comments</a>
+            </div>
         </td>
     </tr>
 </c:forEach>
