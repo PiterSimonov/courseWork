@@ -163,7 +163,7 @@ public class SearchController {
         try {
             Hotel hotel = objectMapper.readValue(hotelJson, Hotel.class);
             hotel.setUser(user);
-            if (image.getContentType().equals("image/jpeg")) {
+            if (image != null && image.getContentType().equals("image/jpeg")) {
                 String link = FileUpLoader.uploadImageToImgur(image);
                 hotel.setImageLink(link);
             }
@@ -180,23 +180,25 @@ public class SearchController {
     public
     @ResponseBody
     Room saveHotel(@RequestParam("room") String roomJson,
-                   @RequestParam MultipartFile image) {
-        System.out.println("tyt");
+                   @RequestParam(required = false) MultipartFile image) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Room room = objectMapper.readValue(roomJson, Room.class);
-            if (image.getContentType().equals("image/jpeg")) {
+            if (image != null && image.getContentType().equals("image/jpeg")) {
                 String link = FileUpLoader.uploadImageToImgur(image);
                 room.setImageLink(link);
             }
-            System.out.println(room.getPrice());
             roomService.saveRoom(room);
             return room;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-
     }
+
+//    @RequestMapping(value = "/search/update")
+//    public String updateUser(@RequestParam)
+
+
 
 }

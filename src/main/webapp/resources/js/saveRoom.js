@@ -15,7 +15,9 @@ $(document).ready(function () {
         var $input = $("#imageFile");
         var fd = new FormData;
 
-        fd.append('image', $input.prop('files')[0]);
+        if ($input.prop('files')[0]) {
+            fd.append('image', $input.prop('files')[0]);
+        }
         fd.append('room', d);
 
         $.ajax({
