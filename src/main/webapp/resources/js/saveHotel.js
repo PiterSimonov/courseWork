@@ -31,7 +31,7 @@ $(document).ready(function () {
             contentType: false,
             data: fd,
             success: function (data) {
-                $("#table-hotels").prepend("<tr><td><div><img  onerror=\"this.onerror=null;this.src='../resources/images/rooms/noImage.jpg'\" src='" + data.imageLink + "'></div></td><td><div><a href='/hotel/" + data.id + "'>" + data.name + "</a> in " + data.city.name + " </div></td></tr>");
+                $("#table-hotels").prepend("<tr><td><div><img class=\"hotel-img\" onerror=\"this.onerror=null;this.src='../resources/images/rooms/noImage.jpg'\" src='" + data.imageLink + "'></div></td><td><div><a href='/hotel/" + data.id + "'>" + data.name + "</a> in " + data.city.name + " </div></td></tr>");
             }
         });
 
