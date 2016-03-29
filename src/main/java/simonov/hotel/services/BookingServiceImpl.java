@@ -70,6 +70,6 @@ public class BookingServiceImpl implements BookingService {
             thread.setDaemon(true);
             return thread;
         });
-        service.scheduleWithFixedDelay((Runnable) this::deleteHistoryBookings, 0, 7, TimeUnit.DAYS);
+        service.scheduleWithFixedDelay((Runnable) this::deleteHistoryBookings, 0, 1, TimeUnit.DAYS);
     }
 }

@@ -53,6 +53,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public boolean roomNumberIsFree(int number, int hotelId) {
+        return roomDAO.roomNumberIsFree(number, hotelId);
+    }
+
+    @Override
     public void update(Room room) {
         roomDAO.update(room);
     }

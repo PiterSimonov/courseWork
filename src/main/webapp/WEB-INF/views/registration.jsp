@@ -5,8 +5,8 @@
 <html>
 <head>
     <link href="<c:url value='/resources/css/styles.css'/>" rel="stylesheet">
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
+    <script src="<c:url value="/resources/js/1.15.0_jquery.validate.js" />"></script>
     <script src="<c:url value='/resources/js/validator.js'/>"></script>
     <title>Hotel Booking</title>
 </head>

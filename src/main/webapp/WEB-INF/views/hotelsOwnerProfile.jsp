@@ -3,8 +3,8 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
+    <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
+    <script src="<c:url value="/resources/js/1.15.0_jquery.validate.js" />"></script>
     <script src="<c:url value="/resources/js/main.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
     <title>Hotel owner</title>
@@ -62,7 +62,7 @@
                         </c:forEach>
                     </select><br/>
                     <input type="file" name="imageFile" id="image" accept="image/*" style="width: 250px">
-                    <br/><input id="hotelSubmit" type="submit" value="Add Hotel">
+                    <br/><input id="hotelSubmit" type="submit" value="Add Hotel"><span id="wait"></span>
                 </form>
             </div>
         </div>

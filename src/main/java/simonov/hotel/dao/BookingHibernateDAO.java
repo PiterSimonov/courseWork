@@ -24,7 +24,7 @@ public class BookingHibernateDAO extends AbstractDAO<Booking, Integer> implement
     public void deleteHistoryBookings() {
             Query query = getCurrentSession().createQuery(" delete from Booking where endDate<:today");
             query.setParameter("today", LocalDate.now());
-            int i = query.executeUpdate();
+            query.executeUpdate();
     }
 
     @Override

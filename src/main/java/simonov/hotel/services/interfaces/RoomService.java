@@ -25,4 +25,6 @@ public interface RoomService {
     List<Room> getFreeRoomsByRequest(Request request);
 
     void update(Room room);
+
+    boolean roomNumberIsFree(int number, int hotelId);
 }
