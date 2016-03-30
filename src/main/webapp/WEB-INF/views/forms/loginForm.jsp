@@ -1,3 +1,4 @@
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <div class="user-bar">
     <c:choose>
         <c:when test="${user.role == 'NotAuthorized' || user.role == null }">
@@ -26,5 +27,4 @@
     </div>
     <div class="close"></div>
 </div>
-
 <div id="back"></div>

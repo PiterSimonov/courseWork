@@ -10,6 +10,9 @@ $(document).ready(function () {
                 this.setAttribute("value", this.value);
             })
         });
+        if(localStorage.getItem("stars")){
+            $('#stars').val(localStorage.getItem("stars"));
+        }
         var buttons = $("#rooms :input[type='button']");
         $.each(buttons, function () {
             $(this).on("click", function () {

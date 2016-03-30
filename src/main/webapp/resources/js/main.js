@@ -227,6 +227,9 @@ $(document).ready(function () {
         } else {
             var form = $('#left-panel').html();
             localStorage.setItem("form", form);
+            if ($('#stars').val()) {
+                localStorage.setItem("stars", $('#stars').val());
+            }
             var seats = {};
             var elements = $("#rooms :input[type='number']");
             $.each(elements, function () {
