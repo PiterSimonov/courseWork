@@ -242,6 +242,7 @@ $(document).ready(function () {
             param.startDate = $("#fromDate").val();
             param.endDate = $("#toDate").val();
             param.seats = seats;
+            param.stars= $("#stars").val();
             param.firstResult = 0;
             param.limit = 5;
 

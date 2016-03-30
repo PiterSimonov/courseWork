@@ -41,7 +41,7 @@
             </div>
 
             <label>Hotel Rank</label>
-            <select form="filter-form" name="stars">
+            <select form="filter-form" name="stars" id="stars">
                 <option></option>
                 <option value="1">1</option>
                 <option value="2">2</option>
