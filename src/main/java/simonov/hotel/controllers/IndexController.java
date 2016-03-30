@@ -51,6 +51,7 @@ public class IndexController {
             List<Room> rooms = roomService.getRoomsByHotel(hotelId);
             model.addAttribute("rooms", rooms);
             model.addAttribute("services", convenienceService.getAll());
+            //TODO select selected services
             return "hotelInfo";
         } else {
             model.addAttribute("message", "Hotel with this ID does not exist");
