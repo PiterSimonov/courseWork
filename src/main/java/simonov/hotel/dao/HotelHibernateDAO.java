@@ -108,7 +108,7 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
             }
         }
         if (request.getStars() != 0) {
-            query.append(" and h.stars = :stars and");
+            query.append(" and h.stars = :stars");
         }
         return query.toString();
     }
