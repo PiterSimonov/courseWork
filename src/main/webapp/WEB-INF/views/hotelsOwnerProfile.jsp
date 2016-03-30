@@ -41,7 +41,10 @@
                     <input id="hotelName" type="text" name="name" placeholder="Hotel Name" required><br/>
                     <label>Country: </label>
                     <select form="add-hotel" name="country_id" id="country_id" required>
-                        <option value="">- Country -</option>
+                        <option value="">-Country-</option>
+                        <c:forEach items="${countries}" var="country">
+                            <option value="${country.id}">${country.name}</option>
+                        </c:forEach>
                     </select><br/>
                     <label>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
                     <select form="add-hotel" name="city_id" id="city_id" disabled required>

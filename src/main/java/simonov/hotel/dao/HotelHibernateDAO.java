@@ -112,20 +112,5 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
         }
         return query.toString();
     }
-
-    @Override
-    public List<Hotel> getHotelsByCity(int city) {
-        Query query = getCurrentSession().createQuery("select h from Hotel as h where h.city.id = :city");
-        query.setParameter("city", city);
-        return query.list();
-    }
-
-    @Override
-    public List<Hotel> getHotelsByCountry(int country) {
-        Query query = getCurrentSession()
-                .createQuery("select h from Hotel as h left join City as city on h.city.country.id = :country");
-        query.setParameter("country", country);
-        return query.list();
-    }
 }
 

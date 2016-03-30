@@ -29,8 +29,8 @@ $(document).ready(function () {
     }, "Please enter a file with a valid extension.");
     $.validator.addMethod("double", function (value, element) {
         return $.isNumeric(value);
-    },"Enter e valid number");
-    
+    }, "Enter e valid number");
+
     $('form#registerForm').validate({
         rules: {
             login: {
@@ -86,7 +86,7 @@ $(document).ready(function () {
 
     $('form#add-hotel, #add-room').validate({
         rules: {
-            price:{
+            price: {
                 required: true,
                 digits: true
             },
@@ -98,8 +98,9 @@ $(document).ready(function () {
                 required: true,
                 min: 1
             },
-            number : {
+            number: {
                 required: true,
+                min: 1,
                 remote: {
                     url: '/check-room-number',
                     type: "get",
@@ -117,12 +118,12 @@ $(document).ready(function () {
 
     $('form#edit-hotel, #edit-room').validate({
         rules: {
-            price:{
+            price: {
                 required: true,
                 digits: true
             },
-            name:{
-                required:true
+            name: {
+                required: true
             },
             imageFile: {
                 fileSize: 3145728,

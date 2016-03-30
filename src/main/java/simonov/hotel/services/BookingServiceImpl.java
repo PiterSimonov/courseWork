@@ -7,19 +7,15 @@ import org.springframework.transaction.annotation.Transactional;
 import simonov.hotel.dao.interfaces.BookingDAO;
 import simonov.hotel.dao.interfaces.RoomDAO;
 import simonov.hotel.entity.Booking;
-import simonov.hotel.entity.Order;
 import simonov.hotel.entity.Room;
 import simonov.hotel.services.interfaces.BookingService;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 @Service

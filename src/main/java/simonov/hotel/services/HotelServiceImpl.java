@@ -46,16 +46,6 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Hotel> getHotelsByCountry(int countryId) {
-        return hotelDAO.getHotelsByCountry(countryId);
-    }
-
-    @Override
-    public List<Hotel> getHotelsByCity(int city) {
-        return hotelDAO.getHotelsByCity(city);
-    }
-
-    @Override
     public List<Hotel> getHotelsWithFreeRoom(Request request) {
         int roomsCount = request.getSeats().values().stream().reduce(0, (sum, element) -> sum + element);
         if (roomsCount > 8) {

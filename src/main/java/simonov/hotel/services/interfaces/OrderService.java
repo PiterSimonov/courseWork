@@ -19,8 +19,6 @@ public interface OrderService {
 
     List<Room> createOrder(List<Booking> bookings, User user);
 
-    Integer save(Order order);
-
     boolean updateStatus(Order order);
 
     void setCommented(int orderId);
