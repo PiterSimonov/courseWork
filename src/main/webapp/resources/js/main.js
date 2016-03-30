@@ -12,7 +12,7 @@ $(document).ready(function () {
     $toDate.attr("min", nextDay);
     $toDate.attr("max", maxDays);
 
-    var $bookingDate =$('.booking-date');
+    var $bookingDate = $('.booking-date');
     $bookingDate.attr("min", today);
     $bookingDate.attr("value", today);
 
@@ -24,13 +24,13 @@ $(document).ready(function () {
         var nextDay = dateToString(d, 1);
         var maxDays = dateToString(d, 28);
         var $toDate = $("#toDate");
-        var $endDate =$("#endDate");
+        var $endDate = $("#endDate");
         $toDate.attr("max", maxDays);
         $toDate.attr("value", nextDay);
         $toDate.val(nextDay);
         $toDate.attr("min", nextDay);
-        $endDate.attr("min",x);
-        $endDate.attr("value",x);
+        $endDate.attr("min", x);
+        $endDate.attr("value", x);
         $endDate.val(x);
     });
 
@@ -280,15 +280,7 @@ $(document).ready(function () {
         numOfTravelers.setAttribute("value", numOfTravelers.value);
     }));
 
-    $('#country_id').one('click', function () {
-        $.get('/search/country', function (result) {
-            var option = '';
-            $.each(result, function (key, data) {
-                option += '<option value="' + key + '">' + data + '</option>'
-            });
-            $('#country_id').html(option);
-        })
-    }).on("change", function () {
+    $('#country_id').on("change", function () {
         $('#city_id').removeAttr("disabled");
         var data = $('#country_id').val();
         $.get('/search/city', {country_id: data}, function (result) {
@@ -303,23 +295,23 @@ $(document).ready(function () {
     $('#add-hotel').submit(function (e) {
         var $thisForm = $(this);
         var $submit = $thisForm.find(":submit");
-        if($thisForm.valid()){
+        if ($thisForm.valid()) {
             $submit.attr("disabled", true);
             $('#wait').text("Please wait");
         }
         return true;
     });
 
-    $('.delete-order').on('click', function(e){
+    $('.delete-order').on('click', function (e) {
         e.preventDefault();
         var $thisOrder = $(this);
         var $divParent = $thisOrder.parent("div");
         var orderId = $(this).attr('href');
         $.ajax({
-            url: "/order/"+orderId+"/delete",
+            url: "/order/" + orderId + "/delete",
             type: 'POST',
-            success: function(date){
-                if (date){
+            success: function (date) {
+                if (date) {
                     $divParent.remove();
                 } else {
                     document.location.href = "/error?message=Your order has been deleted"

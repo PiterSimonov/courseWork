@@ -20,8 +20,6 @@ public interface RoomService {
 
     List<Room> getRoomsByHotel(int hotelId);
 
-    List<Room> getRoomsByType(int hotelId, String type);
-
     List<Room> getFreeRoomsByRequest(Request request);
 
     void update(Room room);

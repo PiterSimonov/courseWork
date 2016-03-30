@@ -43,11 +43,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> getRoomsByType(int hotelId, String type) {
-        return roomDAO.getRoomsByType(hotelId, type);
-    }
-
-    @Override
     public List<Room> getFreeRoomsByRequest(Request request) {
         return roomDAO.getFreeRoomsByRequest(request);
     }
