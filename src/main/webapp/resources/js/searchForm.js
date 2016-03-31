@@ -221,7 +221,9 @@ $(document).ready(function () {
             $("#country").focus();
         } else {
             var form = $('#left-panel').html();
+            var stars = $("#stars").val();
             localStorage.setItem("form", form);
+            localStorage.setItem("stars", stars);  // IT'S NEED FOR STARS FILTERING !!!!
             var seats = {};
             var elements = $("#rooms :input[type='number']");
             $.each(elements, function () {
@@ -242,7 +244,7 @@ $(document).ready(function () {
             param.startDate = $("#fromDate").val();
             param.endDate = $("#toDate").val();
             param.seats = seats;
-            param.stars= $("#stars").val();
+            param.stars= stars;       // IT'S NEED FOR STARS FILTERING !!!!
             param.firstResult = 0;
             param.limit = 5;
 
