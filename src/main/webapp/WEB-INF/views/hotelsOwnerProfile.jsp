@@ -5,7 +5,7 @@
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
     <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
     <script src="<c:url value="/resources/js/1.15.0_jquery.validate.js" />"></script>
-    <script src="<c:url value="/resources/js/main.js" />"></script>
+    <script src="<c:url value="/resources/js/addHotel.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
     <title>Hotel owner</title>
 </head>
@@ -59,7 +59,7 @@
                         <option value="5">5</option>
                     </select><br/>
                     <label>Services:</label>
-                    <select form="add-hotel" name="convenience" size="5" multiple>
+                    <select form="add-hotel" name="convenience" size="5" multiple required>
                         <c:forEach items="${services}" var="service">
                             <option value="${service.id}">${service.description}</option>
                         </c:forEach>

@@ -6,7 +6,8 @@
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
     <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
-    <script src="<c:url value="/resources/js/main.js" />"></script>
+    <script src="<c:url value="/resources/js/searchForm.js" />"></script>
+    <script src="<c:url value="/resources/js/dateSetter.js" />"></script>
     <script src="<c:url value="/resources/js/comments.js" />"></script>
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <title>Hotel Booking Service</title>

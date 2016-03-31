@@ -1,30 +1,5 @@
 $(document).ready(function () {
 
-    if (localStorage.getItem('form')) {
-        var roomCounter = 0;
-        $('#left-panel').html(localStorage.getItem('form'));
-        var elements = $("#rooms :input[type='number']");
-        $.each(elements, function () {
-            roomCounter++;
-            $(this).on("change", function () {
-                this.setAttribute("value", this.value);
-            })
-        });
-        if(localStorage.getItem("stars")){
-            $('#stars').val(localStorage.getItem("stars"));
-        }
-        var buttons = $("#rooms :input[type='button']");
-        $.each(buttons, function () {
-            $(this).on("click", function () {
-                var el = this.previousElementSibling;
-                this.parentElement.removeChild(el);
-                this.parentElement.removeChild(this);
-                roomCounter--;
-                $("#addRoom").attr("disabled", false);
-            })
-        });
-    }
-
     $("#fromDate").change(function () {
         $("#fromDate").attr("value", fromDate.value);
         var x = fromDate.value;
@@ -240,7 +215,9 @@ $(document).ready(function () {
             $("#country").focus();
         } else {
             var form = $('#left-panel').html();
+            var stars = $("#stars").val();
             localStorage.setItem("form", form);
+            localStorage.setItem("stars", stars);  // IT'S NEED FOR STARS FILTERING !!!!
             var seats = {};
             var elements = $("#rooms :input[type='number']");
             $.each(elements, function () {
@@ -261,7 +238,7 @@ $(document).ready(function () {
             param.startDate = $("#fromDate").val();
             param.endDate = $("#toDate").val();
             param.seats = seats;
-            param.stars= $("#stars").val();
+            param.stars= stars;       // IT'S NEED FOR STARS FILTERING !!!!
             param.firstResult = 0;
             param.limit = 5;
 
