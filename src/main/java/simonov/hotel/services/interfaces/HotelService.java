@@ -17,10 +17,6 @@ public interface HotelService {
 
     List<Hotel> getHotelsByUser(int userId);
 
-    List<Hotel> getHotelsByCountry(int countryId);
-
-    List<Hotel> getHotelsByCity(int city);
-
     void update(Hotel hotel);
 
     List<Hotel> getHotelsWithFreeRoom(Request request);

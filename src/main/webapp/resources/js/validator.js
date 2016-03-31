@@ -29,8 +29,8 @@ $(document).ready(function () {
     }, "Please enter a file with a valid extension.");
     $.validator.addMethod("double", function (value, element) {
         return $.isNumeric(value);
-    },"Enter e valid number");
-    
+    }, "Enter e valid number");
+
     $('form#registerForm').validate({
         rules: {
             login: {
@@ -86,7 +86,7 @@ $(document).ready(function () {
 
     $('form#add-hotel, #add-room').validate({
         rules: {
-            price:{
+            price: {
                 required: true,
                 digits: true
             },
@@ -97,21 +97,33 @@ $(document).ready(function () {
             country_id: {
                 required: true,
                 min: 1
+            },
+            number: {
+                required: true,
+                min: 1,
+                remote: {
+                    url: '/check-room-number',
+                    type: "get",
+                    data: {hotelId: $(this).find("input[name=hotelId]").val()}
+                }
             }
         },
-        message: {
-            country_id: {min: "Please select a country"}
+        messages: {
+            country_id: {required: "Please select a country"},
+            number: {
+                remote: "This room number already exist"
+            }
         }
     });
 
     $('form#edit-hotel, #edit-room').validate({
         rules: {
-            price:{
+            price: {
                 required: true,
                 digits: true
             },
-            name:{
-                required:true
+            name: {
+                required: true
             },
             imageFile: {
                 fileSize: 3145728,

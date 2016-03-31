@@ -2,27 +2,22 @@ $(document).ready(function () {
 
     var d = new Date();
     var today = dateToString(d);
-    var nextDay = dateToString(d, 1);
-    var maxDays = dateToString(d, 28);
     var $fromDate = $('#fromDate');
-    var $toDate = $('#toDate');
     $fromDate.attr("value", today);
     $fromDate.attr("min", today);
-    $toDate.attr("value", nextDay);
-    $toDate.attr("min", nextDay);
-    $toDate.attr("max", maxDays);
+
+    var $bookingDate = $('.booking-date');
+    $bookingDate.attr("min", today);
+    $bookingDate.attr("value", today);
 
     $fromDate.change(function () {
         $("#fromDate").attr("value", fromDate.value);
         var x = fromDate.value;
         var d = new Date(Date.parse(x));
-        var nextDay = dateToString(d, 1);
-        var maxDays = dateToString(d, 28);
-        var $toDate = $("#toDate");
-        $toDate.attr("max", maxDays);
-        $toDate.attr("value", nextDay);
-        $toDate.val(nextDay);
-        $toDate.attr("min", nextDay);
+        var $endDate = $("#endDate");
+        $endDate.attr("min", x);
+        $endDate.attr("value", x);
+        $endDate.val(x);
     });
 
     function dateToString(d, num) {

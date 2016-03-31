@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,8 @@ public class FileUpLoader {
 
     public static String uploadImageToImgur(MultipartFile imageFile) {
         URL url = null;
+
+
         try {
             url = new URL(IMGUR_LINK);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -34,7 +37,7 @@ public class FileUpLoader {
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setRequestProperty("Authorization", "Client-ID " + CLIENT_ID);
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod(RequestMethod.POST.name());
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.connect();
             StringBuilder stb = new StringBuilder();

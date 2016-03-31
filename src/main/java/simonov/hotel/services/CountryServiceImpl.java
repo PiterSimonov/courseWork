@@ -21,11 +21,6 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Country getCountryByName(String name) {
-        return countryDAO.getCountryByName(name);
-    }
-
-    @Override
     public List<Country> getAllCountries() {
         return countryDAO.getAll();
     }

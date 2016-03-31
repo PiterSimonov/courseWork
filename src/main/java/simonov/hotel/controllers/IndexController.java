@@ -51,6 +51,7 @@ public class IndexController {
             List<Room> rooms = roomService.getRoomsByHotel(hotelId);
             model.addAttribute("rooms", rooms);
             model.addAttribute("services", convenienceService.getAll());
+            //TODO select selected services
             return "hotelInfo";
         } else {
             model.addAttribute("message", "Hotel with this ID does not exist");
@@ -61,7 +62,7 @@ public class IndexController {
     @RequestMapping(value = "/hotel/{hotelId}/edit", method = RequestMethod.POST)
     public
     @ResponseBody
-    boolean updateHotel(@PathVariable int hotelId,
+    String updateHotel(@PathVariable int hotelId,
                         @RequestParam String name,
                         @RequestParam int stars,
                         @RequestParam("convenience") List<Integer> conveniences,
@@ -77,7 +78,7 @@ public class IndexController {
             hotel.setImageLink(link);
         }
         hotelService.update(hotel);
-        return true;
+        return hotel.getImageLink();
     }
 
     @RequestMapping(value = "room/{roomId}/edit", method = RequestMethod.POST)
@@ -137,6 +138,11 @@ public class IndexController {
         roomService.saveRoom(room);
 
         return "redirect:/hotel/" + hotelId;
+    }
+
+    @RequestMapping(value = "/check-room-number", method = RequestMethod.GET)
+    public @ResponseBody boolean checkRoomNumber(@RequestParam int number, @RequestParam int hotelId){
+        return roomService.roomNumberIsFree(number,hotelId);
     }
 
     @RequestMapping(value = "/addHotel", method = RequestMethod.POST)

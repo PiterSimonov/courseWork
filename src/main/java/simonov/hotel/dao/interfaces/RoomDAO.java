@@ -15,7 +15,7 @@ public interface RoomDAO extends GenericDAO<Room, Integer> {
 
     List<Room> getRoomsByHotel(int hotelId);
 
-    List<Room> getRoomsByType(int hotelId, String type);
-
     List<Room> getFreeRoomsByRequest(Request request);
+
+    boolean roomNumberIsFree(int number, int hotelId);
 }

@@ -10,7 +10,5 @@ public interface CountryService {
 
     List<Country> getCountriesByNameCriteria(String name);
 
-    Country getCountryByName(String name);
-
     List<Country> getAllCountries();
 }

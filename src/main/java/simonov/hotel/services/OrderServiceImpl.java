@@ -51,11 +51,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Integer save(Order order) {
-        return orderDAO.save(order);
-    }
-
-    @Override
     public List<Order> getOrdersByUser(int userId) {
         return orderDAO.getOrdersByUser(userId);
     }

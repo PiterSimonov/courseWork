@@ -34,6 +34,7 @@ $(document).ready(function () {
                 for (var i =0; i<stars; i++){
                     $('#image-stars').append('<img class="stars" src="/resources/images/hotels/stars.png"/>');
                 }
+                $('#hotel-image').attr("src",data);
                 $submit.attr("disabled", false);
                 $('#wait').text("");
             }
@@ -50,6 +51,10 @@ $(document).ready(function () {
         var price = $thisForm.find('select[name=price]').val();
         var description = $thisForm.find('select[name=description]').val();
         var seats = $thisForm.find('select[name=seats]').val();
+        if($thisForm.valid()){
+            $submit.attr("disabled", true);
+            $('#wait').text("Please wait");
+        }
         $.ajax({
             url: '/room/' + roomId + '/edit',
             data: myForm,
@@ -57,10 +62,6 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             type: 'POST',
-            beforeSend: function () {
-                $submit.attr("disabled", true);
-                $('#wait').text("Please wait");
-            },
             success: function (data) {
                 $('#type').text(data.type);
                 $('#price').text(data.price);
@@ -109,4 +110,17 @@ $(document).ready(function () {
             return false;
         }
     });
+
+
+    $('#add-room').submit(function (e) {
+        var $thisForm = $(this);
+        var $submit = $thisForm.find(":submit");
+        if($thisForm.valid()){
+            $submit.attr("disabled", true);
+            $('#waitRoom').text("Please wait");
+        }
+        return true;
+    });
+
+
 });

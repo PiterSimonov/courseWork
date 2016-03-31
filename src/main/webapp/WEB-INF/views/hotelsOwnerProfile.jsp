@@ -3,10 +3,10 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
-    <script src="<c:url value="/resources/js/main.js" />"></script>
-    <script src="<c:url value="/resources/js/saveHotel.js" />"></script>
+    <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
+    <script src="<c:url value="/resources/js/1.15.0_jquery.validate.js" />"></script>
+    <script src="<c:url value="/resources/js/addHotel.js" />"></script>  // ?
+    <script src="<c:url value="/resources/js/saveHotel.js" />"></script>  // ?
     <script src="<c:url value="/resources/js/validator.js" />"></script>
     <title>Hotel owner</title>
 </head>
@@ -41,7 +41,10 @@
                     <input id="hotelName" type="text" name="name" placeholder="Hotel Name" required><br/>
                     <label>Country: </label>
                     <select form="add-hotel" name="country_id" id="country_id" required>
-                        <option value="">- Country -</option>
+                        <option value="">-Country-</option>
+                        <c:forEach items="${countries}" var="country">
+                            <option value="${country.id}">${country.name}</option>
+                        </c:forEach>
                     </select><br/>
                     <label>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
                     <select form="add-hotel" name="city_id" id="city_id" disabled required>
@@ -57,19 +60,27 @@
                         <option value="5">5</option>
                     </select><br/>
                     <label>Services:</label>
-                    <div id="conveniences" style="border: 1px solid #C0C0C0">
-                            <%--<select form="add-hotel" name="convenience" size="5" multiple>--%>
+                    <select form="add-hotel" name="convenience" size="5" multiple required>
                         <c:forEach items="${services}" var="service">
-                            <input type="checkbox" name="option1" value="${service.id}">${service.description}<br>
-
-
-                            <%--<option value="${service.id}">${service.description}</option>--%>
+                            <option value="${service.id}">${service.description}</option>
                         </c:forEach>
-                    </div>
-                        <%--</select>--%>
-                    <br/>
+                    </select><br/>
                     <input type="file" name="imageFile" id="image" accept="image/*" style="width: 250px">
-                    <br/><input id="hotelSubmit" type="button" value="Add Hotel">
+                    <br/><input id="hotelSubmit" type="submit" value="Add Hotel"><span id="wait"></span>
+
+
+                <%--<div id="conveniences" style="border: 1px solid #C0C0C0">
+                    <c:forEach items="${services}" var="service">
+                    <input type="checkbox" name="option1" value="${service.id}">${service.description}<br>
+
+
+                    </c:forEach>
+            </div>
+            <br/>
+            <input type="file" name="imageFile" id="image" accept="image/*" style="width: 250px">
+            <br/><input id="hotelSubmit" type="button" value="Add Hotel"> --%>
+
+
                 </form>
             </div>
         </div>

@@ -11,10 +11,7 @@ import simonov.hotel.entity.Hotel;
 import simonov.hotel.entity.Order;
 import simonov.hotel.entity.Role;
 import simonov.hotel.entity.User;
-import simonov.hotel.services.interfaces.ConvenienceService;
-import simonov.hotel.services.interfaces.HotelService;
-import simonov.hotel.services.interfaces.OrderService;
-import simonov.hotel.services.interfaces.UserService;
+import simonov.hotel.services.interfaces.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,6 +24,8 @@ public class AuthenticationController {
     UserService userService;
     @Autowired
     HotelService hotelService;
+    @Autowired
+    CountryService countryService;
     @Autowired
     OrderService orderService;
     @Autowired
@@ -91,6 +90,7 @@ public class AuthenticationController {
         if (user.getRole() == Role.HotelOwner) {
             List<Hotel> hotels = hotelService.getHotelsByUser(user.getId());
             model.addAttribute("hotels", hotels);
+            model.addAttribute("countries",countryService.getAllCountries());
             model.addAttribute("services", convenienceService.getAll());
             return "hotelsOwnerProfile";
         } else if (user.getRole() == Role.CLIENT) {

@@ -49,17 +49,23 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
     }
 
     @Override
-    public List<Room> getRoomsByHotel(int hotelId) {
+    public boolean roomNumberIsFree(int number, int hotelId) {
         Criteria criteria = getCurrentSession().createCriteria(Room.class);
-        criteria.add(Restrictions.eq("hotel.id", hotelId));
-        return criteria.list();
+        criteria.add(Restrictions.eq("hotel.id",hotelId));
+        criteria.add(Restrictions.eq("number",number));
+        criteria.setProjection(Projections.rowCount());
+        long count = (long) criteria.uniqueResult();
+        Query query = getCurrentSession().createQuery("select count(id) from Room where hotel.id=:hotelId and number=:number");
+        query.setParameter("hotelId",hotelId);
+        query.setParameter("number",number);
+        long l = (long) query.uniqueResult();
+        return count==0;
     }
 
     @Override
-    public List<Room> getRoomsByType(int hotelId, String type) {
+    public List<Room> getRoomsByHotel(int hotelId) {
         Criteria criteria = getCurrentSession().createCriteria(Room.class);
-        criteria.add(Restrictions.eq("hotel.id", hotelId))
-                .add(Restrictions.eq("type", type));
+        criteria.add(Restrictions.eq("hotel.id", hotelId));
         return criteria.list();
     }
 
