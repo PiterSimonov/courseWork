@@ -12,6 +12,9 @@
             </div>
         </td>
         <td>
+            <span id="image-stars"><c:forEach begin="1" end="${hotel.stars}">
+            <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
+        </c:forEach></span>
             <div>
                 <a href="/search/hotel/${hotel.id}/rooms">${hotel.name}</a> in ${hotel.city.name}
             </div>

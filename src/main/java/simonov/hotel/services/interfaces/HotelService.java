@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface HotelService {
 
-    List<Hotel> getFirstTenHotels();
+    List<Hotel> getHotels(int first,int limit);
 
     Hotel getHotelById(int id);
 

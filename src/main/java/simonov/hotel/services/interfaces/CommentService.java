@@ -10,4 +10,6 @@ public interface CommentService {
     void save(Comment comment);
 
     List<Comment> getCommentsByHotel(int hotelId);
+
+    double getAvgRatingByHotel(int hotelId);
 }

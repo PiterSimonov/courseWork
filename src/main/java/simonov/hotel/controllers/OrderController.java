@@ -56,9 +56,12 @@ public class OrderController {
         comment.setUser(user);
         comment.setComment(commentText);
         comment.setRating(rating);
-        comment.setHotel(hotelService.getHotelById(hotelId));
+        Hotel hotel = hotelService.getHotelById(hotelId);
+        comment.setHotel(hotel);
         commentService.save(comment);
         orderService.setCommented(orderId);
+        hotel.setRating(commentService.getAvgRatingByHotel(hotelId));
+        hotelService.update(hotel);
         return "redirect:/profile";
     }
 
@@ -67,6 +70,19 @@ public class OrderController {
         Order order = orderService.getOrderById(orderId);
         if (order != null && user.getId() == order.getUser().getId()) {
             return "payment";
+        } else {
+            model.addAttribute("message", "Wrong URL for Payment");
+            return "error";
+        }
+    }
+
+    @RequestMapping(value = "{orderId}/payment", method = RequestMethod.POST)
+    public String payment(@PathVariable int orderId, @ModelAttribute User user, Model model) {
+        Order order = orderService.getOrderById(orderId);
+        if (order != null && user.getId() == order.getUser().getId()) {
+            // some extra work for payment
+            orderService.updateStatus(order);
+            return "redirect:/profile";
         } else {
             model.addAttribute("message", "Wrong URL for Payment");
             return "error";
@@ -83,19 +99,6 @@ public class OrderController {
             return true;
         } else {
             return false;
-        }
-    }
-
-    @RequestMapping(value = "{orderId}/payment", method = RequestMethod.POST)
-    public String payment(@PathVariable int orderId, @ModelAttribute User user, Model model) {
-        Order order = orderService.getOrderById(orderId);
-        if (order != null && user.getId() == order.getUser().getId()) {
-            // some extra work for payment
-            orderService.updateStatus(order);
-            return "redirect:/profile";
-        } else {
-            model.addAttribute("message", "Wrong URL for Payment");
-            return "error";
         }
     }
 

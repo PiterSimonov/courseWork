@@ -13,6 +13,6 @@ public interface HotelDAO extends GenericDAO<Hotel, Integer> {
 
     List<Hotel> getHotelsWithFreeRoom(Request request);
 
-    List<Hotel> getFirstTenHotels();
+    List<Hotel> getHotels(int first,int limit);
 
 }

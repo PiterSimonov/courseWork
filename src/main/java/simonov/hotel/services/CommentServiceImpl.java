@@ -16,6 +16,11 @@ public class CommentServiceImpl implements CommentService {
     CommentDAO commentDAO;
 
     @Override
+    public double getAvgRatingByHotel(int hotelId) {
+        return commentDAO.getAvgRatingByHotel(hotelId);
+    }
+
+    @Override
     public void save(Comment comment) {
         commentDAO.save(comment);
     }

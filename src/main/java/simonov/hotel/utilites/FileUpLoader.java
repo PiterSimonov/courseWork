@@ -23,7 +23,8 @@ public class FileUpLoader {
     public static String uploadImageToImgur(MultipartFile imageFile) {
         URL url = null;
 
-
+        OutputStreamWriter wr = null;
+        BufferedReader rd = null;
         try {
             url = new URL(IMGUR_LINK);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -41,21 +42,27 @@ public class FileUpLoader {
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.connect();
             StringBuilder stb = new StringBuilder();
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+            wr = new OutputStreamWriter(conn.getOutputStream());
             wr.write(data);
             wr.flush();
 
-            BufferedReader rd = new BufferedReader(
+            rd = new BufferedReader(
                     new InputStreamReader(conn.getInputStream()));
             String line;
             while ((line = rd.readLine()) != null) {
                 stb.append(line).append("\n");
             }
-            wr.close();
-            rd.close();
+
             return parseJsonString(stb.toString());
         } catch (IOException e) {
             log.error("Image uploading failed due to exception:", e);
+        } finally {
+            try {
+                if (wr!=null){wr.close();}
+                if (rd!=null){rd.close();}
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
         }
         return null;
     }

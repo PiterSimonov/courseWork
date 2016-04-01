@@ -11,7 +11,6 @@
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/accordion.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
-    <script src="<c:url value="/resources/js/saveRoom.js" />"></script>
     <title>Hotel Info</title>
 </head>
 <body>
@@ -22,8 +21,6 @@
         <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
     </c:forEach></span><br/>
     <img id="hotel-image" src="${hotel.imageLink}" style="width: 500px">
-</div>
-<div class="left-panel">
 </div>
 <div>
     <div class="main">
@@ -62,8 +59,8 @@
                         <label for="roomPlaces">Seats: </label>
                         <input id="roomPlaces" name="seats" type="number" min="1" max="8"
                                required><br/>
-                        <input type="file" name="imageFile" accept="image/*" style="width: 250px"><br/>
-                        <input type="hidden" name="hotelId" value="${hotel.id}">
+                        <input type="file"  name="imageFile" id="imageFile" accept="image/*" style="width: 250px"><br/>
+                        <input type="hidden" name="hotelId" id="hotelId" value="${hotel.id}">
                         <input id="roomSubmit" type="submit" value="Add Room"><span id="waitRoom"></span>
                     </form>
                 </div>
