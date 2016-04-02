@@ -5,7 +5,7 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js" ></script>
+    <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
     <script src="<c:url value="/resources/js/searchForm.js" />"></script>
     <script src="<c:url value="/resources/js/dateSetter.js" />"></script>
     <script src="<c:url value="/resources/js/comments.js" />"></script>
@@ -27,6 +27,9 @@
                     </div>
                 </td>
                 <td>
+                    <span id="image-stars"><c:forEach begin="1" end="${hotel.stars}">
+                        <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
+                    </c:forEach></span>
                     <div>
                         <a href="/hotel/${hotel.id}">${hotel.name}</a> in ${hotel.city.name}
                     </div>

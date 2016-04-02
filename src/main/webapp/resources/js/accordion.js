@@ -12,15 +12,16 @@ $(document).ready(function () {
     $('#edit-hotel').submit(function (e) {
         e.preventDefault();
         var $thisForm = $(this);
+        if (!$thisForm.valid()) {
+            return false;
+        }
         var $submit = $thisForm.find(":submit");
         var id = $('input[name=hotelId]').val();
         var myForm = new FormData(this);
         var name = $thisForm.find('input[name=name]').val();
         var stars = $thisForm.find('select[name=stars]').val();
-        if($thisForm.valid()){
-            $submit.attr("disabled", true);
-            $('#wait').text("Please wait");
-        }
+        $submit.attr("disabled", true);
+        $('#wait').text("Please wait");
         $.ajax({
             url: '/hotel/' + id + '/edit',
             data: myForm,
@@ -31,10 +32,10 @@ $(document).ready(function () {
             success: function (data) {
                 $('#hotel-info').children('div').text("Hotel : " + name);
                 $('#image-stars').empty();
-                for (var i =0; i<stars; i++){
+                for (var i = 0; i < stars; i++) {
                     $('#image-stars').append('<img class="stars" src="/resources/images/hotels/stars.png"/>');
                 }
-                $('#hotel-image').attr("src",data);
+                $('#hotel-image').attr("src", data);
                 $submit.attr("disabled", false);
                 $('#wait').text("");
             }
@@ -44,6 +45,9 @@ $(document).ready(function () {
     $('#edit-room').submit(function (e) {
         e.preventDefault();
         var $thisForm = $(this);
+        if (!$thisForm.valid()) {
+            return false;
+        }
         var $submit = $thisForm.find(":submit");
         var roomId = $('input[name=roomId]').val();
         var myForm = new FormData(this);
@@ -51,10 +55,8 @@ $(document).ready(function () {
         var price = $thisForm.find('select[name=price]').val();
         var description = $thisForm.find('select[name=description]').val();
         var seats = $thisForm.find('select[name=seats]').val();
-        if($thisForm.valid()){
-            $submit.attr("disabled", true);
-            $('#wait').text("Please wait");
-        }
+        $submit.attr("disabled", true);
+        $('#wait').text("Please wait");
         $.ajax({
             url: '/room/' + roomId + '/edit',
             data: myForm,
@@ -110,17 +112,44 @@ $(document).ready(function () {
             return false;
         }
     });
-
-
-    $('#add-room').submit(function (e) {
+    $("form#add-room").submit(function (e) {
+        e.preventDefault();
         var $thisForm = $(this);
-        var $submit = $thisForm.find(":submit");
-        if($thisForm.valid()){
-            $submit.attr("disabled", true);
-            $('#waitRoom').text("Please wait");
+        if (!$thisForm.valid()) {
+            return false;
         }
-        return true;
+        var room = {};
+        room.number = $("#roomNumber").val();
+        room.type = $("#roomType").val();
+        room.description = $("#roomDescription").val();
+        room.price = $("#roomPrice").val();
+        room.seats = $("#roomPlaces").val();
+        room.hotel = {
+            id: $("#hotelId").val()
+        };
+        var d = JSON.stringify(room);
+        var $input = $("#imageFile");
+        var fd = new FormData;
+        if ($input.prop('files')[0]) {
+            fd.append('image', $input.prop('files')[0]);
+        }
+        fd.append('room', d);
+        var $submit = $thisForm.find(":submit");
+        $submit.attr("disabled", true);
+        $('#waitRoom').text("Please wait");
+        $.ajax({
+            url: "/saveRoom",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function (data) {
+                $("#table-rooms").prepend("<tr class=\"room-table\"> <td> <img onerror=\"this.onerror=null;this.src='/resources/images/rooms/noImage.jpg'\"src='" + data.imageLink + "'> </td> <td> <a href='" + data.hotel.id + "/roomDetails/" + data.id + "'>Room № " + data.number + "</a><br/>Type is " + data.type + "<br/>Places: " + data.seats + "<br/>Price: " + data.price + " &#36; </td> </tr>")
+                $thisForm[0].reset();
+                $submit.attr("disabled", false);
+                $('#waitRoom').text("");
+            }
+        });
     });
-
 
 });

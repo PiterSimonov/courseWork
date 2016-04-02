@@ -3,11 +3,10 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
-    <script src="<c:url value="/resources/js/main.js" />"></script>
-    <script src="<c:url value="/resources/js/saveHotel.js" />"></script>
+    <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
+    <script src="<c:url value="/resources/js/1.15.0_jquery.validate.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
+    <script src="<c:url value="/resources/js/saveHotel.js" />"></script>
     <title>Hotel owner</title>
 </head>
 <body>
@@ -24,6 +23,9 @@
                     </div>
                 </td>
                 <td>
+                    <span id="image-stars"><c:forEach begin="1" end="${hotel.stars}">
+                        <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
+                    </c:forEach></span>
                     <div>
                         <a href="/hotel/${hotel.id}">${hotel.name}</a> in ${hotel.city.name}
                     </div>
@@ -37,7 +39,7 @@
     <c:when test="${user.role == 'HotelOwner'}">
         <div class="right-panel">
             <div class="addHotel">
-                <form id="add-hotel" method="post" action="addHotel" enctype="multipart/form-data" autocomplete="off">
+                <form id="add-hotel" method="post" enctype="multipart/form-data" autocomplete="off">
                     <input id="hotelName" type="text" name="name" placeholder="Hotel Name" required><br/>
                     <label>Country: </label>
                     <select form="add-hotel" name="country_id" id="country_id" required>
@@ -61,18 +63,13 @@
                     </select><br/>
                     <label>Services:</label>
                     <div id="conveniences" style="border: 1px solid #C0C0C0">
-                            <%--<select form="add-hotel" name="convenience" size="5" multiple>--%>
                         <c:forEach items="${services}" var="service">
                             <input type="checkbox" name="option1" value="${service.id}">${service.description}<br>
-
-
-                            <%--<option value="${service.id}">${service.description}</option>--%>
                         </c:forEach>
                     </div>
-                        <%--</select>--%>
                     <br/>
                     <input type="file" name="imageFile" id="image" accept="image/*" style="width: 250px">
-                    <br/><input id="hotelSubmit" type="button" value="Add Hotel">
+                    <br/><input id="hotelSubmit" type="submit" value="Add Hotel"><span id="wait"></span>
                 </form>
             </div>
         </div>

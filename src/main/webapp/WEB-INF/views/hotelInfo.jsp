@@ -5,12 +5,12 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+    <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
+    <script src="<c:url value="/resources/js/1.15.0_jquery.validate.js" />"></script>
+    <script src="<c:url value="/resources/js/dataBookingSet.js" />"></script>
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/accordion.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
-    <script src="<c:url value="/resources/js/saveRoom.js" />"></script>
     <title>Hotel Info</title>
 </head>
 <body>
@@ -19,9 +19,8 @@
     <div style="display: inline-block">Hotel : ${hotel.name}</div>
     <span id="image-stars"><c:forEach begin="1" end="${hotel.stars}">
         <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
-    </c:forEach></span>
-</div>
-<div class="left-panel">
+    </c:forEach></span><br/>
+    <img id="hotel-image" src="${hotel.imageLink}" style="width: 500px">
 </div>
 <div>
     <div class="main">
@@ -60,9 +59,9 @@
                         <label for="roomPlaces">Seats: </label>
                         <input id="roomPlaces" name="seats" type="number" min="1" max="8"
                                required><br/>
-                        <input type="file" id="imageFile" name="imageFile" accept="image/*" style="width: 250px"><br/>
-                        <input type="hidden" id="hotelId" name="hotelId" value="${hotel.id}">
-                        <input id="roomSubmit" type="button" value="Add Room">
+                        <input type="file"  name="imageFile" id="imageFile" accept="image/*" style="width: 250px"><br/>
+                        <input type="hidden" name="hotelId" id="hotelId" value="${hotel.id}">
+                        <input id="roomSubmit" type="submit" value="Add Room"><span id="waitRoom"></span>
                     </form>
                 </div>
                 <h4>Edit Hotel</h4>

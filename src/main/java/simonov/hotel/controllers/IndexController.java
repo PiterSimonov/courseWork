@@ -1,5 +1,6 @@
 package simonov.hotel.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String printHotels(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("hotels", hotelService.getFirstTenHotels());
+        model.addAttribute("hotels", hotelService.getHotels(0,10));
         return "main";
     }
     @RequestMapping(value = "/error",  method = RequestMethod.GET)
@@ -116,28 +117,24 @@ public class IndexController {
         return "roomInfo";
     }
 
-
-    @RequestMapping(value = "/addRoom", method = RequestMethod.POST)
-    public String addRoom(@RequestParam String type,
-                          @RequestParam int number,
-                          @RequestParam String description,
-                          @RequestParam int price,
-                          @RequestParam int seats,
-                          @RequestParam int hotelId,
-                          @RequestParam MultipartFile imageFile) {
-        Room room = new Room();
-        room.setType(type);
-        room.setPrice(price);
-        room.setSeats(seats);
-        room.setDescription(description);
-        room.setNumber(number);
-        room.setHotel(hotelService.getHotelById(hotelId));
-        if (imageFile.getContentType().equals("image/jpeg")) {
-            room.setImageLink(FileUpLoader.uploadImageToImgur(imageFile));
+    @RequestMapping(value = "/saveRoom", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Room saveRoom(@RequestParam("room") String roomJson,
+                   @RequestParam(required = false) MultipartFile image) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Room room = objectMapper.readValue(roomJson, Room.class);
+            if (image != null && image.getContentType().equals("image/jpeg")) {
+                String link = FileUpLoader.uploadImageToImgur(image);
+                room.setImageLink(link);
+            }
+            roomService.saveRoom(room);
+            return room;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        roomService.saveRoom(room);
-
-        return "redirect:/hotel/" + hotelId;
+        return null;
     }
 
     @RequestMapping(value = "/check-room-number", method = RequestMethod.GET)
@@ -145,27 +142,26 @@ public class IndexController {
         return roomService.roomNumberIsFree(number,hotelId);
     }
 
-    @RequestMapping(value = "/addHotel", method = RequestMethod.POST)
-    public String addHotel(@RequestParam String name,
-                           @RequestParam("city_id") int cityId,
-                           @RequestParam int stars,
-                           @RequestParam("convenience") List<Integer> conveniences,
-                           @RequestParam MultipartFile imageFile,
-                           @ModelAttribute("user") User user) {
-        Hotel newHotel = new Hotel();
-        newHotel.setName(name);
-        newHotel.setCity(cityService.getCityById(cityId));
-        newHotel.setStars(stars);
-        List<Convenience> convenienceList = new ArrayList<>();
-        conveniences.stream().forEach(integer -> convenienceList.add(convenienceService.getConvenienceById(integer)));
-        newHotel.setConveniences(convenienceList);
-        newHotel.setUser(user);
-        if (imageFile.getContentType().equals("image/jpeg")) {
-            String link = FileUpLoader.uploadImageToImgur(imageFile);
-            newHotel.setImageLink(link);
+    @RequestMapping(value = "/saveHotel", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Hotel saveHotel(@RequestParam("hotel") String hotelJson,
+                    @RequestParam(required = false) MultipartFile image,
+                    @ModelAttribute User user) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Hotel hotel = objectMapper.readValue(hotelJson, Hotel.class);
+            hotel.setUser(user);
+            if (image != null && image.getContentType().equals("image/jpeg")) {
+                String link = FileUpLoader.uploadImageToImgur(image);
+                hotel.setImageLink(link);
+            }
+            hotelService.saveHotel(hotel);
+            return hotelService.getHotelById(hotel.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        hotelService.saveHotel(newHotel);
-        return "redirect:/profile";
+        return null;
     }
 
     @RequestMapping("hotel/{hotelId}/getBooking")

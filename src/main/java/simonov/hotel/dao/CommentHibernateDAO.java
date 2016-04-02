@@ -2,6 +2,7 @@ package simonov.hotel.dao;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import simonov.hotel.dao.interfaces.CommentDAO;
@@ -23,6 +24,13 @@ public class CommentHibernateDAO extends AbstractDAO<Comment, Integer> implement
         criteria.setFetchMode("user", FetchMode.JOIN);
         criteria.add(Restrictions.eq("hotel.id", hotelId));
         return criteria.list();
+    }
+    @Override
+    public double getAvgRatingByHotel(int hotelId){
+        Criteria criteria = getCurrentSession().createCriteria(Comment.class);
+        criteria.add(Restrictions.eq("hotel.id",hotelId));
+        criteria.setProjection(Projections.avg("rating"));
+        return (double) criteria.uniqueResult();
     }
 
 }

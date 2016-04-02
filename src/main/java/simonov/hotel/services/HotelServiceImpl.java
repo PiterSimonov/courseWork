@@ -19,8 +19,8 @@ public class HotelServiceImpl implements HotelService {
     HotelDAO hotelDAO;
 
     @Override
-    public List<Hotel> getFirstTenHotels() {
-        return hotelDAO.getFirstTenHotels();
+    public List<Hotel> getHotels(int first,int limit) {
+        return hotelDAO.getHotels(first,limit);
     }
 
     @Override

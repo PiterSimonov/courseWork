@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CommentDAO extends GenericDAO<Comment, Integer> {
     List<Comment> getCommentsByHotel(int hotelId);
+
+    double getAvgRatingByHotel(int hotelId);
 }

@@ -10,6 +10,7 @@
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/dateSetter.js" />"></script>
     <script src="<c:url value="/resources/js/accordion.js" />"></script>
+    <script src="<c:url value="/resources/js/main.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
     <title>Room info</title>
 </head>
