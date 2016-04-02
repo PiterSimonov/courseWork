@@ -129,11 +129,13 @@ public class SearchController {
         return array.toString();
     }
 
-    @RequestMapping(value = "/comments/{hotelId}")
+
+    @RequestMapping(value = "/comments/{hotelId}/{firstResult}")
     public
     @ResponseBody
-    List<Comment> getHotelById(@PathVariable int hotelId) {
-        return commentService.getCommentsByHotel(hotelId);
+    List<Comment> getHotelById(@PathVariable int hotelId,
+                               @PathVariable int firstResult) {
+        return commentService.getCommentsByHotel(hotelId, firstResult, 5);
     }
 
     @ModelAttribute("user")

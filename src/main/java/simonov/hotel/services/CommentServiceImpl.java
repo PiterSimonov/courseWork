@@ -26,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentsByHotel(int hotelId) {
-        return commentDAO.getCommentsByHotel(hotelId);
+    public List<Comment> getCommentsByHotel(int hotelId, int firstResult, int limit) {
+        return commentDAO.getCommentsByHotel(hotelId, firstResult, limit);
     }
 }
