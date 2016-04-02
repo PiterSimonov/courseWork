@@ -90,20 +90,20 @@ public class SearchController {
         return map;
     }
 
-    @RequestMapping(value = "/city")
-    public
-    @ResponseBody
-    Map<Integer, String> getCities(@RequestParam("country_id") int countryId) {
-        Map<Integer, String> map = new HashMap<>();
-        cityService.getCitiesByCountryId(countryId).stream().forEach(city -> map.put(city.getId(), city.getName()));
-        return map;
-    }
+//    @RequestMapping(value = "/city")
+//    public
+//    @ResponseBody
+//    Map<Integer, String> getCities(@RequestParam("country_id") int countryId) {
+//        Map<Integer, String> map = new HashMap<>();
+//        cityService.getCitiesByCountryId(countryId).stream().forEach(city -> map.put(city.getId(), city.getName()));
+//        return map;
+//    }
 
     @RequestMapping(value = "/hotel/{name}/{cityId}/{countryId}")
     public
     @ResponseBody
     String searchHotels(@PathVariable String name, @PathVariable int cityId, @PathVariable int countryId) {
-        List<Hotel> list = hotelService.getHotelsByName(name, cityId, countryId);
+        List<Hotel> list = hotelService.getHotelsByName(name, cityId, countryId, 0, 5);
         JSONArray array = new JSONArray();
         list.stream().forEach(hotel -> array.add(hotel.toJSON()));
         return array.toString();
@@ -113,7 +113,7 @@ public class SearchController {
     public
     @ResponseBody
     String searchCities(@PathVariable String name) {
-        List<Country> list = countryService.getCountriesByNameCriteria(name);
+        List<Country> list = countryService.getCountriesByNameCriteria(name, 0, 5);
         JSONArray array = new JSONArray();
         list.stream().forEach(country -> array.add(country.toJSON()));
         return array.toString();
@@ -123,7 +123,7 @@ public class SearchController {
     public
     @ResponseBody
     String searchCountries(@PathVariable String name, @PathVariable int countryId) {
-        List<City> list = cityService.getCitiesByCriteria(name, countryId);
+        List<City> list = cityService.getCitiesByCriteria(name, countryId, 0, 5);
         JSONArray array = new JSONArray();
         list.stream().forEach(city -> array.add(city.toJSON()));
         return array.toString();

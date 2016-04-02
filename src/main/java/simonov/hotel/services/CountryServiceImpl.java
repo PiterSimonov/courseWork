@@ -16,8 +16,8 @@ public class CountryServiceImpl implements CountryService {
     CountryDAO countryDAO;
 
     @Override
-    public List<Country> getCountriesByNameCriteria(String name) {
-        return countryDAO.getCountriesByNameCriteria(name);
+    public List<Country> getCountriesByNameCriteria(String name, int firstResult, int limit) {
+        return countryDAO.getCountriesByNameCriteria(name, firstResult, limit);
     }
 
     @Override

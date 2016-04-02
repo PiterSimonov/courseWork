@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface CityDAO extends GenericDAO<City, Integer> {
 
-    List<City> getCitiesByCriteria(String cityName);
+    List<City> getCitiesByCriteria(String cityName, int firstResult, int limit);
 
-    List<City> getCitiesByCountryId(Integer countryId);
+    List<City> getCitiesByCountryId(Integer countryId, int firstResult, int limit);
 
-    List<City> getCitiesByCountryAndName(String cityName, Integer countryId);
+    List<City> getCitiesByCountryAndName(String cityName, Integer countryId, int firstResult, int limit);
 }
