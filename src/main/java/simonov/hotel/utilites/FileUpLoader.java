@@ -52,7 +52,6 @@ public class FileUpLoader {
             while ((line = rd.readLine()) != null) {
                 stb.append(line).append("\n");
             }
-
             return parseJsonString(stb.toString());
         } catch (IOException e) {
             log.error("Image uploading failed due to exception:", e);

@@ -28,15 +28,15 @@ public class SearchController {
     @Autowired
     CommentService commentService;
 
-    @RequestMapping(value = "test", method = RequestMethod.POST, headers = "Accept=application/json")
-    public
-    @ResponseBody
-    void search(@RequestBody Request request, Model model) {
+    @RequestMapping(value = "hotels", method = RequestMethod.POST, headers = "Accept=application/json")
+    public String mainSearch(@RequestBody Request request, Model model) {
         model.addAttribute("request", request);
+        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
+        return "search/searchHotelTable";
     }
 
-    @RequestMapping("hotels")
-    public String mainSearch(@ModelAttribute Request request, Model model) {
+    @RequestMapping(value = "hotels", method = RequestMethod.GET)
+    public String getSearchOnBackKey(@ModelAttribute Request request, Model model) {
         model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
         return "search/hotels";
     }
@@ -46,7 +46,7 @@ public class SearchController {
         request.setFirstResult(firstResult);
         model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
         request.setFirstResult(0);
-        return "search/nextHotels";
+        return "search/searchHotelTable";
     }
 
     @RequestMapping(value = "hotel/{roomHotelId}/rooms", method = RequestMethod.GET)

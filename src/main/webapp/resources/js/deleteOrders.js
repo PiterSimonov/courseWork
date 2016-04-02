@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('.delete-order').on('click', function (e) {
+        $(this).attr('disabled', true);
         e.preventDefault();
         var $thisOrder = $(this);
         var $divParent = $thisOrder.parent("div");

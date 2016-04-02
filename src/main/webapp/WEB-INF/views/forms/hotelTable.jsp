@@ -1,6 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:forEach items="${hotels}" var="hotel">
     <tr>
@@ -12,11 +10,11 @@
             </div>
         </td>
         <td>
-            <span id="image-stars"><c:forEach begin="1" end="${hotel.stars}">
-            <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
-        </c:forEach></span>
+                    <span id="image-stars"><c:forEach begin="1" end="${hotel.stars}">
+                        <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
+                    </c:forEach></span>
             <div>
-                <a href="/search/hotel/${hotel.id}/rooms">${hotel.name}</a> in ${hotel.city.name}
+                <a href="/hotel/${hotel.id}">${hotel.name}</a> in ${hotel.city.name}
             </div>
             <div>Rating <fmt:formatNumber value="${hotel.rating}" maxFractionDigits="1"/>/5</div>
             <div>

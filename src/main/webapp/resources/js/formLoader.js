@@ -5,4 +5,4 @@ $(document).ready(function () {
     if(localStorage.getItem("stars")){
         $('#stars').val(localStorage.getItem("stars"));
     }
-});aw
+});

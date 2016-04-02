@@ -244,37 +244,57 @@ $(document).ready(function () {
             param.startDate = $("#fromDate").val();
             param.endDate = $("#toDate").val();
             param.seats = seats;
-            param.stars= stars;       // IT'S NEED FOR STARS FILTERING !!!!
+            param.stars = stars;       // IT'S NEED FOR STARS FILTERING !!!!
             param.firstResult = 0;
             param.limit = 5;
-
+            history.pushState(param, "Searching Hotels", "/search/hotels")
             var jsonData = JSON.stringify(param);
             $.ajax({
-                url: "/search/test",
+                url: "/search/hotels",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 data: jsonData,
-                success: function () {
-                    document.location.href = "/search/hotels"
+                success: function (data) {
+                    $('#hotelsList').html(data);
+                    $('#more-div').html('<input type="button" name="more" id="more" value="More">');
+                }
+            });
+        }
+    });
+    $(window).on('popstate', function () {
+        $.ajax({
+            url: location.pathname, success: function (data) {
+                $('body').html(data);
+            }
+        });
+    });
+
+    var firstResult = 0;
+    var inProgress = false;
+    $("body").on("click", '#more', function () {
+        var button = $(this);
+        button.attr("disabled", true);
+        if (!inProgress) {
+            firstResult = firstResult + 5;
+            $.ajax({
+                url: "/search/nextHotels/" + firstResult,
+                type: "GET",
+                beforeSend: function () {
+                    inProgress = true;
+                },
+                success: function (data) {
+                    if (data.length > 4) {
+                        $("#hotelsList").append(data);
+                        inProgress = false;
+                        button.attr("disabled", false);
+                    }
                 }
             });
         }
     });
 
-    var firstResult = 0;
-
-    $("#more").on("click", (function () {
-        firstResult = firstResult + 5;
-        $.ajax({
-            url: "/search/nextHotels/" + firstResult,
-            type: "GET",
-            success: function (data) {
-                $("#hotelsList").append(data);
-            }
-        });
-    }));
-
     $("#numOfTravelers").on("change", (function () {
         numOfTravelers.setAttribute("value", numOfTravelers.value);
     }));
 });
+
