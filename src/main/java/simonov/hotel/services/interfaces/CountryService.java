@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public interface CountryService {
 
-    List<Country> getCountriesByNameCriteria(String name);
+    List<Country> getCountriesByNameCriteria(String name, int firstResult, int limit);
 
     List<Country> getAllCountries();
 }

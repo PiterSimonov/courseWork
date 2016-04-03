@@ -9,7 +9,7 @@ import java.util.List;
 public interface CommentService {
     void save(Comment comment);
 
-    List<Comment> getCommentsByHotel(int hotelId);
+    List<Comment> getCommentsByHotel(int hotelId, int firstResult, int limit);
 
     double getAvgRatingByHotel(int hotelId);
 }

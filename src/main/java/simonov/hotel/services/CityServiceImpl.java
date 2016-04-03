@@ -16,12 +16,12 @@ public class CityServiceImpl implements CityService {
     CityDAO cityDAO;
 
     @Override
-    public List<City> getCitiesByCriteria(String city, Integer countryId) {
+    public List<City> getCitiesByCriteria(String city, Integer countryId, int firstResult, int limit) {
         List<City> cityList;
         if (countryId != null && countryId > 0) {
-            cityList = cityDAO.getCitiesByCountryAndName(city, countryId);
+            cityList = cityDAO.getCitiesByCountryAndName(city, countryId, firstResult, limit);
         } else {
-            cityList = cityDAO.getCitiesByCriteria(city);
+            cityList = cityDAO.getCitiesByCriteria(city, firstResult, limit);
         }
         return cityList;
     }
@@ -32,7 +32,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public List<City> getCitiesByCountryId(Integer countryId) {
-        return cityDAO.getCitiesByCountryId(countryId);
+    public List<City> getCitiesByCountryId(Integer countryId, int firstResult, int limit) {
+        return cityDAO.getCitiesByCountryId(countryId, firstResult, limit);
     }
 }

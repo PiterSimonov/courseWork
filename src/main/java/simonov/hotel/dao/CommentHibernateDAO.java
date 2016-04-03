@@ -19,10 +19,12 @@ public class CommentHibernateDAO extends AbstractDAO<Comment, Integer> implement
     }
 
     @Override
-    public List<Comment> getCommentsByHotel(int hotelId) {
+    public List<Comment> getCommentsByHotel(int hotelId, int firstResult, int limit) {
         Criteria criteria = getCurrentSession().createCriteria(Comment.class);
         criteria.setFetchMode("user", FetchMode.JOIN);
         criteria.add(Restrictions.eq("hotel.id", hotelId));
+        criteria.setFirstResult(firstResult);
+        criteria.setMaxResults(limit);
         return criteria.list();
     }
     @Override

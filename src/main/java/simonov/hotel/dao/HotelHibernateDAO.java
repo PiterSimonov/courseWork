@@ -29,7 +29,7 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
     }
 
     @Override
-    public List<Hotel> getHotelsByCriteria(Integer countryId, Integer cityId, String hotelName) {
+    public List<Hotel> getHotelsByCriteria(Integer countryId, Integer cityId, String hotelName, int firstResult, int limit) {
         Criteria hotelCriteria = getCurrentSession().createCriteria(Hotel.class);
 
         if (cityId != null && cityId > 0) {
@@ -43,6 +43,8 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
             }
         }
         hotelCriteria.add(Restrictions.ilike("name", hotelName, MatchMode.ANYWHERE));
+        hotelCriteria.setFirstResult(firstResult);
+        hotelCriteria.setMaxResults(limit);
 
         return hotelCriteria.list();
     }
