@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
-    $("a#showpopup").click(function () {
+    $("a#showpopup").click(function (e) {
+        e.preventDefault();
         loadPopup();
     });
     $("div#back").click(function () {

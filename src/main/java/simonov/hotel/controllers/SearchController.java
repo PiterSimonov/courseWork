@@ -90,14 +90,14 @@ public class SearchController {
         return map;
     }
 
-//    @RequestMapping(value = "/city")
-//    public
-//    @ResponseBody
-//    Map<Integer, String> getCities(@RequestParam("country_id") int countryId) {
-//        Map<Integer, String> map = new HashMap<>();
-//        cityService.getCitiesByCountryId(countryId).stream().forEach(city -> map.put(city.getId(), city.getName()));
-//        return map;
-//    }
+    @RequestMapping(value = "/city")
+    public
+    @ResponseBody
+    Map<Integer, String> getCities(@RequestParam("country_id") int countryId) {
+        Map<Integer, String> map = new HashMap<>();
+        cityService.getCitiesByCountryId(countryId,0,-1).stream().forEach(city -> map.put(city.getId(), city.getName()));
+        return map;
+    }
 
     @RequestMapping(value = "/hotel/{name}/{cityId}/{countryId}")
     public
@@ -128,7 +128,6 @@ public class SearchController {
         list.stream().forEach(city -> array.add(city.toJSON()));
         return array.toString();
     }
-
 
     @RequestMapping(value = "/comments/{hotelId}/{firstResult}")
     public
