@@ -20,6 +20,7 @@ public class ConvenienceHibernateDAO extends AbstractDAO<Convenience, Integer> i
     @Override
     public List<Convenience> getConveniencesByHotel(Integer hotelId) {
         Criteria criteria = getCurrentSession().createCriteria(Convenience.class);
+        criteria.createCriteria("hotels","hotel");
         criteria.add(Restrictions.eq("hotel.id", hotelId));
         return criteria.list();
     }

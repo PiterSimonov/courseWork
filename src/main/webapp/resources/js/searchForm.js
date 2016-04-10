@@ -1,5 +1,7 @@
 $(document).ready(function () {
-
+    if (!history.state){
+        history.replaceState($('#hotelsList').html(),"","/")
+    }
     $("#fromDate").change(function () {
         $("#fromDate").attr("value", fromDate.value);
         var x = fromDate.value;
@@ -223,7 +225,7 @@ $(document).ready(function () {
             var form = $('#left-panel').html();
             var stars = $("#stars").val();
             localStorage.setItem("form", form);
-            localStorage.setItem("stars", stars);  // IT'S NEED FOR STARS FILTERING !!!!
+            localStorage.setItem("stars", stars);
             var seats = {};
             var elements = $("#rooms :input[type='number']");
             $.each(elements, function () {
@@ -244,10 +246,10 @@ $(document).ready(function () {
             param.startDate = $("#fromDate").val();
             param.endDate = $("#toDate").val();
             param.seats = seats;
-            param.stars = stars;       // IT'S NEED FOR STARS FILTERING !!!!
+            param.stars = stars;
             param.firstResult = 0;
             param.limit = 5;
-            history.pushState(param, "Searching Hotels", "/search/hotels")
+            history.pushState($('#hotelsList').html(), "Searching Hotels", "/search/hotels");
             var jsonData = JSON.stringify(param);
             $.ajax({
                 url: "/search/hotels",
@@ -257,20 +259,22 @@ $(document).ready(function () {
                 success: function (data) {
                     $('#hotelsList').html(data);
                     $('#more-div').html('<input type="button" name="more" id="more" value="More">');
+                    $('#more').attr("disabled", false);
+                    inProgress = false;
+                    firstResult = 0;
                 }
             });
         }
     });
-    $(window).on('popstate', function () {
-        $.ajax({
-            url: location.pathname, success: function (data) {
-                $('body').html(data);
-            }
-        });
-    });
+
+    window.onpopstate = function(event) {
+        $('#hotelsList').html(history.state);
+        $('#more').attr("disabled", false);
+    };
 
     var firstResult = 0;
     var inProgress = false;
+
     $("body").on("click", '#more', function () {
         var button = $(this);
         button.attr("disabled", true);

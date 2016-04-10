@@ -21,6 +21,14 @@
         <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
     </c:forEach></span><br/>
     <img id="hotel-image" src="${hotel.imageLink}" style="width: 500px">
+
+</div>
+<div>
+    Our services:<br/>
+    <div id="services">
+        <c:forEach items="${hotelServices}" var="service">
+            - ${service.description}<br/>
+        </c:forEach></div>
 </div>
 <div>
     <div class="main">
@@ -59,7 +67,7 @@
                         <label for="roomPlaces">Seats: </label>
                         <input id="roomPlaces" name="seats" type="number" min="1" max="8"
                                required><br/>
-                        <input type="file"  name="imageFile" id="imageFile" accept="image/*" style="width: 250px"><br/>
+                        <input type="file" name="imageFile" id="imageFile" accept="image/*" style="width: 250px"><br/>
                         <input type="hidden" name="hotelId" id="hotelId" value="${hotel.id}">
                         <input id="roomSubmit" type="submit" value="Add Room"><span id="waitRoom"></span>
                     </form>
@@ -93,9 +101,11 @@
                 <div style="display: none;">
                     <form method="get" action="${hotel.id}/getBooking" id="hotel-booking">
                         <label for="fromDate">From: </label>
-                        <input type="date" name="fromDate" id="fromDate" class="booking-date" data-date-split-input="true" required><br/>
+                        <input type="date" name="fromDate" id="fromDate" class="booking-date"
+                               data-date-split-input="true" required><br/>
                         <label for="endDate">To: &nbsp;&nbsp;&nbsp;</label>
-                        <input type="date" name="toDate" id="endDate" class="booking-date" data-date-split-input="true" required><br/>
+                        <input type="date" name="toDate" id="endDate" class="booking-date" data-date-split-input="true"
+                               required><br/>
                         <label for="roomNumber">Room №: </label>
                         <input type="number" min="1" name="roomNumber" id="number" style="width: 50px"><br/>
                         <input type="submit" value="Get booking">

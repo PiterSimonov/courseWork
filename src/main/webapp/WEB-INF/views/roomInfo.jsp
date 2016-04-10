@@ -72,15 +72,20 @@
 </span>
 <div class="booking-div"></div>
 <br/>
-<div class="main">
-    <form id="form-booking" method="post">
-        <input type="date" name="fromDate" id="fromDate" class="date" data-date-split-input="true" required><br/>
-        <input type="date" name="toDate" id="toDate" class="date" data-date-split-input="true" required><br/>
-        <input name="roomId" id="roomId" value="${room.id}" hidden>
-        <input name="userRole" id="userRole" value="${user.role}" hidden>
-        <input type="submit" value="Book">
-    </form>
-    <div id="is-free"></div>
-</div>
+<c:choose>
+    <c:when test="${user.role ne 'HotelOwner'}">
+        <div class="main">
+            <form id="form-booking" method="post">
+                <input type="date" name="fromDate" id="fromDate" class="date" data-date-split-input="true" required><br/>
+                <input type="date" name="toDate" id="toDate" class="date" data-date-split-input="true" required><br/>
+                <input name="roomId" id="roomId" value="${room.id}" hidden>
+                <input name="userRole" id="userRole" value="${user.role}" hidden>
+                <input type="submit" value="Book">
+            </form>
+            <div id="is-free"></div>
+        </div>
+    </c:when>
+</c:choose>
+
 </body>
 </html>

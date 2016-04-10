@@ -129,6 +129,10 @@ public class OrderController {
             model.addAttribute("message", "Sorry, but you have 8 unconfirmed orders. This is enough");
             return "error";
         }
+        if (user.getId()==hotelService.getHotelById(hotelId).getUser().getId()){
+            model.addAttribute("message", "Sorry, but for the owners of hotels, this operation is not allowed");
+            return "error";
+        }
         List<Integer> ids = choice.getRoomsIds();
         List<Booking> bookings = new ArrayList<>();
         for (int i : ids) {

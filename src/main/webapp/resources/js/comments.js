@@ -2,11 +2,10 @@ $(document).ready(function () {
     var firstResult = 0;
     var hotelId;
     var inProgress = false;
-    $('body').on('click','a.poplight[href^=#]',function () {
+    $('body').on('click','a.poplight[href^=#]',function (e) {
         hotelId = this.id;
-
         $.ajax({
-            url: "/search/comments/" + this.id + "/" + firstResult,
+            url: "/search/comments/" + this.id + "/" + firstResult + "?t="+(new Date().getTime()),
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -15,15 +14,13 @@ $(document).ready(function () {
                 } else {
                     data.forEach(function (i) {
                         var user = i.user;
-
                         $("#commentsWindow").append("<hr><span>" + user.firstName + " " + user.lastName + "</span><span><strong> " + i.rating + "</strong> / 5</span><div>" +
                             " <blockquote>" + i.comment + "</blockquote></div><hr>");
 
                     });
-                    firstResult = firstResult + 5;
+                    firstResult = firstResult + 7;
                     inProgress = false;
                 }
-
             }
         });
 
@@ -56,13 +53,10 @@ $(document).ready(function () {
         $('#fade , .popup_block').fadeOut(function () {
             $('#fade, a.close').remove();  //плавно исчезают
         });
-
-
         $("#commentsWindow").html("");
         firstResult = 0;
         return false;
     });
-
 
     $("#commentsWindow").scroll(function () {
         if (commentsWindow.scrollHeight - $("#commentsWindow").scrollTop() - $("#commentsWindow").height() <= 100 && !inProgress) {
@@ -78,19 +72,15 @@ $(document).ready(function () {
                 if (data.length > 0) {
                     data.forEach(function (i) {
                         var user = i.user;
-
                         $("#commentsWindow").append("<hr><span>" + user.firstName + " " + user.lastName + "</span><span><strong> " + i.rating + "</strong> / 5</span><div>" +
                             " <blockquote>" + i.comment + "</blockquote></div><hr>");
-
                     });
                     inProgress = false;
-                    firstResult = firstResult + 5;
+                    firstResult = firstResult + 7;
                 }
-
             });
         }
     })
-
 });
 
 

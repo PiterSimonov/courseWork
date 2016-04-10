@@ -18,6 +18,7 @@ $(document).ready(function () {
         var $submit = $thisForm.find(":submit");
         var id = $('input[name=hotelId]').val();
         var myForm = new FormData(this);
+        var services = $thisForm.find('select[name=convenience] :selected');
         var name = $thisForm.find('input[name=name]').val();
         var stars = $thisForm.find('select[name=stars]').val();
         $submit.attr("disabled", true);
@@ -36,6 +37,10 @@ $(document).ready(function () {
                     $('#image-stars').append('<img class="stars" src="/resources/images/hotels/stars.png"/>');
                 }
                 $('#hotel-image').attr("src", data);
+                $('#services').html("");
+                services.each(function (i, selected) {
+                    $('#services').append("- " + $(selected).text() + "<br/>");
+                });
                 $submit.attr("disabled", false);
                 $('#wait').text("");
             }

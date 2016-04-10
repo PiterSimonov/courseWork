@@ -51,8 +51,8 @@ public class IndexController {
             model.addAttribute("hotel", hotel);
             List<Room> rooms = roomService.getRoomsByHotel(hotelId);
             model.addAttribute("rooms", rooms);
+            model.addAttribute("hotelServices", convenienceService.getConveniencesByHotel(hotelId));
             model.addAttribute("services", convenienceService.getAll());
-            //TODO select selected services
             return "hotelInfo";
         } else {
             model.addAttribute("message", "Hotel with this ID does not exist");
@@ -92,7 +92,6 @@ public class IndexController {
                     @RequestParam int seats,
                     @RequestParam MultipartFile imageFile
     ) {
-        System.out.println("Inside room edit " + type + " price:" + price);
         Room room = roomService.getRoomById(roomId);
         room.setType(type);
         room.setPrice(price);

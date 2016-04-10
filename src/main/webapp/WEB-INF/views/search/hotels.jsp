@@ -19,7 +19,7 @@
     <table class="table-hotels" id="hotelsList">
         <%@ include file="searchHotelTable.jsp"%>
     </table>
-    <input type="button" name="more" id="more" value="More">
+    <div id="more-div"><input type="button" name="more" id="more" value="More"></div>
 
 </div>
 <div id="popup_name" class="popup_block">

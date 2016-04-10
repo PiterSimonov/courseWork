@@ -27,6 +27,8 @@ public class SearchController {
     CountryService countryService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    ConvenienceService convenienceService;
 
     @RequestMapping(value = "hotels", method = RequestMethod.POST, headers = "Accept=application/json")
     public String mainSearch(@RequestBody Request request, Model model) {
@@ -37,12 +39,13 @@ public class SearchController {
 
     @RequestMapping(value = "hotels", method = RequestMethod.GET)
     public String getSearchOnBackKey(@ModelAttribute Request request, Model model) {
+        request.setHotelId(0);
         model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
         return "search/hotels";
     }
 
     @RequestMapping(value = "nextHotels/{firstResult}")
-    public String searchNext(@ModelAttribute Request request, @PathVariable int firstResult, Model model) {
+    public String searchNextHotels(@ModelAttribute Request request, @PathVariable int firstResult, Model model) {
         request.setFirstResult(firstResult);
         model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
         request.setFirstResult(0);
@@ -56,6 +59,7 @@ public class SearchController {
         request.setRoomHotelId(roomHotelId);
         List<Room> rooms = roomService.getFreeRoomsByRequest(request);
         model.addAttribute("hotel", hotelService.getHotelById(roomHotelId));
+        model.addAttribute("services",convenienceService.getConveniencesByHotel(roomHotelId));
         model.addAttribute("choice", new Choice());
         model.addAttribute("rooms", rooms);
         return "search/rooms";
@@ -132,9 +136,9 @@ public class SearchController {
     @RequestMapping(value = "/comments/{hotelId}/{firstResult}")
     public
     @ResponseBody
-    List<Comment> getHotelById(@PathVariable int hotelId,
+    List<Comment> getCommentsByHotel(@PathVariable int hotelId,
                                @PathVariable int firstResult) {
-        return commentService.getCommentsByHotel(hotelId, firstResult, 5);
+        return commentService.getCommentsByHotel(hotelId, firstResult, 7);
     }
 
     @ModelAttribute("user")

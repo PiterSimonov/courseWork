@@ -17,12 +17,13 @@ public class Convenience {
     private String description;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "hotels_conveniences",
-            joinColumns = @JoinColumn(name = "convenience_id"),
-            inverseJoinColumns = @JoinColumn(name = "hotel_id")
-    )
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "hotels_conveniences",
+//            joinColumns = @JoinColumn(name = "convenience_id"),
+//            inverseJoinColumns = @JoinColumn(name = "hotel_id")
+//    )
+    @ManyToMany(mappedBy = "conveniences")
     private List<Hotel> hotels;
 
     public Integer getId() {

@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 public class OrderControl {
     private static final String MESSAGE = "If you do not pay within a hour, your reservation will be deleted";
     private static final ConcurrentHashMap<Integer, Order> ORDER_MAP = new ConcurrentHashMap<>();
-    private static final Long TWENTY_THREE_HOURS_MILLIS = 82800000L;
-    private static final Long TWENTY_FOUR_HOURS_MILLIS = 86400000L;
+    private static final Long TWENTY_THREE_HOURS_MILLIS = (long) (1000 * 60 * 60 * 23);
+    private static final Long TWENTY_FOUR_HOURS_MILLIS = (long) (1000 * 60 * 60 * 24);
     private Logger logger = Logger.getLogger(OrderControl.class);
     @Autowired
     EmailSender emailSender;
@@ -28,7 +28,11 @@ public class OrderControl {
     OrderService orderService;
 
     public OrderControl() {
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread thread = new Thread(r);
+            thread.setDaemon(true);
+            return thread;
+        });
         service.scheduleWithFixedDelay((Runnable) () -> {
             List<Order> mailList = new LinkedList<>();
             synchronized (ORDER_MAP) {
@@ -50,7 +54,7 @@ public class OrderControl {
                     emailSender.sendEmail(mailList, MESSAGE);
                 }
             }
-        }, 0, 30, TimeUnit.SECONDS);
+        }, 0, 2, TimeUnit.MINUTES);
     }
 
     public void addOrder(Order order) {
