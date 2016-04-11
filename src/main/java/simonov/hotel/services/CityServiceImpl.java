@@ -27,11 +27,6 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public City getCityById(Integer cityId) {
-        return cityDAO.get(cityId);
-    }
-
-    @Override
     public List<City> getCitiesByCountryId(Integer countryId, int firstResult, int limit) {
         return cityDAO.getCitiesByCountryId(countryId, firstResult, limit);
     }

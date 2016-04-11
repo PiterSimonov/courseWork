@@ -1,7 +1,6 @@
 package simonov.hotel.dao;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import simonov.hotel.dao.interfaces.ConvenienceDAO;

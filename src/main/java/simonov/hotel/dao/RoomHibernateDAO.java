@@ -8,12 +8,9 @@ import simonov.hotel.dao.interfaces.RoomDAO;
 import simonov.hotel.entity.Booking;
 import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Room;
-import simonov.hotel.entity.RoomSort;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static simonov.hotel.entity.RoomSort.*;
 
 @Repository
 @SuppressWarnings("unchecked")
@@ -51,15 +48,11 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
     @Override
     public boolean roomNumberIsFree(int number, int hotelId) {
         Criteria criteria = getCurrentSession().createCriteria(Room.class);
-        criteria.add(Restrictions.eq("hotel.id",hotelId));
-        criteria.add(Restrictions.eq("number",number));
+        criteria.add(Restrictions.eq("hotel.id", hotelId));
+        criteria.add(Restrictions.eq("number", number));
         criteria.setProjection(Projections.rowCount());
         long count = (long) criteria.uniqueResult();
-        Query query = getCurrentSession().createQuery("select count(id) from Room where hotel.id=:hotelId and number=:number");
-        query.setParameter("hotelId",hotelId);
-        query.setParameter("number",number);
-        long l = (long) query.uniqueResult();
-        return count==0;
+        return count == 0;
     }
 
     @Override

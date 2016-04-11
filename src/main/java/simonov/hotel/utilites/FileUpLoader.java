@@ -21,8 +21,7 @@ public class FileUpLoader {
     private static final String CLIENT_ID = "eb5571d14ad3857";
 
     public static String uploadImageToImgur(MultipartFile imageFile) {
-        URL url = null;
-
+        URL url;
         OutputStreamWriter wr = null;
         BufferedReader rd = null;
         try {

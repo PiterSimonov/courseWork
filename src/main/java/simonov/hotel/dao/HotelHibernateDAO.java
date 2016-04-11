@@ -61,7 +61,7 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
 
     @Override
     public List<Hotel> getHotelsWithFreeRoom(Request request) {
-        Query query = getCurrentSession().createQuery(getQuery(request));
+        Query query = getCurrentSession().createQuery(getPreparedQuery(request));
         query.setParameter("startDate", request.getStartDate());
         query.setParameter("endDate", request.getEndDate());
         if (request.getHotelId() != 0) {
@@ -91,7 +91,7 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
         return query.list();
     }
 
-    private String getQuery(Request request) {
+    private String getPreparedQuery(Request request) {
         StringBuilder query = new StringBuilder("from Hotel as h where ");
         if (request.getHotelId() != 0) {
             query.append("h.id = :hotelId ");
@@ -109,7 +109,7 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
                 index++;
             }
         }
-        if (request.getStars() != 0) {
+        if (request.getStars() > 0) {
             query.append(" and h.stars = :stars");
         }
         return query.toString();

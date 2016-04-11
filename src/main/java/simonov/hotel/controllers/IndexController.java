@@ -28,8 +28,6 @@ public class IndexController {
     @Autowired
     BookingService bookingService;
     @Autowired
-    CityService cityService;
-    @Autowired
     ConvenienceService convenienceService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -70,7 +68,8 @@ public class IndexController {
                         @RequestParam MultipartFile imageFile) {
         Hotel hotel = hotelService.getHotelById(hotelId);
         List<Convenience> convenienceList = new ArrayList<>();
-        conveniences.stream().forEach(integer -> convenienceList.add(convenienceService.getConvenienceById(integer)));
+        conveniences.stream()
+                .forEach(integer -> convenienceList.add(convenienceService.getConvenienceById(integer)));
         hotel.setConveniences(convenienceList);
         hotel.setName(name);
         hotel.setStars(stars);

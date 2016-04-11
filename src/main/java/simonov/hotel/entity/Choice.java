@@ -8,7 +8,6 @@ public class Choice {
     private List<Integer> roomsIds;
 
     public List<Integer> getRoomsIds() {
-
         return roomsIds != null ? roomsIds : Collections.emptyList();
     }
 

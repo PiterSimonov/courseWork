@@ -9,7 +9,5 @@ import java.util.List;
 public interface CityService {
     List<City> getCitiesByCriteria(String city, Integer countryId, int firstResult, int limit);
 
-    City getCityById(Integer cityId);
-
     List<City> getCitiesByCountryId(Integer countryId, int firstResult, int limit);
 }

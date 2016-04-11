@@ -111,7 +111,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/profile/{userId}/edit", method = RequestMethod.POST)
     public String saveProfile(@PathVariable int userId,
-                              @ModelAttribute("user") User user, Model model) {
+                              @ModelAttribute("user") User user) {
         userService.update(user);
         return "redirect:/profile";
     }
@@ -136,8 +136,6 @@ public class AuthenticationController {
 
     @ModelAttribute("user")
     public User createUser() {
-        User user = new User();
-        user.setRole(Role.NotAuthorized);
-        return user;
+        return new User();
     }
 }

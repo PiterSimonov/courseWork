@@ -22,15 +22,13 @@ import java.util.concurrent.TimeUnit;
 @Transactional
 public class BookingServiceImpl implements BookingService {
     @Autowired
-    protected PlatformTransactionManager txManager;
-    @Autowired
     BookingDAO bookingDAO;
     @Autowired
     RoomDAO roomDAO;
 
     @Override
     public List<Booking> getBookingByCriteria(int hotelId, LocalDate fromDate, LocalDate toDate, int roomNumber) {
-        return bookingDAO.getBookingByCriteria(hotelId,fromDate,toDate,roomNumber);
+        return bookingDAO.getBookingByCriteria(hotelId, fromDate, toDate, roomNumber);
     }
 
     @Override
@@ -46,11 +44,9 @@ public class BookingServiceImpl implements BookingService {
         if (result.isEmpty()) {
             for (Booking booking : bookings) {
                 bookingDAO.save(booking);
-                roomDAO.unlock(booking.getRoom().getId());
             }
-        } else {
-            bookings.stream().forEach(booking -> roomDAO.unlock(booking.getRoom().getId()));
         }
+        bookings.stream().forEach(booking -> roomDAO.unlock(booking.getRoom().getId()));
         return result;
     }
 
@@ -60,7 +56,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @PostConstruct
-    private void deleteOldBooking(){
+    private void deleteOldBooking() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(r -> {
             Thread thread = new Thread(r);
             thread.setDaemon(true);

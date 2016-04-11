@@ -1,8 +1,6 @@
 package simonov.hotel.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.json.simple.JSONObject;
-
 
 import javax.persistence.*;
 import java.util.List;
