@@ -15,9 +15,9 @@ public interface HotelService {
 
     void saveHotel(Hotel hotel);
 
-    List<Hotel> getHotelsByUser(int userId);
-
     void update(Hotel hotel);
+
+    List<Hotel> getHotelsByUser(int userId, int firstHotel, int limit);
 
     List<Hotel> getHotelsWithFreeRoom(Request request);
 

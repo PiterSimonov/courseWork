@@ -10,18 +10,19 @@
     <script src="<c:url value="/resources/js/dataBookingSet.js" />"></script>
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/accordion.js" />"></script>
+    <script src="<c:url value="/resources/js/hotelInfoPage.js" />"></script>
     <script src="<c:url value="/resources/js/validator.js" />"></script>
     <title>Hotel Info</title>
 </head>
 <body>
 <%@ include file="forms/loginForm.jsp" %>
 <div id="hotel-info">
+    <input id="id" value="${hotel.id}" hidden>
     <div style="display: inline-block">Hotel : ${hotel.name}</div>
     <span id="image-stars"><c:forEach begin="1" end="${hotel.stars}">
         <img class="stars" src="${pageContext.request.contextPath}/resources/images/hotels/stars.png"/>
     </c:forEach></span><br/>
     <img id="hotel-image" src="${hotel.imageLink}" style="width: 500px">
-
 </div>
 <div>
     Our services:<br/>
@@ -114,8 +115,6 @@
             </div>
         </div>
     </c:when>
-    <c:otherwise>
-    </c:otherwise>
 </c:choose>
 </body>
 </html>

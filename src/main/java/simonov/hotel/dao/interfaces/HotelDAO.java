@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface HotelDAO extends GenericDAO<Hotel, Integer> {
 
-    List<Hotel> getHotelsByUser(Integer userId);
+    List<Hotel> getHotelsByUser(Integer userId, int firstHotel, int limit);
 
     List<Hotel> getHotelsByCriteria(Integer countryId, Integer cityId, String hotelName, int firstResult, int limit);
 

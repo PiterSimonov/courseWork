@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    List<Order> getOrdersByUser(int userId);
+    List<Order> getOrdersByUser(int userId, int firstOrder, int limit);
 
     List<Order> getNotConfirmedOrders();
 

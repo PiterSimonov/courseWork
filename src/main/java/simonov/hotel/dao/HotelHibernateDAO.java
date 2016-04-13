@@ -22,9 +22,11 @@ public class HotelHibernateDAO extends AbstractDAO<Hotel, Integer> implements Ho
     }
 
     @Override
-    public List<Hotel> getHotelsByUser(Integer userId) {
+    public List<Hotel> getHotelsByUser(Integer userId, int firstHotel, int limit) {
         Criteria hotelCriteria = getCurrentSession().createCriteria(Hotel.class);
         hotelCriteria.add(Restrictions.eq("user.id", userId));
+        hotelCriteria.setFirstResult(firstHotel);
+        hotelCriteria.setMaxResults(limit);
         return hotelCriteria.list();
     }
 

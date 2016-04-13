@@ -10,7 +10,7 @@
     <title>Hotel owner</title>
 </head>
 <body>
-<div class="menuLink"><a href="/">Home</a></div>
+<a class="menuLink" href="/">Home</a>
 <div id="hotel-list">
     <table class="table-hotels" id="table-hotels">
         <c:forEach items="${hotels}" var="hotel">

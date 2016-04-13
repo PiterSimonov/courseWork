@@ -22,13 +22,11 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
 
     @Override
     public boolean isFree(LocalDate startDate, LocalDate endDate, int roomId) {
-        Query query = getCurrentSession().createQuery("from Booking where room.id = :roomId" +
-                " and (endDate>=:startDate and startDate<=:endDate)");
-        query.setInteger("roomId", roomId);
-        query.setParameter("startDate", startDate);
-        query.setParameter("endDate", endDate);
-        List<Booking> bookings = query.list();
-        return bookings.size() == 0;
+        Criteria criteria = getCurrentSession().createCriteria(Booking.class);
+        criteria.add(Restrictions.eq("room.id",roomId))
+                .add(Restrictions.and(Restrictions.ge("endDate",startDate),Restrictions.le("startDate",endDate)));
+        List<Booking> bookingList = criteria.list();
+        return bookingList.size() == 0;
     }
 
     @Override
@@ -56,9 +54,12 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
     }
 
     @Override
-    public List<Room> getRoomsByHotel(int hotelId) {
+    public List<Room> getRoomsByHotel(int hotelId, int firstRooms, int limit) {
         Criteria criteria = getCurrentSession().createCriteria(Room.class);
         criteria.add(Restrictions.eq("hotel.id", hotelId));
+        criteria.addOrder(Order.asc("number"));
+        criteria.setFirstResult(firstRooms);
+        criteria.setMaxResults(limit);
         return criteria.list();
     }
 

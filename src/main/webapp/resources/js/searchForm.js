@@ -16,10 +16,10 @@ $(document).ready(function () {
     });
 
     $("#toDate").change(function () {
-        $("#toDate").attr("value", toDate.value);
+        var $toDate = $("#toDate");
+        $toDate.attr("value", toDate.value);
         var x = toDate.value;
         var d = new Date(Date.parse(x));
-        var $toDate = $("#toDate");
         $toDate.attr("value", dateToString(d));
         $toDate.val(dateToString(d));
     });
@@ -32,7 +32,7 @@ $(document).ready(function () {
             var nextDay = new Date(d.valueOf() + 24 * 60 * 60 * 1000 * num);
             return nextDay.toJSON().split('T')[0];
         }
-    };
+    }
 
     $("#city").keyup(function () {
         city.setAttribute("value", city.value);

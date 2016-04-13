@@ -1,6 +1,7 @@
 package simonov.hotel.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.util.List;
@@ -120,5 +121,17 @@ public class Room {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
+    }
+
+    public Object toJSON() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", id);
+        obj.put("type", type);
+        obj.put("number", number);
+        obj.put("seats", seats);
+        obj.put("price", price);
+        obj.put("imageLink", imageLink);
+        obj.put("hotelId", hotel.getId());
+        return obj;
     }
 }

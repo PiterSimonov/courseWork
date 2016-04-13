@@ -13,7 +13,7 @@ public interface RoomDAO extends GenericDAO<Room, Integer> {
 
     void unlock(int id);
 
-    List<Room> getRoomsByHotel(int hotelId);
+    List<Room> getRoomsByHotel(int hotelId, int firstRooms, int limit);
 
     List<Room> getFreeRoomsByRequest(Request request);
 

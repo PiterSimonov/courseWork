@@ -12,9 +12,9 @@ $(document).ready(function () {
                 beforeSend: function () {
                     inProgress = true;
                 }
-            }).done(function (data) {
-                if (data.length > 0) {
-                    $.each(data, function (index, data) {
+            }).done(function (roomsList) {
+                if (roomsList.length > 0) {
+                    $.each(roomsList, function (index, data) {
                         addRoom(data);
                     });
                     inProgress = false;

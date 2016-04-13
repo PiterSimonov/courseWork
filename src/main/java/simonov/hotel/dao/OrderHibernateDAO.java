@@ -18,10 +18,12 @@ public class OrderHibernateDAO extends AbstractDAO<Order, Integer> implements Or
     }
 
     @Override
-    public List<Order> getOrdersByUser(int userId) {
+    public List<Order> getOrdersByUser(int userId, int firstOrder, int limit) {
         Criteria criteria = getCurrentSession().createCriteria(Order.class);
         criteria.add(Restrictions.eq("user.id", userId));
         criteria.addOrder(org.hibernate.criterion.Order.desc("creationTime"));
+        criteria.setFirstResult(firstOrder);
+        criteria.setMaxResults(limit);
         return criteria.list();
     }
 

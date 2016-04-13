@@ -29,7 +29,7 @@ $(document).ready(function () {
     }, "Please enter a file with a valid extension.");
     $.validator.addMethod("double", function (value, element) {
         return $.isNumeric(value);
-    }, "Enter e valid number");
+    }, "Enter a valid number");
 
     $('form#registerForm').validate({
         rules: {

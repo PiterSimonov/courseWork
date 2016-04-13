@@ -5,17 +5,17 @@ $(document).ready(function () {
     $('body').on('click','a.poplight[href^=#]',function (e) {
         hotelId = this.id;
         $.ajax({
-            url: "/search/comments/" + this.id + "/" + firstResult + "?t="+(new Date().getTime()),
+            url: "/search/comments/" + this.id + "/" + firstResult,
             type: "GET",
             dataType: "json",
-            success: function (data) {
-                if (data.length == 0) {
+            success: function (commentList) {
+                if (commentList.length == 0) {
                     $("#commentsWindow").append("<h1>No comments yet</h1>");
                 } else {
-                    data.forEach(function (i) {
-                        var user = i.user;
-                        $("#commentsWindow").append("<hr><span>" + user.firstName + " " + user.lastName + "</span><span><strong> " + i.rating + "</strong> / 5</span><div>" +
-                            " <blockquote>" + i.comment + "</blockquote></div><hr>");
+                    commentList.forEach(function (comment) {
+                        var user = comment.user;
+                        $("#commentsWindow").append("<hr><span>" + user.firstName + " " + user.lastName + "</span><span><strong> " + comment.rating + "</strong> / 5</span><div>" +
+                            " <blockquote>" + comment.comment + "</blockquote></div><hr>");
 
                     });
                     firstResult = firstResult + 7;
@@ -24,9 +24,7 @@ $(document).ready(function () {
             }
         });
 
-        var popID = $(this).attr('rel'); //получаем имя окна, важно не забывать, при добавлении новых, менять имя в атрибуте rel ссылки
-
-        //Добавляем к окну кнопку закрытия
+        var popID = $(this).attr('rel');
         $('#' + popID).fadeIn().css({
             'width': 700,
             'max-height': 400

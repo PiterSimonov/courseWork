@@ -24,13 +24,13 @@ $(document).ready(function () {
         $toDate.val(nextDay);
         $toDate.attr("min", nextDay);
     });
-
-    function dateToString(d, num) {
-        if (num === undefined) {
-            return d.toJSON().split('T')[0];
-        } else {
-            var nextDay = new Date(d.valueOf() + 24 * 60 * 60 * 1000 * num);
-            return nextDay.toJSON().split('T')[0];
-        }
-    }
 });
+
+function dateToString(d, num) {
+    if (num === undefined) {
+        return d.toJSON().split('T')[0];
+    } else {
+        var nextDay = new Date(d.valueOf() + 24 * 60 * 60 * 1000 * num);
+        return nextDay.toJSON().split('T')[0];
+    }
+}

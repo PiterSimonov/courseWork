@@ -29,11 +29,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> getRooms() {
-        return roomDAO.getAll();
-    }
-
-    @Override
     public boolean isFree(LocalDate start, LocalDate end, int roomId) {
         return roomDAO.isFree(start, end, roomId);
     }
@@ -44,8 +39,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> getRoomsByHotel(int hotelId) {
-        return roomDAO.getRoomsByHotel(hotelId);
+    public List<Room> getRoomsByHotel(int hotelId, int firstRooms, int limit) {
+        return roomDAO.getRoomsByHotel(hotelId, firstRooms, limit);
     }
 
     @Override

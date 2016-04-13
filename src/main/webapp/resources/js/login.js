@@ -23,13 +23,13 @@ $(document).ready(function () {
                 url: '/check-user',
                 type: 'POST',
                 data: $("#loginForm").serialize(),
-                success: function (data) {
-                    if (data == 'logged') {
+                success: function (response) {
+                    if (response == 'logged') {
                         off();
                         $('.user-bar').html('<a class="menuLink" href="/profile">Profile</a>' +
                             '<a class="menuLink" href="/logout">Logout</a>')
                     } else {
-                        $("#error-box").text(data);
+                        $("#error-box").text(response);
                     }
                 }
             });

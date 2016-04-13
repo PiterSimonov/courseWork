@@ -1,10 +1,10 @@
 $(document).ready(function () {
     $('.delete-order').on('click', function (e) {
-        $(this).attr('disabled', true);
-        e.preventDefault();
         var $thisOrder = $(this);
+        $thisOrder.attr('disabled', true);
+        e.preventDefault();
         var $divParent = $thisOrder.parent("div");
-        var orderId = $(this).attr('href');
+        var orderId = $thisOrder.attr('href');
         $.ajax({
             url: "/order/" + orderId + "/delete",
             type: 'POST',

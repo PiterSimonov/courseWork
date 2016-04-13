@@ -1,6 +1,7 @@
 package simonov.hotel.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -32,10 +33,11 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String printHotels(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("hotels", hotelService.getHotels(0,10));
+        model.addAttribute("hotels", hotelService.getHotels(0, 10));
         return "main";
     }
-    @RequestMapping(value = "/error",  method = RequestMethod.GET)
+
+    @RequestMapping(value = "/error", method = RequestMethod.GET)
     public String error(@RequestParam String message, Model model) {
         model.addAttribute("message", message);
         return "error";
@@ -47,7 +49,7 @@ public class IndexController {
         Hotel hotel = hotelService.getHotelById(hotelId);
         if (hotel != null) {
             model.addAttribute("hotel", hotel);
-            List<Room> rooms = roomService.getRoomsByHotel(hotelId);
+            List<Room> rooms = roomService.getRoomsByHotel(hotelId, 0, 5);
             model.addAttribute("rooms", rooms);
             model.addAttribute("hotelServices", convenienceService.getConveniencesByHotel(hotelId));
             model.addAttribute("services", convenienceService.getAll());
@@ -58,14 +60,24 @@ public class IndexController {
         }
     }
 
+    @RequestMapping(value = "roomNext", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String nextRooms(@RequestParam("lastRoom") int lastRoom, @RequestParam("hotelId") int hotelId) {
+        List<Room> roomList = roomService.getRoomsByHotel(hotelId, lastRoom, 5);
+        JSONArray array = new JSONArray();
+        roomList.stream().forEach(room -> array.add(room.toJSON()));
+       return array.toString();
+    }
+
     @RequestMapping(value = "/hotel/{hotelId}/edit", method = RequestMethod.POST)
     public
     @ResponseBody
     String updateHotel(@PathVariable int hotelId,
-                        @RequestParam String name,
-                        @RequestParam int stars,
-                        @RequestParam("convenience") List<Integer> conveniences,
-                        @RequestParam MultipartFile imageFile) {
+                       @RequestParam String name,
+                       @RequestParam int stars,
+                       @RequestParam("convenience") List<Integer> conveniences,
+                       @RequestParam MultipartFile imageFile) {
         Hotel hotel = hotelService.getHotelById(hotelId);
         List<Convenience> convenienceList = new ArrayList<>();
         conveniences.stream()
@@ -119,7 +131,7 @@ public class IndexController {
     public
     @ResponseBody
     Room saveRoom(@RequestParam("room") String roomJson,
-                   @RequestParam(required = false) MultipartFile image) {
+                  @RequestParam(required = false) MultipartFile image) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Room room = objectMapper.readValue(roomJson, Room.class);
@@ -136,8 +148,10 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/check-room-number", method = RequestMethod.GET)
-    public @ResponseBody boolean checkRoomNumber(@RequestParam int number, @RequestParam int hotelId){
-        return roomService.roomNumberIsFree(number,hotelId);
+    public
+    @ResponseBody
+    boolean checkRoomNumber(@RequestParam int number, @RequestParam int hotelId) {
+        return roomService.roomNumberIsFree(number, hotelId);
     }
 
     @RequestMapping(value = "/saveHotel", method = RequestMethod.POST)

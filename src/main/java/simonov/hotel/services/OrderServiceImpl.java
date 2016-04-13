@@ -51,8 +51,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrdersByUser(int userId) {
-        return orderDAO.getOrdersByUser(userId);
+    public List<Order> getOrdersByUser(int userId, int firstOrder, int limit) {
+        return orderDAO.getOrdersByUser(userId, firstOrder, limit);
     }
 
     @Override
