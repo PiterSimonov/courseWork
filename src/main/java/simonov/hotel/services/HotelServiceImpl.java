@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import simonov.hotel.dao.interfaces.HotelDAO;
 import simonov.hotel.entity.Hotel;
-import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Role;
+import simonov.hotel.entity.SearchRequest;
 import simonov.hotel.services.interfaces.HotelService;
 
 import java.util.List;
@@ -46,15 +46,15 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Hotel> getHotelsWithFreeRoom(Request request) {
-        int roomsCount = request.getSeats().values().stream().reduce(0, (sum, element) -> sum + element);
+    public List<Hotel> getHotelsWithFreeRoom(SearchRequest searchRequest) {
+        int roomsCount = searchRequest.getSeats().values().stream().reduce(0, (sum, element) -> sum + element);
         if (roomsCount > 8) {
             return null;
         }
-        if (request.getCountryId() == 0 && request.getCityId() == 0 && request.getHotelId() == 0) {
+        if (searchRequest.getCountryId() == 0 && searchRequest.getCityId() == 0 && searchRequest.getHotelId() == 0) {
             return null;
         }
-        return hotelDAO.getHotelsWithFreeRoom(request);
+        return hotelDAO.getHotelsWithFreeRoom(searchRequest);
     }
 
     @Override

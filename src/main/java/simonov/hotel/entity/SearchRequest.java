@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 
-public class Request {
+public class SearchRequest {
 
     private int countryId;
     private int cityId;

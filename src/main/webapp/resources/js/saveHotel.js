@@ -59,4 +59,52 @@ $(document).ready(function () {
             $('#city_id').html(option);
         })
     });
+
+    var startFrom = 5;
+    var inProgress = false;
+    $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 20 && !inProgress) {
+            var data = {};
+            data['lastHotel'] = startFrom;
+            $.ajax({
+                url: "/nextHotels",
+                data: data,
+                type: "GET",
+                dataType: 'json',
+                beforeSend: function () {
+                    inProgress = true;
+                },
+                success: function (hotelsList) {
+                    if (hotelsList.length > 0) {
+                        $.each(hotelsList, function () {
+                            addHotel(this);
+                        });
+                        inProgress = false;
+                        startFrom += 5;
+                    }
+                }
+            })
+        }
+    });
 });
+function addHotel(hotel) {
+    var tr = $('<tr>');
+    var tdImage = $('<td>');
+    var image;
+    if (hotel.imageLink) {
+        image = $('<img />', {src: hotel.imageLink});
+    } else {
+        image = $('<img />', {src: "/resources/images/rooms/noImage.jpg"});
+    }
+    tdImage.append($('<div></div>').html(image));
+    var tdInfo = $('<td>');
+    var stars = "";
+    for (var i = 0; i < hotel.stars; i++) {
+        stars += '<img class="stars" src="/resources/images/hotels/stars.png"/>'
+    }
+    tdInfo.append($('<span></span>').html(stars));
+    tdInfo.append($('<div></div>').html('<a href="/hotel/' + hotel.id + '">' + hotel.name + '</a> in ' + hotel.city.name));
+    tr.append(tdImage);
+    tr.append(tdInfo);
+    $('#table-hotels').append(tr)
+}

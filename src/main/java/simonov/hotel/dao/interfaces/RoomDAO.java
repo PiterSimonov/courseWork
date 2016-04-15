@@ -1,7 +1,7 @@
 package simonov.hotel.dao.interfaces;
 
-import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Room;
+import simonov.hotel.entity.SearchRequest;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +15,7 @@ public interface RoomDAO extends GenericDAO<Room, Integer> {
 
     List<Room> getRoomsByHotel(int hotelId, int firstRooms, int limit);
 
-    List<Room> getFreeRoomsByRequest(Request request);
+    List<Room> getFreeRoomsByRequest(SearchRequest searchRequest);
 
     boolean roomNumberIsFree(int number, int hotelId);
 }

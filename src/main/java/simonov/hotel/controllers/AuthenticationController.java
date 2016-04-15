@@ -88,7 +88,7 @@ public class AuthenticationController {
     @RequestMapping("/profile")
     public String userProfile(@ModelAttribute("user") User user, Model model) {
         if (user.getRole() == Role.HotelOwner) {
-            List<Hotel> hotels = hotelService.getHotelsByUser(user.getId(),0,-1);
+            List<Hotel> hotels = hotelService.getHotelsByUser(user.getId(),0,5);
             model.addAttribute("hotels", hotels);
             model.addAttribute("countries",countryService.getAllCountries());
             model.addAttribute("services", convenienceService.getAll());
@@ -98,6 +98,12 @@ public class AuthenticationController {
             model.addAttribute("orders", orders);
             return "clientProfile";
         } else return "redirect:/";
+    }
+
+    @RequestMapping(value = "nextHotels", method = RequestMethod.GET)
+    public @ResponseBody List<Hotel> nextHotels(@ModelAttribute User user, @RequestParam int lastHotel){
+        return hotelService.getHotelsByUser(user.getId(),lastHotel,5);
+
     }
 
     @RequestMapping(value = "/profile/{userId}/edit", method = RequestMethod.GET)

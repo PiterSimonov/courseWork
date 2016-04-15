@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @EnableWebMvc
-@SessionAttributes({"user", "request"})
+@SessionAttributes({"user", "searchRequest"})
 @RequestMapping("order")
 public class OrderController {
 
@@ -123,7 +123,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "hotel/{hotelId}/rooms", method = RequestMethod.POST)
-    public String createOrder(@PathVariable int hotelId, @ModelAttribute Request request,
+    public String createOrder(@PathVariable int hotelId, @ModelAttribute SearchRequest searchRequest,
                               @ModelAttribute Choice choice,
                               @ModelAttribute("user") User user, Model model) {
         if (orderService.getNotConfirmedOrdersCountByUser(user.getId()) >= 8) {
@@ -139,8 +139,8 @@ public class OrderController {
         for (int i : ids) {
             Booking booking = new Booking();
             booking.setRoom(roomService.getRoomById(i));
-            booking.setStartDate(request.getStartDate());
-            booking.setEndDate(request.getEndDate());
+            booking.setStartDate(searchRequest.getStartDate());
+            booking.setEndDate(searchRequest.getEndDate());
             bookings.add(booking);
         }
         List<Room> rooms = orderService.createOrder(bookings, user);
@@ -149,7 +149,7 @@ public class OrderController {
         } else {
             String roomNumbers = rooms.stream().map(room -> String.valueOf(room.getNumber())).collect(Collectors.joining(", "));
             model.addAttribute("message", "Sorry, but room №: " + roomNumbers + " already booked");
-            List<Room> roomList = roomService.getFreeRoomsByRequest(request);
+            List<Room> roomList = roomService.getFreeRoomsByRequest(searchRequest);
             model.addAttribute("choice", new Choice());
             model.addAttribute("rooms", roomList);
             return "search/rooms";
@@ -161,8 +161,8 @@ public class OrderController {
         return new User();
     }
 
-    @ModelAttribute("request")
-    public Request createRequest() {
-        return new Request();
+    @ModelAttribute("searchRequest")
+    public SearchRequest createRequest() {
+        return new SearchRequest();
     }
 }

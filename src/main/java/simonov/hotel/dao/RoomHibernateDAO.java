@@ -6,8 +6,8 @@ import org.hibernate.criterion.*;
 import org.springframework.stereotype.Repository;
 import simonov.hotel.dao.interfaces.RoomDAO;
 import simonov.hotel.entity.Booking;
-import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Room;
+import simonov.hotel.entity.SearchRequest;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -64,7 +64,7 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
     }
 
     @Override
-    public List<Room> getFreeRoomsByRequest(Request request) {
+    public List<Room> getFreeRoomsByRequest(SearchRequest searchRequest) {
         /*   Select * from room as r where hotel_id=?
               and (seats =? or seats=? or ...)
               and r.id not IN
@@ -72,21 +72,21 @@ public class RoomHibernateDAO extends AbstractDAO<Room, Integer> implements Room
 
         Criteria criteria = getCurrentSession().createCriteria(Room.class, "room");
         criteria.createAlias("room.hotel", "hotel");
-        criteria.add(Restrictions.eq("hotel.id", request.getRoomHotelId()));
+        criteria.add(Restrictions.eq("hotel.id", searchRequest.getRoomHotelId()));
         Disjunction disjunction = Restrictions.disjunction();
-        request.getSeats().keySet().stream()
+        searchRequest.getSeats().keySet().stream()
                 .forEach(integer -> disjunction.add(Restrictions.eq("room.seats", integer)));
         criteria.add(disjunction);
         DetachedCriteria bookingCriteria = DetachedCriteria.forClass(Booking.class, "booking");
         bookingCriteria.add(Restrictions.and(
-                Restrictions.le("booking.startDate", request.getEndDate()),
-                Restrictions.ge("booking.endDate", request.getStartDate())));
+                Restrictions.le("booking.startDate", searchRequest.getEndDate()),
+                Restrictions.ge("booking.endDate", searchRequest.getStartDate())));
         bookingCriteria.createAlias("booking.room", "r");
         bookingCriteria.setProjection(Projections.property("r.id"));
         criteria.add(Subqueries.propertyNotIn("room.id", bookingCriteria))
-                .setFirstResult(request.getRoomsFirstResult())
-                .setMaxResults(request.getRoomsLimit());
-        switch (request.getRoomSort()) {
+                .setFirstResult(searchRequest.getRoomsFirstResult())
+                .setMaxResults(searchRequest.getRoomsLimit());
+        switch (searchRequest.getRoomSort()) {
             case SeatsAsc:
                 criteria.addOrder(Order.asc("seats"));
                 break;

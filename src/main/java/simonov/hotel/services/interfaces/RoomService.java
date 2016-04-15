@@ -1,8 +1,8 @@
 package simonov.hotel.services.interfaces;
 
 import org.springframework.stereotype.Service;
-import simonov.hotel.entity.Request;
 import simonov.hotel.entity.Room;
+import simonov.hotel.entity.SearchRequest;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +18,7 @@ public interface RoomService {
 
     List<Room> getRoomsByHotel(int hotelId, int firstRooms, int limit);
 
-    List<Room> getFreeRoomsByRequest(Request request);
+    List<Room> getFreeRoomsByRequest(SearchRequest searchRequest);
 
     void update(Room room);
 

@@ -2,7 +2,7 @@ package simonov.hotel.services.interfaces;
 
 import org.springframework.stereotype.Service;
 import simonov.hotel.entity.Hotel;
-import simonov.hotel.entity.Request;
+import simonov.hotel.entity.SearchRequest;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface HotelService {
 
     List<Hotel> getHotelsByUser(int userId, int firstHotel, int limit);
 
-    List<Hotel> getHotelsWithFreeRoom(Request request);
+    List<Hotel> getHotelsWithFreeRoom(SearchRequest searchRequest);
 
     List<Hotel> getHotelsByName(String name, int cityId, int countryId, int firstResult, int limit);
 }

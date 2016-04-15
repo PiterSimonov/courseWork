@@ -14,7 +14,7 @@ import java.util.*;
 @Controller
 @EnableWebMvc
 @RequestMapping("search")
-@SessionAttributes({"user", "request"})
+@SessionAttributes({"user", "searchRequest"})
 public class SearchController {
 
     @Autowired
@@ -31,33 +31,33 @@ public class SearchController {
     ConvenienceService convenienceService;
 
     @RequestMapping(value = "hotels", method = RequestMethod.POST, headers = "Accept=application/json")
-    public String mainSearch(@RequestBody Request request, Model model) {
-        model.addAttribute("request", request);
-        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
+    public String mainSearch(@RequestBody SearchRequest searchRequest, Model model) {
+        model.addAttribute("searchRequest", searchRequest);
+        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(searchRequest));
         return "search/searchHotelTable";
     }
 
     @RequestMapping(value = "hotels", method = RequestMethod.GET)
-    public String getSearchOnBackKey(@ModelAttribute Request request, Model model) {
-        request.setHotelId(0);
-        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
+    public String getSearchOnBackKey(@ModelAttribute SearchRequest searchRequest, Model model) {
+        searchRequest.setHotelId(0);
+        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(searchRequest));
         return "search/hotels";
     }
 
     @RequestMapping(value = "nextHotels/{firstResult}")
-    public String searchNextHotels(@ModelAttribute Request request, @PathVariable int firstResult, Model model) {
-        request.setFirstResult(firstResult);
-        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(request));
-        request.setFirstResult(0);
+    public String searchNextHotels(@ModelAttribute SearchRequest searchRequest, @PathVariable int firstResult, Model model) {
+        searchRequest.setFirstResult(firstResult);
+        model.addAttribute("hotels", hotelService.getHotelsWithFreeRoom(searchRequest));
+        searchRequest.setFirstResult(0);
         return "search/searchHotelTable";
     }
 
     @RequestMapping(value = "hotel/{roomHotelId}/rooms", method = RequestMethod.GET)
     public String roomsSearch(@PathVariable int roomHotelId,
-                              @ModelAttribute Request request,
+                              @ModelAttribute SearchRequest searchRequest,
                               Model model) {
-        request.setRoomHotelId(roomHotelId);
-        List<Room> rooms = roomService.getFreeRoomsByRequest(request);
+        searchRequest.setRoomHotelId(roomHotelId);
+        List<Room> rooms = roomService.getFreeRoomsByRequest(searchRequest);
         model.addAttribute("hotel", hotelService.getHotelById(roomHotelId));
         model.addAttribute("services",convenienceService.getConveniencesByHotel(roomHotelId));
         model.addAttribute("choice", new Choice());
@@ -68,20 +68,20 @@ public class SearchController {
     @RequestMapping(value = "hotel/rooms/sort/{sort}")
     public
     @ResponseBody
-    List<Room> roomsSort(@PathVariable int sort, @ModelAttribute Request request) {
-        request.setRoomSort(RoomSort.values()[sort]);
-        request.setRoomsFirstResult(0);
-        return roomService.getFreeRoomsByRequest(request);
+    List<Room> roomsSort(@PathVariable int sort, @ModelAttribute SearchRequest searchRequest) {
+        searchRequest.setRoomSort(RoomSort.values()[sort]);
+        searchRequest.setRoomsFirstResult(0);
+        return roomService.getFreeRoomsByRequest(searchRequest);
     }
 
     @RequestMapping(value = "roomsNext", method = RequestMethod.POST)
     public
     @ResponseBody
-    List<Room> getNextFreeRoom(@ModelAttribute Request request,
+    List<Room> getNextFreeRoom(@ModelAttribute SearchRequest searchRequest,
                                @RequestParam("lastRoom") int lastRoom) {
-        request.setRoomsFirstResult(lastRoom);
-        List<Room> rooms = roomService.getFreeRoomsByRequest(request);
-        request.setRoomsFirstResult(0);
+        searchRequest.setRoomsFirstResult(lastRoom);
+        List<Room> rooms = roomService.getFreeRoomsByRequest(searchRequest);
+        searchRequest.setRoomsFirstResult(0);
         return rooms;
     }
 
@@ -146,8 +146,8 @@ public class SearchController {
         return new User();
     }
 
-    @ModelAttribute("request")
-    public Request createRequest() {
-        return new Request();
+    @ModelAttribute("searchRequest")
+    public SearchRequest createRequest() {
+        return new SearchRequest();
     }
 }

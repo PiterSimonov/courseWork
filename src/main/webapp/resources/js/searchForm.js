@@ -1,17 +1,20 @@
 $(document).ready(function () {
-    if (!history.state){
-        history.replaceState($('#hotelsList').html(),"","/")
+    if (!history.state) {
+        history.replaceState($('#hotelsList').html(), "", "/")
     }
+
+    var period = 1;
     $("#fromDate").change(function () {
         $("#fromDate").attr("value", fromDate.value);
         var x = fromDate.value;
         var d = new Date(Date.parse(x));
+        var nextDayPeriod = dateToString(d, period);
         var nextDay = dateToString(d, 1);
         var maxDays = dateToString(d, 28);
         var $toDate = $("#toDate");
         $toDate.attr("max", maxDays);
-        $toDate.attr("value", nextDay);
-        $toDate.val(nextDay);
+        $toDate.attr("value", nextDayPeriod);
+        $toDate.val(nextDayPeriod);
         $toDate.attr("min", nextDay);
     });
 
@@ -22,8 +25,11 @@ $(document).ready(function () {
         var d = new Date(Date.parse(x));
         $toDate.attr("value", dateToString(d));
         $toDate.val(dateToString(d));
+        var $fromDate = $("#fromDate").val();
+        var day = new Date(Date.parse($fromDate));
+        var periodTime = d.getTime() - day.getTime();
+        period = periodTime / (1000 * 3600 * 24);
     });
-
 
     function dateToString(d, num) {
         if (num === undefined) {
@@ -267,7 +273,7 @@ $(document).ready(function () {
         }
     });
 
-    window.onpopstate = function(event) {
+    window.onpopstate = function (event) {
         $('#hotelsList').html(history.state);
         $('#more').attr("disabled", false);
     };
