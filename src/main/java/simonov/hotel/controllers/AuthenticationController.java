@@ -3,7 +3,6 @@ package simonov.hotel.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -13,7 +12,6 @@ import simonov.hotel.entity.Role;
 import simonov.hotel.entity.User;
 import simonov.hotel.services.interfaces.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -31,23 +29,14 @@ public class AuthenticationController {
     @Autowired
     ConvenienceService convenienceService;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String registration() {
-        return "registration";
-    }
-
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String saveUser(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            user.setRole(Role.NotAuthorized);
-            return "registration";
-        }
+    public String saveUser(@ModelAttribute("user") User user, Model model) {
         if (userService.save(user)) {
             model.addAttribute("user", user);
             return "forms/loginForm";
         } else {
-            model.addAttribute("message", "Error registration!");
-            return "error";
+            model.addAttribute("user", new User());
+            return "";
         }
     }
 

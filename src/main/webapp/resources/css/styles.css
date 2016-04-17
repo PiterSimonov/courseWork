@@ -57,7 +57,7 @@ input[type="text"], input[type="date"],input[type="number"],input[type="password
     background-color: lavender;
     border: 7px solid lightcyan;
     border-radius: 15px 15px 15px 15px;
-    height:200px;
+    height:250px;
 }
 
 *{

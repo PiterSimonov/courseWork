@@ -6,6 +6,8 @@
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
     <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
+    <script src="<c:url value="/resources/js/1.15.0_jquery.validate.js" />"></script>
+    <script src="<c:url value="/resources/js/validator.js" />"></script>
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/roomScroll.js" />"></script>
     <title>Rooms</title>

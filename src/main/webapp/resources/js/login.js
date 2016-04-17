@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
-    $("a#showpopup").click(function () {
+    $("a#showpopup").click(function (e) {
+        e.preventDefault();
         loadPopup();
     });
     $("div#back").click(function () {
@@ -51,10 +52,14 @@ $(document).ready(function () {
 
     });
 
-    $('input#btnRegister').validation();
-
-    $('input#btnRegister').click(function (e) {
+    $('form#registerForm').submit(function (e) {
         e.preventDefault();
+        var $thisForm = $(this);
+        if (!$thisForm.valid()) {
+            return false;
+        }
+        var $submit = $thisForm.find(":submit");
+        $submit.attr("disabled", true);
         $.ajax({
             url: "/registration",
             type: "POST",
@@ -62,11 +67,15 @@ $(document).ready(function () {
             data: $("#registerForm").serialize(),
             success: function (data) {
                 offRegister();
-                $("#head").html(data)
+                $('.user-bar').html('<a class="menuLink" href="/profile">Profile</a>' +
+                    '<a class="menuLink" href="/logout">Logout</a>')
+            },
+            error: function () {
+                $("#error-reg").text("Error registration. Try again!");
+                $submit.attr("disabled", false);
             }
         });
     })
-
 });
 
 var on = 0;

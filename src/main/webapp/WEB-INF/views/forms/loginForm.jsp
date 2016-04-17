@@ -1,11 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-
-<link href="<c:url value='/resources/css/styles.css'/>" rel="stylesheet">
-<script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
-<script src="<c:url value="/resources/js/1.15.0_jquery.validate.js" />"></script>
-<script src="<c:url value='/resources/js/validator.js'/>"></script>
-
 <div id="head">
     <div id="user-bar" class="user-bar">
     <c:choose>
@@ -31,15 +25,14 @@
             <form:errors path="password" cssClass="error"/><br/>
             <input type="submit" id="btnLogin" value="Login">
             <br>
+            <span id="error-box"></span><br/>
             <a href="registration" id="registration" name="registration">Registration</a>
-            <span id="error-box"></span>
         </form:form>
     </div>
     <div class="close"></div>
 </div>
     <div id="register" class="register">
         <form:form method="POST" commandName="user" action="registration" id="registerForm">
-            <fieldset class="boxBody">
                 <form:label path="login">Login:</form:label><br/>
                 <form:input path="login" cssClass="required"/>
                 <div id="login-free" style="display: inline"></div>
@@ -69,9 +62,8 @@
                 </form:select>
 
                 <input type="submit" id="btnRegister" value="Register">
-            </fieldset>
+                <span id="error-reg"></span><br/>
         </form:form>
-
     </div>
 <div id="back"></div>
 </div>

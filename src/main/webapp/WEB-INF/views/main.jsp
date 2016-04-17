@@ -1,14 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
 <head>
     <link href="<c:url value="/resources/css/styles.css" />" rel="stylesheet">
     <script src="<c:url value="/resources/js/jquery-1.10.2.js" />"></script>
-    <script src="<c:url value="/resources/js/searchForm.js" />"></script>
+    <script src="<c:url value="/resources/js/1.15.0_jquery.validate.js" />"></script>
     <script src="<c:url value="/resources/js/dateSetter.js" />"></script>
+    <script src="<c:url value="/resources/js/searchForm.js" />"></script>
     <script src="<c:url value="/resources/js/comments.js" />"></script>
+    <script src="<c:url value="/resources/js/validator.js" />"></script>
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <title>Hotel Booking Service</title>
 </head>
