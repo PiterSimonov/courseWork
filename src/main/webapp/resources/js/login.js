@@ -51,7 +51,9 @@ $(document).ready(function () {
 
     });
 
-    $('input#btnLogin').click(function (e) {
+    $('input#btnRegister').validation();
+
+    $('input#btnRegister').click(function (e) {
         e.preventDefault();
         $.ajax({
             url: "/registration",

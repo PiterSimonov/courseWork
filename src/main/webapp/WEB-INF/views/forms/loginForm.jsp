@@ -68,7 +68,7 @@
                     <form:option value="HotelOwner">Hotel Owner</form:option>
                 </form:select>
 
-                <input type="submit" id="btnLogin" value="Register">
+                <input type="submit" id="btnRegister" value="Register">
             </fieldset>
         </form:form>
 
