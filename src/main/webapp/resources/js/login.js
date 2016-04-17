@@ -51,21 +51,21 @@ $(document).ready(function () {
 
     });
 
-    $('input#btnRegister').validation();
-
     $('input#btnRegister').click(function (e) {
         e.preventDefault();
-        $.ajax({
-            url: "/registration",
-            type: "POST",
-            dataType: "html",
-            data: $("#registerForm").serialize(),
-            success: function (data) {
-                offRegister();
-                $("#head").html(data)
-            }
-        });
-    })
+        if ($('#registerForm').valid()) {
+            $.ajax({
+                url: "/registration",
+                type: "POST",
+                dataType: "html",
+                data: $("#registerForm").serialize(),
+                success: function (data) {
+                    offRegister();
+                    $("#head").html(data)
+                }
+            });
+        }
+    });
 
 });
 
