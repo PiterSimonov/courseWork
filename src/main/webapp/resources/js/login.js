@@ -1,14 +1,15 @@
 $(document).ready(function () {
 
-    $("a#showpopup").click(function (e) {
-        e.preventDefault();
+    $("a#showpopup").click(function () {
         loadPopup();
     });
     $("div#back").click(function () {
         off();
+        offRegister();
     });
     $("div.close").click(function () {
         off();
+        offRegister();
     });
     $("#loginForm").submit(function (e) {
         e.preventDefault();
@@ -35,6 +36,35 @@ $(document).ready(function () {
             });
         }
     });
+
+    $("#registration").click(function (e) {
+        e.preventDefault();
+        off();
+        loadRegister();
+
+    });
+
+    $("#signIn").click(function (e) {
+        e.preventDefault();
+        off();
+        loadRegister();
+
+    });
+
+    $('input#btnLogin').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/registration",
+            type: "POST",
+            dataType: "html",
+            data: $("#registerForm").serialize(),
+            success: function (data) {
+                offRegister();
+                $("#head").html(data)
+            }
+        });
+    })
+
 });
 
 var on = 0;
@@ -54,4 +84,21 @@ function off() {
         $("#back").fadeOut("fast");
         on = 0;
     }
+}
+
+function loadRegister() {
+    if (on == 0) {
+        $("#back").css("opacity", "0.6");
+        $("#register").slideDown(500);
+        $("#back").fadeIn(1500);
+        on = 1;
+    }
+}
+
+function offRegister() {
+
+    $("#register").slideUp("fast");
+    $("#back").fadeOut("fast");
+    on = 0;
+
 }

@@ -44,7 +44,7 @@ public class AuthenticationController {
         }
         if (userService.save(user)) {
             model.addAttribute("user", user);
-            return "redirect:/";
+            return "forms/loginForm";
         } else {
             model.addAttribute("message", "Error registration!");
             return "error";

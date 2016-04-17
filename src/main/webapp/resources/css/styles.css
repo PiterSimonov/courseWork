@@ -314,4 +314,19 @@ table#bookings td {
     position: absolute;
 }
 
+#register {
+    display: none;
+    width: 630px;
+    z-index: 20;
+    position: fixed;
+    top: 10%;
+    right: 8px;
+    overflow-y: auto;
+    color: #000;
+    background-color: lavender;
+    border: 7px solid lightcyan;
+    border-radius: 15px 15px 15px 15px;
+    min-height: 320px;
+}
+
 
